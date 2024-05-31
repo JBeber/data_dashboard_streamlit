@@ -1,4 +1,4 @@
-import pysftp, shutil, os
+import pysftp, os
 from secret import pwd
 from datetime import date, timedelta
 import calendar
@@ -38,16 +38,12 @@ with pysftp.Connection(hostname,
             folder_name = f'Week_ending_{end_date_str}'
             os.mkdir(folder_name)
             os.chdir(folder_name)
-        elif calendar.day_name[single_date.weekday()] == 'Sunday':
-            date_str = date.strftime(single_date, '%Y%m%d')
-            sftp.get(f'{date_str}/ItemSelectionDetails.csv', 
-             localpath=f'./ItemSelectionDetails_{date_str}.csv')
-            os.chdir('../')   # After Sunday's data is collected, 
-                              # move back to the parent directory
-                              # to begin collection for the next week
         else:
             date_str = date.strftime(single_date, '%Y%m%d')
             sftp.get(f'{date_str}/ItemSelectionDetails.csv', 
-             localpath=f'./ItemSelectionDetails_{date_str}.csv')
+                     localpath=f'./ItemSelectionDetails_{date_str}.csv')
 
-    
+        # After Sunday's data is collected, move back 
+        # to the parent directory to begin collection for the next week
+        if calendar.day_name[single_date.weekday()] == 'Sunday':
+            os.chdir('../')   
