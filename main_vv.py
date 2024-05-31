@@ -44,6 +44,8 @@ def main(args):
             if day_name[single_date.weekday()] == 'Sunday':
                 os.chdir('../')
 
+    print(args[1], args[2])
+
 
 if __name__ == '__main__':
     main(sys.argv)
