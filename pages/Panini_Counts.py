@@ -17,7 +17,7 @@ def get_directories():
     return lst
 
 data_directories = get_directories()
-print(data_directories)
+# print(data_directories)
 
 # List of strings to populate the selection box
 # display_weeks = [name.replace('_', ' ') for name in data_directories]
@@ -41,7 +41,7 @@ def load_data(filepath):
 
 # List of data filenames for the currently selected week
 week_data = [name for name in os.listdir('.')]
-print(week_data)
+# print(week_data)
 
 for filename in week_data:
     day_df = load_data(filename)
@@ -63,7 +63,7 @@ for filename in week_data:
 
     # Collect date from the current filename
     date_str = ''.join(filter(str.isdigit, filename))
-    print(date_str)
+    # print(date_str)
 
     # Date object for data currently being processed
     current_date = parse_date(date_str)
