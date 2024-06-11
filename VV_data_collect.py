@@ -11,7 +11,7 @@ def parse_date(s):
 
     return date(year, month, day)
 
-def main(args):
+def collect_data(args):
     with pysftp.Connection(hostname, 
                         username='VvItalianExperienceExportUser',
                         private_key='C:\\Users\\Jeremiah\.ssh\\vvitalian',
@@ -26,12 +26,12 @@ def main(args):
         for single_date in (start_date + timedelta(n) for n in seq):
             # If the current date is a Monday, create a 'week_ending' folder
             # corresponding to the following Friday,
-            # then skip the Monday and add the rest of the data for the week
-            # to that folder
+            # then skip the Monday and collect the rest of the data 
+            # for the week to that folder
             if day_name[single_date.weekday()] == 'Monday':
                 end_date = single_date + timedelta(6)
                 end_date_str = date.strftime(end_date, '%Y%m%d')
-                folder_name = f'{cwd}\\Week_ending_{end_date_str}'
+                folder_name = f'Week_ending_{end_date_str}'
                 os.mkdir(folder_name)
                 os.chdir(folder_name)
             else:
@@ -44,8 +44,6 @@ def main(args):
             if day_name[single_date.weekday()] == 'Sunday':
                 os.chdir('../')
 
-    print(args[1], args[2])
-
 
 if __name__ == '__main__':
-    main(sys.argv)
+    collect_data(sys.argv)
