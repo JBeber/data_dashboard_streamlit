@@ -40,7 +40,6 @@ def load_data(filepath):
 
 # List of data filenames for the currently selected week
 week_data = [name for name in os.listdir('.')]
-# print(week_data)
 
 for filename in week_data:
     day_df = load_data(filename)
@@ -67,6 +66,7 @@ for filename in week_data:
     # Date object for data currently being processed
     current_date = parse_date(date_str)
 
+    # Plotting
     fig = px.bar(panini_sold_agg, 
                  y=panini_sold_agg.Qty,
                  title=f"Panini Counts for {current_date.strftime('%A, %b %d, %Y')} <br>Total Count: {total_ct}",

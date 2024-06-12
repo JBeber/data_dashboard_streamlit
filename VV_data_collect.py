@@ -44,6 +44,34 @@ def collect_data(args):
             if day_name[single_date.weekday()] == 'Sunday':
                 os.chdir('../')
 
+# Collect all available week ending dates from subdirectories 
+# in the main directory and return the five most recent weeks
+# as a list of directory names
+def get_five_weeks_dirs(main_dir):
+    # Get today's date
+    today = date.today()
+
+    # Get a list of relevant directory names
+    dir_lst = [name for name in os.listdir(main_dir) 
+                if os.path.isdir(name) and 
+                name.startswith('Week_ending_')]
+    
+    # Initialize a list to store directory names for return
+    returned_dirs = []
+
+    for dir_name in dir_lst:
+        # Collect date from the current directory name
+        date_str = ''.join(filter(str.isdigit, dir_name))
+
+        # Date object for directory name currently being processed
+        current_dir_date = parse_date(date_str)
+
+        five_weeks = timedelta(weeks=5)
+
+        if today - current_dir_date <= five_weeks:
+            returned_dirs.append(dir_name)
+
+    return returned_dirs
 
 if __name__ == '__main__':
     collect_data(sys.argv)
