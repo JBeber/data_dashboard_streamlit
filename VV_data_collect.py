@@ -1,7 +1,8 @@
 import pysftp, os, sys
-from secret import pwd, hostname, export_id
+# from secret import pwd, hostname, export_id
 from datetime import date, timedelta
 from calendar import day_name
+import streamlit as st
 
 # Parse year, month, and day from string in YYYYMMDD format
 def parse_date(s):
@@ -12,12 +13,12 @@ def parse_date(s):
     return date(year, month, day)
 
 def collect_data(args):
-    with pysftp.Connection(hostname, 
-                        username='VvItalianExperienceExportUser',
-                        private_key='C:\\Users\\Jeremiah\.ssh\\vvitalian',
-                        private_key_pass=pwd) as sftp:
+    with pysftp.Connection(st.secrets['hostname'], 
+                        username=st.secrets['username'],
+                        private_key=st.secrets['private_key'],
+                        private_key_pass=st.secrets['pwd']) as sftp:
         
-        sftp.chdir(export_id)
+        sftp.chdir(st.secrets['export_id'])
 
         day_count = int(args[2])
         seq = range(day_count)
@@ -47,14 +48,12 @@ def collect_data(args):
 # Collect all available week ending dates from subdirectories 
 # in the main directory and return the five most recent weeks
 # as a list of directory names
-def get_five_weeks_dirs(main_dir):
+def get_five_weeks_dirs(data_dir):
     # Get today's date
     today = date.today()
 
     # Get a list of relevant directory names
-    dir_lst = [name for name in os.listdir(main_dir) 
-                if os.path.isdir(name) and 
-                name.startswith('Week_ending_')]
+    dir_lst = [name for name in os.listdir(data_dir)]
     
     # Initialize a list to store directory names for return
     returned_dirs = []

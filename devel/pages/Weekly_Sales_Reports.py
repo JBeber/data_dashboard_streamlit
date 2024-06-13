@@ -10,7 +10,7 @@ main_dir = 'C:\\Users\\Jeremiah\\OneDrive\\Documents\\VV\\Daily_Order_Data\\data
 os.chdir(main_dir)
 
 five_weeks_dirs = get_five_weeks_dirs(f"{main_dir}Data\\")
-print("five_week_dirs:", five_weeks_dirs)
+# print("five_week_dirs:", five_weeks_dirs)
 
 weekday_selected = st.selectbox('Select day of the week:', 
                                 options=('Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'))

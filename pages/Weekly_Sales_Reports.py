@@ -5,33 +5,28 @@ from VV_data_collect import get_five_weeks_dirs, parse_date
 import os
 from calendar import day_name
 
-# Main project directory
-main_dir = 'C:\\Users\\Jeremiah\\OneDrive\\Documents\\VV\\Daily_Order_Data\\data_dashboard_streamlit\\'
+# Root and data directories
+main_dir = st.secrets['main_dir']
+data_dir = st.secrets['data_dir']
 
-os.chdir(main_dir)
-
-five_weeks_dirs = get_five_weeks_dirs(main_dir)
+five_weeks_dirs = get_five_weeks_dirs(data_dir)
 
 weekday_selected = st.selectbox('Select day of the week:', 
                                 options=('Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'))
 
 files_lst = []
 for dir in five_weeks_dirs:
-    os.chdir(dir)
-
     # Get a sorted list of file names in this directory
-    sorted_files = sorted(os.listdir())
-    # print(sorted_files)
+    sorted_files = sorted(os.listdir(f'{data_dir}{dir}'))
+    print(sorted_files)
 
     # Get list index for the currently selected weekday
     weekday_index = list(day_name).index(weekday_selected)
     # print(weekday_index)
 
     # Append the absolute path of the data file for the 
-    # corresponding weekday index to the files list
-    files_lst.append(os.path.abspath(sorted_files[weekday_index-1]))
-
-    os.chdir(main_dir)
+    # corresponding weekday to the files list
+    files_lst.append(f'{data_dir}{dir}\\{sorted_files[weekday_index-1]}')
 
 # print(files_lst)
 
