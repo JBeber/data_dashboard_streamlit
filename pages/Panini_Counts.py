@@ -32,7 +32,7 @@ def load_data(filepath):
 week_data = [name for name in os.listdir(f'{data_dir}{week_selected}')]
 
 for filename in week_data:
-    day_df = load_data(f'{data_dir}{week_selected}\\{filename}')
+    day_df = load_data(f'{data_dir}{week_selected}/{filename}')
 
     # Keep only rows for panini that are not voided transactions
     day_df = day_df[(day_df['Menu Group'] == 'Panini') & 

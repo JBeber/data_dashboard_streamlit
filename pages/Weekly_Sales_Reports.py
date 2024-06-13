@@ -26,7 +26,7 @@ for dir in five_weeks_dirs:
 
     # Append the absolute path of the data file for the 
     # corresponding weekday to the files list
-    files_lst.append(f'{data_dir}{dir}\\{sorted_files[weekday_index-1]}')
+    files_lst.append(f'{data_dir}{dir}/{sorted_files[weekday_index-1]}')
 
 # print(files_lst)
 
