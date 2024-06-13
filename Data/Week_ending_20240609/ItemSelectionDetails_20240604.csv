@@ -1,0 +1,220 @@
+Order Date,Menu Item,Menu Subgroup(s),Menu Group,Menu,Net Price,Qty,Void?,Gross Price,Discount
+6/4/24 8:00 AM,Espresso doppio-double espresso,,Espresso Bar,BEVERAGES,4.50,1.0,false,4.50,0.00
+6/4/24 8:00 AM,Espresso doppio macchiato,,Espresso Bar,BEVERAGES,3.75,1.0,false,3.75,0.00
+6/4/24 8:00 AM,Espresso doppio macchiato,,Espresso Bar,BEVERAGES,3.75,1.0,false,3.75,0.00
+6/4/24 8:06 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,4.00,0.00
+6/4/24 8:06 AM,Mokaccino Ferrero Rocher,,Espresso Bar,BEVERAGES,5.00,1.0,false,5.00,0.00
+6/4/24 8:06 AM,Piadina Ham & Cheese,,Colazione - Breakfast,FOOD,6.96,1.0,false,6.96,0.00
+6/4/24 8:06 AM,Frittata,,Colazione - Breakfast,FOOD,8.35,1.0,false,8.35,0.00
+6/4/24 8:06 AM,Crostone Avocado,,Colazione - Breakfast,FOOD,12.06,1.0,false,12.06,0.00
+6/4/24 8:06 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,4.17,0.00
+6/4/24 8:03 AM,treccia conchiglia choc/cinnamon roll,,Cornetti/Bombolone,FOOD,3.94,1.0,false,3.94,0.00
+6/4/24 8:14 AM,Espresso Shakerato,,Espresso Bar,BEVERAGES,3.75,1.0,false,3.75,0.00
+6/4/24 8:18 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.25,1.0,false,5.25,0.00
+6/4/24 8:27 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 8:27 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 8:27 AM,L'ITALIANO,,Panini,FOOD,9.28,1.0,false,9.28,0.00
+6/4/24 8:30 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1.0,false,4.75,0.00
+6/4/24 8:30 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1.0,false,4.75,0.00
+6/4/24 8:30 AM,treccia conchiglia choc/cinnamon roll,,Cornetti/Bombolone,FOOD,7.89,2.0,false,7.89,0.00
+6/4/24 8:30 AM,Ham and Cheese,,Cornetti/Bombolone,FOOD,6.50,1.0,false,6.50,0.00
+6/4/24 8:34 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,4.75,0.00
+6/4/24 8:34 AM,Pesche - pink liquor dessert,,BAKERY DISPLAY,RETAIL,4.00,1.0,false,4.00,0.00
+6/4/24 8:45 AM,RIGOLETTO,,Panini,FOOD,9.28,1.0,false,9.28,0.00
+6/4/24 8:45 AM,chocolate cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,3.48,0.00
+6/4/24 8:48 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.00,1.0,false,5.00,0.00
+6/4/24 8:48 AM,Plain Cornetto,,Cornetti/Bombolone,FOOD,3.02,1.0,false,3.02,0.00
+6/4/24 8:50 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,4.00,0.00
+6/4/24 8:57 AM,Small Panna/San Pellegrino,,Non-Alcoholic,BEVERAGES,2.50,1.0,false,2.50,0.00
+6/4/24 8:57 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.50,1.0,false,4.50,0.00
+6/4/24 8:57 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,4.75,0.00
+6/4/24 8:57 AM,Americano,,Espresso Bar,BEVERAGES,4.50,1.0,false,4.50,0.00
+6/4/24 9:10 AM,treccia conchiglia choc/cinnamon roll,,Cornetti/Bombolone,FOOD,7.89,2.0,false,7.89,0.00
+6/4/24 9:10 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,4.17,0.00
+6/4/24 9:10 AM,Cappuccino,,Espresso Bar,BEVERAGES,9.50,2.0,false,9.50,0.00
+6/4/24 8:57 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,4.17,0.00
+6/4/24 8:57 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,4.17,0.00
+6/4/24 9:11 AM,Prosecco - Mionetto,,RETAIL WINE,RETAIL,546.00,60.0,false,780.00,0.00
+6/4/24 9:11 AM,Glass Primitivo Li Veli,,Wine - Glasses,BEVERAGES,218.40,24.0,true,312.00,0.00
+6/4/24 9:11 AM,Rosato de Ampeleia - Ampeleia,,RETAIL WINE,RETAIL,235.20,12.0,false,336.00,0.00
+6/4/24 9:11 AM,Pinot Grigio - Villa Loren,,RETAIL WINE,RETAIL,340.20,36.0,false,486.00,0.00
+6/4/24 9:11 AM,Primitivo Orion - Masseria Li Veli,,RETAIL WINE,RETAIL,252.00,24.0,false,360.00,0.00
+6/4/24 9:25 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,4.17,0.00
+6/4/24 9:25 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,4.00,0.00
+6/4/24 9:29 AM,Espresso Macchiato,,Espresso Bar,BEVERAGES,3.25,1.0,false,3.25,0.00
+6/4/24 9:29 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.50,1.0,false,4.50,0.00
+6/4/24 9:30 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 9:30 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 9:30 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,4.17,0.00
+6/4/24 9:30 AM,Pistacchio cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,3.48,0.00
+6/4/24 9:29 AM,treccia conchiglia choc/cinnamon roll,,Cornetti/Bombolone,FOOD,3.94,1.0,false,3.94,0.00
+6/4/24 9:29 AM,Plain Cornetto,,Cornetti/Bombolone,FOOD,3.02,1.0,false,3.02,0.00
+6/4/24 9:30 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,4.75,0.00
+6/4/24 9:41 AM,Cappuccino,,Espresso Bar,BEVERAGES,5.25,1.0,false,5.25,0.00
+6/4/24 9:42 AM,L'ITALIANO,,Panini,FOOD,9.28,1.0,false,9.28,0.00
+6/4/24 9:42 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,4.17,0.00
+6/4/24 9:30 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 9:30 AM,Pistacchio cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,3.48,0.00
+6/4/24 9:43 AM,Americano,,Espresso Bar,BEVERAGES,4.50,1.0,false,4.50,0.00
+6/4/24 9:43 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.50,1.0,false,5.50,0.00
+6/4/24 10:14 AM,Single serving desserts,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,6.50,0.00
+6/4/24 10:14 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,12.52,3.0,false,12.52,0.00
+6/4/24 10:14 AM,Sfogliatella napoletana,,Cornetti/Bombolone,FOOD,13.91,4.0,false,13.91,0.00
+6/4/24 10:14 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 10:23 AM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,6.50,0.00
+6/4/24 10:23 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.50,1.0,false,4.50,0.00
+6/4/24 10:30 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 10:30 AM,Frittata,,Colazione - Breakfast,FOOD,8.35,1.0,false,8.35,0.00
+6/4/24 10:33 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 10:33 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,4.00,0.00
+6/4/24 10:34 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,true,4.00,0.00
+6/4/24 10:38 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,4.75,0.00
+6/4/24 11:04 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1.0,false,4.75,0.00
+6/4/24 11:09 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,0.00,1.0,false,4.25,4.25
+6/4/24 11:09 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,0.00,1.0,false,4.25,4.25
+6/4/24 11:04 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 11:15 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 11:15 AM,Plain Cornetto,,Cornetti/Bombolone,FOOD,3.02,1.0,false,3.02,0.00
+6/4/24 11:16 AM,Hot chocolate,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 11:16 AM,Plain Cornetto,,Cornetti/Bombolone,FOOD,3.02,1.0,false,3.02,0.00
+6/4/24 11:16 AM,Plain Cornetto,,Cornetti/Bombolone,FOOD,3.02,1.0,false,3.02,0.00
+6/4/24 11:04 AM,Piadina Crudo,,Panini,FOOD,8.35,1.0,false,8.35,0.00
+6/4/24 11:04 AM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,18.55,0.00
+6/4/24 11:04 AM,Crostone Avocado,,Colazione - Breakfast,FOOD,13.91,1.0,false,13.91,0.00
+6/4/24 11:04 AM,Roasted Potatoes,,Colazione - Breakfast,FOOD,4.17,1.0,false,4.17,0.00
+6/4/24 11:17 AM,Bomba gelato,,BAKERY DISPLAY,RETAIL,7.50,1.0,false,7.50,0.00
+6/4/24 11:17 AM,Tartufo Gelato,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,6.50,0.00
+6/4/24 11:17 AM,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,8.50,0.00
+6/4/24 11:27 AM,Espresso Quarta,,Espresso Bar,BEVERAGES,3.00,1.0,false,3.00,0.00
+6/4/24 11:27 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,4.17,0.00
+6/4/24 11:28 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,4.00,0.00
+6/4/24 11:28 AM,Frittata,,Colazione - Breakfast,FOOD,8.35,1.0,false,8.35,0.00
+6/4/24 11:28 AM,Crostone Avocado,,Colazione - Breakfast,FOOD,10.20,1.0,false,10.20,0.00
+6/4/24 11:28 AM,Small Panna/San Pellegrino,,Non-Alcoholic,BEVERAGES,2.50,1.0,false,2.50,0.00
+6/4/24 11:29 AM,NESSUN DORMA,,Panini,FOOD,7.97,1.0,false,11.13,0.00
+6/4/24 11:29 AM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,6.09,1.0,false,8.50,0.00
+6/4/24 11:29 AM,Sfogliatella napoletana,,Cornetti/Bombolone,FOOD,2.49,1.0,false,3.48,0.00
+6/4/24 11:29 AM,San Pellegrino water can,,Non-Alcoholic,BEVERAGES,1.68,1.0,false,2.75,0.41
+6/4/24 11:31 AM,PIZZA MARGHERITA,,Kids,FOOD,8.35,1.0,false,8.35,0.00
+6/4/24 11:31 AM,treccia conchiglia choc/cinnamon roll,,Cornetti/Bombolone,FOOD,3.94,1.0,false,3.94,0.00
+6/4/24 11:31 AM,Coke -draft,,Non-Alcoholic,BEVERAGES,2.50,1.0,false,2.50,0.00
+6/4/24 11:31 AM,Diet Coke -draft,,Non-Alcoholic,BEVERAGES,2.50,1.0,false,2.50,0.00
+6/4/24 11:37 AM,AL PACINO,,Salad,FOOD,13.91,1.0,false,13.91,0.00
+6/4/24 11:37 AM,AZZURRO,,Panini,FOOD,9.28,1.0,false,9.28,0.00
+6/4/24 11:39 AM,Piadina Nutella,,Colazione - Breakfast,FOOD,6.96,1.0,false,6.96,0.00
+6/4/24 11:39 AM,NESSUN DORMA,,Panini,FOOD,11.13,1.0,false,11.13,0.00
+6/4/24 11:31 AM,TUSCAN RIBOLLITA,,Soup,FOOD,14.85,1.0,false,14.85,0.00
+6/4/24 11:31 AM,MINA,,Salad,FOOD,16.24,1.0,false,16.24,0.00
+6/4/24 11:31 AM,Crostone Avocado,,Colazione - Breakfast,FOOD,8.35,1.0,false,8.35,0.00
+6/4/24 11:30 AM,Espresso Salentino Shakerato,,Espresso Bar,BEVERAGES,3.90,1.0,false,3.90,0.00
+6/4/24 11:30 AM,Mokaccino,,Espresso Bar,BEVERAGES,3.75,1.0,false,3.75,0.00
+6/4/24 11:30 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,4.17,0.00
+6/4/24 11:30 AM,Sfogliatella napoletana,,Cornetti/Bombolone,FOOD,3.48,1.0,false,3.48,0.00
+6/4/24 11:30 AM,Sfogliatella napoletana,,Cornetti/Bombolone,FOOD,3.48,1.0,false,3.48,0.00
+6/4/24 11:50 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1.0,false,4.75,0.00
+6/4/24 11:50 AM,LUCIA,,Salad,FOOD,16.24,1.0,false,16.24,0.00
+6/4/24 11:50 AM,POSEIDONE,,Salad,FOOD,16.24,1.0,false,16.24,0.00
+6/4/24 11:51 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 11:58 AM,treccia conchiglia choc/cinnamon roll,,Cornetti/Bombolone,FOOD,3.94,1.0,false,3.94,0.00
+6/4/24 11:58 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 11:04 AM,Gelato,,BAKERY DISPLAY,RETAIL,3.50,1.0,false,3.50,0.00
+6/4/24 11:04 AM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,6.50,0.00
+6/4/24 12:02 PM,Glass Prosecco Rosato - Castel Nuovo del Garda,,Wine - Glasses,BEVERAGES,12.00,1.0,false,12.00,0.00
+6/4/24 12:02 PM,Glass Prosecco Rosato - Castel Nuovo del Garda,,Wine - Glasses,BEVERAGES,12.00,1.0,false,12.00,0.00
+6/4/24 12:02 PM,GENOVESE,,Pasta,FOOD,21.33,1.0,false,21.33,0.00
+6/4/24 12:02 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,11.13,0.00
+6/4/24 12:06 PM,BIANCA,,Kids,FOOD,8.35,1.0,false,8.35,0.00
+6/4/24 12:06 PM,treccia conchiglia choc/cinnamon roll,,Cornetti/Bombolone,FOOD,3.94,1.0,false,3.94,0.00
+6/4/24 12:06 PM,Mokaccino,,Espresso Bar,BEVERAGES,4.00,1.0,false,4.00,0.00
+6/4/24 11:50 AM,ROSSA,,Kids,FOOD,8.35,1.0,false,8.35,0.00
+6/4/24 12:17 PM,AL PACINO,,Salad,FOOD,13.91,1.0,false,13.91,0.00
+6/4/24 12:17 PM,AL PACINO,,Salad,FOOD,13.91,1.0,false,13.91,0.00
+6/4/24 11:37 AM,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5.00,1.0,false,5.00,0.00
+6/4/24 11:37 AM,Espresso Quarta,,Espresso Bar,BEVERAGES,3.00,1.0,false,3.00,0.00
+6/4/24 12:18 PM,O SOLE MIO,,Panini,FOOD,11.13,1.0,false,11.13,0.00
+6/4/24 12:18 PM,Roasted Potatoes,,Panini,FOOD,4.17,1.0,false,4.17,0.00
+6/4/24 12:18 PM,TIROLESE,,Pasta,FOOD,19.48,1.0,false,19.48,0.00
+6/4/24 12:18 PM,LUCIA,,Salad,FOOD,16.24,1.0,false,16.24,0.00
+6/4/24 12:19 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.50,1.0,false,4.50,0.00
+6/4/24 11:31 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,4.17,0.00
+6/4/24 12:24 PM,Espresso Quarta,,Espresso Bar,BEVERAGES,0.00,1.0,false,3.00,3.00
+6/4/24 12:25 PM,AL PACINO,,Salad,FOOD,13.91,1.0,false,13.91,0.00
+6/4/24 12:25 PM,L'ITALIANO,,Panini,FOOD,9.28,1.0,false,9.28,0.00
+6/4/24 12:28 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,4.75,0.00
+6/4/24 12:28 PM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,4.00,0.00
+6/4/24 12:28 PM,Nutella cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,3.48,0.00
+6/4/24 12:02 PM,Espresso con panna,,Espresso Bar,BEVERAGES,3.50,1.0,false,3.50,0.00
+6/4/24 12:02 PM,Espresso corretto,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 12:29 PM,LUCIA,,Salad,FOOD,16.24,1.0,false,16.24,0.00
+6/4/24 12:29 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,6.50,0.00
+6/4/24 12:31 PM,Small Panna/San Pellegrino,,Non-Alcoholic,BEVERAGES,2.50,1.0,false,2.50,0.00
+6/4/24 12:31 PM,O SOLE MIO,,Panini,FOOD,11.13,1.0,false,11.13,0.00
+6/4/24 12:31 PM,PIZZA MARGHERITA,,Kids,FOOD,8.35,1.0,false,8.35,0.00
+6/4/24 12:31 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,18.55,0.00
+6/4/24 12:33 PM,Primitivo di Manduria - Le Pitre - Mottura,,RETAIL WINE,RETAIL,25.00,1.0,false,25.00,0.00
+6/4/24 12:36 PM,Acqua Panna glass bottle,,Non-Alcoholic,BEVERAGES,4.75,1.0,false,4.75,0.00
+6/4/24 12:36 PM,NESSUN DORMA,,Panini,FOOD,11.13,1.0,false,11.13,0.00
+6/4/24 12:36 PM,Santal Fruit Juice,,Non-Alcoholic,BEVERAGES,2.95,1.0,false,2.95,0.00
+6/4/24 12:02 PM,Prosecco Rose - Castel Nuovo del Garda,,RETAIL WINE,RETAIL,21.00,1.0,false,21.00,0.00
+6/4/24 12:28 PM,VERDE,,Kids,FOOD,8.35,1.0,false,8.35,0.00
+6/4/24 12:28 PM,GENOVESE,,Pasta,FOOD,21.33,1.0,false,21.33,0.00
+6/4/24 12:28 PM,TUSCAN RIBOLLITA,,Soup,FOOD,14.85,1.0,false,14.85,0.00
+6/4/24 12:28 PM,CAPRESE VV,,Salad,FOOD,18.55,1.0,false,18.55,0.00
+6/4/24 11:37 AM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,6.50,0.00
+6/4/24 11:37 AM,Nutella cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,3.48,0.00
+6/4/24 12:43 PM,NESSUN DORMA,,Panini,FOOD,11.13,1.0,false,11.13,0.00
+6/4/24 12:43 PM,Espresso doppio-double espresso,,Espresso Bar,BEVERAGES,3.50,1.0,false,3.50,0.00
+6/4/24 12:45 PM,Pasticciotto with custard and amarena cherries,,BAKERY DISPLAY,RETAIL,4.00,1.0,false,4.00,0.00
+6/4/24 12:31 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,4.75,0.00
+6/4/24 12:18 PM,Nutella cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,3.48,0.00
+6/4/24 12:25 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,6.50,0.00
+6/4/24 12:58 PM,Ham and Cheese,,Cornetti/Bombolone,FOOD,5.19,1.0,false,6.50,1.31
+6/4/24 12:59 PM,Piadina Ham & Cheese,,Panini,FOOD,6.96,1.0,false,6.96,0.00
+6/4/24 12:59 PM,VELLUTATA,,Soup,FOOD,14.85,1.0,false,14.85,0.00
+6/4/24 12:31 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.00,1.0,false,5.00,0.00
+6/4/24 1:04 PM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,4.00,0.00
+6/4/24 12:28 PM,Semifreddo,,Special Events,FOOD,10.20,1.0,false,10.20,0.00
+6/4/24 12:28 PM,Sorbetti - Ripieni,,BAKERY DISPLAY,RETAIL,6.75,1.0,false,6.75,0.00
+6/4/24 1:07 PM,Gavi Le Rive - Picollo Ernesto,,RETAIL WINE,RETAIL,34.00,2.0,false,34.00,0.00
+6/4/24 1:10 PM,Campari Spritz,,House Cocktails,BEVERAGES,6.75,0.5,false,6.75,0.00
+6/4/24 1:10 PM,Glass Rosato di Ampeleia - Ampeleia,,Wine - Glasses,BEVERAGES,6.75,0.5,false,6.75,0.00
+6/4/24 1:10 PM,Frittata,,Colazione - Breakfast,FOOD,4.17,0.5,false,4.17,0.00
+6/4/24 1:10 PM,AL PACINO,,Salad,FOOD,6.96,0.5,false,6.96,0.00
+6/4/24 1:10 PM,TUSCAN RIBOLLITA,,Soup,FOOD,7.42,0.5,false,7.42,0.00
+6/4/24 12:19 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.50,1.0,false,4.50,0.00
+6/4/24 1:25 PM,Piadina Crudo,,Panini,FOOD,8.35,1.0,false,8.35,0.00
+6/4/24 1:25 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,11.13,0.00
+6/4/24 1:25 PM,ALBERTO SORDI,,Salad,FOOD,14.85,1.0,false,14.85,0.00
+6/4/24 1:25 PM,MINA,,Salad,FOOD,16.24,1.0,false,16.24,0.00
+6/4/24 1:26 PM,San Pellegrino water can,,Non-Alcoholic,BEVERAGES,2.75,1.0,false,2.75,0.00
+6/4/24 1:33 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 1:33 PM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,8.50,0.00
+6/4/24 1:35 PM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,4.17,0.00
+6/4/24 1:39 PM,NESSUN DORMA,,Panini,FOOD,11.13,1.0,false,11.13,0.00
+6/4/24 1:25 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,13.50,0.00
+6/4/24 1:39 PM,Baladin Agrumata,,Non-Alcoholic,BEVERAGES,3.30,1.0,false,3.30,0.00
+6/4/24 1:10 PM,Campari Spritz,,House Cocktails,BEVERAGES,6.75,0.5,false,6.75,0.00
+6/4/24 1:10 PM,Glass Rosato di Ampeleia - Ampeleia,,Wine - Glasses,BEVERAGES,6.75,0.5,false,6.75,0.00
+6/4/24 1:10 PM,Frittata,,Colazione - Breakfast,FOOD,4.17,0.5,false,4.17,0.00
+6/4/24 1:10 PM,AL PACINO,,Salad,FOOD,6.96,0.5,false,6.96,0.00
+6/4/24 1:10 PM,TUSCAN RIBOLLITA,,Soup,FOOD,7.42,0.5,false,7.42,0.00
+6/4/24 1:49 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,11.13,0.00
+6/4/24 1:49 PM,MINA,,Salad,FOOD,16.24,1.0,false,16.24,0.00
+6/4/24 1:49 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,11.13,0.00
+6/4/24 1:49 PM,VA PENSIERO,,Panini,FOOD,11.13,1.0,false,11.13,0.00
+6/4/24 1:49 PM,Espresso Quarta,,Espresso Bar,BEVERAGES,3.00,1.0,false,3.00,0.00
+6/4/24 1:49 PM,Espresso Quarta,,Espresso Bar,BEVERAGES,3.00,1.0,false,3.00,0.00
+6/4/24 1:50 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.50,1.0,false,4.50,0.00
+6/4/24 1:51 PM,San Pellegrino glass bottle,,Non-Alcoholic,BEVERAGES,3.75,1.0,false,3.75,0.00
+6/4/24 1:54 PM,MINA,,Salad,FOOD,0.00,1.0,false,16.24,16.24
+6/4/24 2:00 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1.0,false,4.75,0.00
+6/4/24 2:16 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1.0,false,4.25,0.00
+6/4/24 2:16 PM,VELLUTATA,,Soup,FOOD,14.85,1.0,false,14.85,0.00
+6/4/24 2:16 PM,LUCIA,,Salad,FOOD,16.24,1.0,false,16.24,0.00
+6/4/24 1:49 PM,Affogato,,Espresso Bar,BEVERAGES,6.50,1.0,false,6.50,0.00
+6/4/24 2:32 PM,VOLARE,,Panini,FOOD,11.13,1.0,false,11.13,0.00
+6/4/24 2:32 PM,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,8.50,0.00
+6/4/24 2:52 PM,LUCIA,,Salad,FOOD,16.24,1.0,false,16.24,0.00
+6/4/24 2:35 PM,TIRAMISU,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,6.50,0.00
+6/4/24 2:35 PM,O SOLE MIO,,Panini,FOOD,11.13,1.0,false,11.13,0.00
+6/4/24 2:52 PM,Coke -draft,,Non-Alcoholic,BEVERAGES,2.50,1.0,false,2.50,0.00

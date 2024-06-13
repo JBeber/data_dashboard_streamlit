@@ -1,0 +1,427 @@
+Order #,Order Date,Menu Item,Menu Subgroup(s),Menu Group,Menu,Net Price,Qty,Void?,Deferred
+103,4/14/2024 12:37,Bolognese,,Aperitivo - Dinner,FOOD,18.55,1,FALSE,FALSE
+118,4/14/2024 13:18,Lasagna,,Aperitivo - Dinner,FOOD,50.32,3,FALSE,FALSE
+11,4/14/2024 8:55,Single serving desserts,,BAKERY DISPLAY,RETAIL,6.5,1,FALSE,FALSE
+13,4/14/2024 9:08,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.5,1,FALSE,FALSE
+33,4/14/2024 9:50,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.5,1,FALSE,FALSE
+52,4/14/2024 10:21,SLICE CROSTATA,,BAKERY DISPLAY,RETAIL,5.08,1,FALSE,FALSE
+64,4/14/2024 10:56,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.5,1,FALSE,FALSE
+63,4/14/2024 10:54,cupcake,,BAKERY DISPLAY,RETAIL,4.75,1,FALSE,FALSE
+56,4/14/2024 10:30,TIRAMISU,,BAKERY DISPLAY,RETAIL,6.5,1,FALSE,FALSE
+74,4/14/2024 11:25,cupcake,,BAKERY DISPLAY,RETAIL,4.75,1,FALSE,FALSE
+62,4/14/2024 10:49,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,8.5,1,FALSE,FALSE
+62,4/14/2024 10:49,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.5,1,FALSE,FALSE
+73,4/14/2024 11:19,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,8.5,1,FALSE,FALSE
+85,4/14/2024 11:50,SLICE CROSTATA,,BAKERY DISPLAY,RETAIL,6,1,FALSE,FALSE
+85,4/14/2024 11:50,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,8.5,1,FALSE,FALSE
+85,4/14/2024 11:50,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,8.5,1,FALSE,FALSE
+73,4/14/2024 11:19,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,8.5,1,FALSE,FALSE
+73,4/14/2024 11:19,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,8.5,1,FALSE,FALSE
+76,4/14/2024 11:39,TIRAMISU,,BAKERY DISPLAY,RETAIL,6.5,1,FALSE,FALSE
+81,4/14/2024 11:46,Key lime,,BAKERY DISPLAY,RETAIL,8.5,1,FALSE,FALSE
+96,4/14/2024 12:27,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,17,2,FALSE,FALSE
+108,4/14/2024 12:45,SLICE CROSTATA,,BAKERY DISPLAY,RETAIL,6,1,FALSE,FALSE
+92,4/14/2024 12:11,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.5,1,FALSE,FALSE
+92,4/14/2024 12:11,Tartufo Gelato,,BAKERY DISPLAY,RETAIL,6.5,1,FALSE,FALSE
+103,4/14/2024 12:37,SLICE CROSTATA,,BAKERY DISPLAY,RETAIL,6,1,FALSE,FALSE
+119,4/14/2024 13:20,TIRAMISU,,BAKERY DISPLAY,RETAIL,13,2,FALSE,FALSE
+94,4/14/2024 12:17,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.5,1,FALSE,FALSE
+122,4/14/2024 13:27,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,8.5,1,FALSE,FALSE
+137,4/14/2024 14:52,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,8.5,2,FALSE,FALSE
+112,4/14/2024 12:55,Beer Peroni - Draft,,Beer,BEVERAGES,7,1,FALSE,FALSE
+126,4/14/2024 13:42,Beer Peroni - Draft,,Beer,BEVERAGES,7,1,FALSE,FALSE
+108,4/14/2024 12:45,Bulleit Rye,,Bourbon,BEVERAGES,5.75,1,FALSE,FALSE
+111,4/14/2024 12:53,Woodford Reserve,,Bourbon,BEVERAGES,10,1,FALSE,FALSE
+1,4/14/2024 8:06,cornetto vegan/multigrain,,Colazione - Breakfast,FOOD,3.24,1,FALSE,FALSE
+1,4/14/2024 8:06,cornetto vegan/multigrain,,Colazione - Breakfast,FOOD,3.24,1,FALSE,FALSE
+2,4/14/2024 8:07,Cornetto Salato,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+3,4/14/2024 8:08,cornetto vegan/multigrain,,Colazione - Breakfast,FOOD,3.24,1,FALSE,FALSE
+6,4/14/2024 8:27,mini croissant,,Colazione - Breakfast,FOOD,1.71,1,FALSE,FALSE
+10,4/14/2024 8:55,Frittata,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+14,4/14/2024 9:10,chocolate cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+14,4/14/2024 9:10,chocolate cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+14,4/14/2024 9:10,chocolate cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+14,4/14/2024 9:10,chocolate cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+14,4/14/2024 9:10,bombolone custard/nutella,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+13,4/14/2024 9:08,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+10,4/14/2024 8:55,bombolone custard/nutella,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+15,4/14/2024 9:20,Cornetto Salato,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+16,4/14/2024 9:20,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+16,4/14/2024 9:20,Cornetto Salato,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+18,4/14/2024 9:21,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+18,4/14/2024 9:21,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+19,4/14/2024 9:23,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+19,4/14/2024 9:23,cornetto vegan/multigrain,,Colazione - Breakfast,FOOD,3.24,1,FALSE,FALSE
+20,4/14/2024 9:23,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+22,4/14/2024 9:26,bombolone custard/nutella,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+22,4/14/2024 9:26,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+24,4/14/2024 9:30,Loaf Cake\cinnamon roll,,Colazione - Breakfast,FOOD,3.94,1,FALSE,FALSE
+24,4/14/2024 9:30,Loaf Cake\cinnamon roll,,Colazione - Breakfast,FOOD,3.94,1,FALSE,FALSE
+24,4/14/2024 9:30,plain cornetto,,Colazione - Breakfast,FOOD,3.02,1,FALSE,FALSE
+24,4/14/2024 9:30,plain cornetto,,Colazione - Breakfast,FOOD,3.02,1,FALSE,FALSE
+26,4/14/2024 9:35,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+26,4/14/2024 9:35,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+26,4/14/2024 9:35,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+25,4/14/2024 9:30,Cornetto Salato,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+25,4/14/2024 9:30,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+30,4/14/2024 9:44,Nutella cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+31,4/14/2024 9:46,Nutella cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+26,4/14/2024 9:35,Nutella cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+34,4/14/2024 9:51,Loaf Cake\cinnamon roll,,Colazione - Breakfast,FOOD,3.94,1,FALSE,FALSE
+27,4/14/2024 9:35,plain cornetto,,Colazione - Breakfast,FOOD,3.02,1,FALSE,FALSE
+27,4/14/2024 9:35,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+27,4/14/2024 9:35,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+35,4/14/2024 9:53,plain cornetto,,Colazione - Breakfast,FOOD,3.02,1,FALSE,FALSE
+35,4/14/2024 9:53,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+37,4/14/2024 9:55,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+37,4/14/2024 9:55,Cornetto Salato,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+38,4/14/2024 9:59,Nutella cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+33,4/14/2024 9:50,chocolate cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+39,4/14/2024 10:02,bombolone custard/nutella,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+39,4/14/2024 10:02,bombolone custard/nutella,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+39,4/14/2024 10:02,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+43,4/14/2024 10:12,plain cornetto,,Colazione - Breakfast,FOOD,3.02,1,FALSE,FALSE
+43,4/14/2024 10:12,mini croissant,,Colazione - Breakfast,FOOD,1.71,1,FALSE,FALSE
+45,4/14/2024 10:15,Nutella cornetto,,Colazione - Breakfast,FOOD,2.12,1,FALSE,FALSE
+45,4/14/2024 10:15,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,2.54,1,FALSE,FALSE
+45,4/14/2024 10:15,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,2.53,1,FALSE,FALSE
+46,4/14/2024 10:16,Frittata,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+46,4/14/2024 10:16,Frittata,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+46,4/14/2024 10:16,Cornetto Salato,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+46,4/14/2024 10:16,bombolone custard/nutella,,Colazione - Breakfast,FOOD,3.48,1,TRUE,FALSE
+47,4/14/2024 10:17,Frittata,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+48,4/14/2024 10:18,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+49,4/14/2024 10:19,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+52,4/14/2024 10:21,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,3.54,1,FALSE,FALSE
+46,4/14/2024 10:16,mini bomboloni,,Colazione - Breakfast,FOOD,1.71,1,FALSE,FALSE
+55,4/14/2024 10:28,bombolone custard/nutella,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+56,4/14/2024 10:30,Cornetto Salato,,Colazione - Breakfast,FOOD,8.35,1,TRUE,FALSE
+56,4/14/2024 10:30,Cornetto Salato,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+56,4/14/2024 10:30,Frittata,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+59,4/14/2024 10:41,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+60,4/14/2024 10:42,Nutella cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+60,4/14/2024 10:42,Nutella cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+60,4/14/2024 10:42,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+60,4/14/2024 10:42,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+64,4/14/2024 10:56,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+65,4/14/2024 10:59,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+65,4/14/2024 10:59,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+65,4/14/2024 10:59,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+65,4/14/2024 10:59,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+65,4/14/2024 10:59,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+65,4/14/2024 10:59,Cornetto Salato,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+68,4/14/2024 11:12,Cornetto Salato,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+67,4/14/2024 11:09,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+67,4/14/2024 11:09,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+69,4/14/2024 11:12,cornetto vegan/multigrain,,Colazione - Breakfast,FOOD,3.24,1,FALSE,FALSE
+72,4/14/2024 11:18,plain cornetto,,Colazione - Breakfast,FOOD,3.02,1,FALSE,FALSE
+73,4/14/2024 11:19,Frittata,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+68,4/14/2024 11:12,Frittata,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+73,4/14/2024 11:19,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+69,4/14/2024 11:12,cornetto vegan/multigrain,,Colazione - Breakfast,FOOD,3.24,1,FALSE,FALSE
+79,4/14/2024 11:44,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+79,4/14/2024 11:44,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+79,4/14/2024 11:44,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+79,4/14/2024 11:44,Cornetto Salato,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+80,4/14/2024 11:45,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+83,4/14/2024 11:47,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+77,4/14/2024 11:40,Frittata,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+77,4/14/2024 11:40,bombolone custard/nutella,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+77,4/14/2024 11:40,bombolone custard/nutella,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+77,4/14/2024 11:40,Nutella cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+84,4/14/2024 11:48,cornetto vegan/multigrain,,Colazione - Breakfast,FOOD,3.24,1,FALSE,FALSE
+84,4/14/2024 11:48,cornetto vegan/multigrain,,Colazione - Breakfast,FOOD,3.24,1,FALSE,FALSE
+85,4/14/2024 11:50,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+87,4/14/2024 11:59,Cornetto Salato,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+88,4/14/2024 12:01,Loaf Cake\cinnamon roll,,Colazione - Breakfast,FOOD,6.25,2,FALSE,FALSE
+88,4/14/2024 12:01,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,3.3,1,FALSE,FALSE
+88,4/14/2024 12:01,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,3.3,1,FALSE,FALSE
+76,4/14/2024 11:39,Cornetto Salato,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+94,4/14/2024 12:17,Roasted potatoes,,Colazione - Breakfast,FOOD,0,1,FALSE,FALSE
+95,4/14/2024 12:19,Loaf Cake\cinnamon roll,,Colazione - Breakfast,FOOD,3.94,1,FALSE,FALSE
+95,4/14/2024 12:19,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+77,4/14/2024 11:40,Nutella cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+77,4/14/2024 11:40,plain cornetto,,Colazione - Breakfast,FOOD,3.02,1,FALSE,FALSE
+102,4/14/2024 12:37,Loaf Cake\cinnamon roll,,Colazione - Breakfast,FOOD,3.94,1,FALSE,FALSE
+103,4/14/2024 12:37,Nutella cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+114,4/14/2024 13:00,Sfogliatella napoletana,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+94,4/14/2024 12:17,Roasted potatoes,,Colazione - Breakfast,FOOD,12.52,3,FALSE,FALSE
+120,4/14/2024 13:21,Nutella cornetto,,Colazione - Breakfast,FOOD,3.48,1,FALSE,FALSE
+125,4/14/2024 13:41,Cornetto Salato,,Colazione - Breakfast,FOOD,8.35,1,FALSE,FALSE
+125,4/14/2024 13:41,Saccottino Choc/ Danish,,Colazione - Breakfast,FOOD,8.35,2,FALSE,FALSE
+126,4/14/2024 13:42,Roasted potatoes,,Colazione - Breakfast,FOOD,4.17,1,FALSE,FALSE
+127,4/14/2024 13:45,plain cornetto,,Colazione - Breakfast,FOOD,3.02,1,FALSE,FALSE
+132,4/14/2024 14:01,Roasted potatoes,,Colazione - Breakfast,FOOD,0,1,FALSE,FALSE
+1,4/14/2024 8:06,Americano,,Espresso Bar,BEVERAGES,4,1,FALSE,FALSE
+1,4/14/2024 8:06,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+2,4/14/2024 8:07,Americano,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+3,4/14/2024 8:08,Americano,,Espresso Bar,BEVERAGES,4,1,FALSE,FALSE
+4,4/14/2024 8:10,Americano,,Espresso Bar,BEVERAGES,4,1,FALSE,FALSE
+4,4/14/2024 8:10,Americano,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+5,4/14/2024 8:21,Espresso doppio-double espresso,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+6,4/14/2024 8:27,Americano,,Espresso Bar,BEVERAGES,4,1,FALSE,FALSE
+1,4/14/2024 8:06,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+7,4/14/2024 8:50,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+7,4/14/2024 8:50,Mokaccino,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+9,4/14/2024 8:54,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+10,4/14/2024 8:55,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+11,4/14/2024 8:55,Americano,,Espresso Bar,BEVERAGES,4,1,FALSE,FALSE
+12,4/14/2024 9:08,Espresso Quarta,,Espresso Bar,BEVERAGES,3,1,FALSE,FALSE
+13,4/14/2024 9:08,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+13,4/14/2024 9:08,Mokaccino,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+14,4/14/2024 9:10,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+15,4/14/2024 9:20,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+15,4/14/2024 9:20,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+16,4/14/2024 9:20,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+16,4/14/2024 9:20,Mokaccino,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+18,4/14/2024 9:21,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+18,4/14/2024 9:21,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+19,4/14/2024 9:23,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+19,4/14/2024 9:23,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+20,4/14/2024 9:23,Espresso doppio-double espresso,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+21,4/14/2024 9:25,Espresso doppio-double espresso,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+21,4/14/2024 9:25,Americano,,Espresso Bar,BEVERAGES,4,1,FALSE,FALSE
+13,4/14/2024 9:08,Espresso Quarta,,Espresso Bar,BEVERAGES,3,1,FALSE,FALSE
+13,4/14/2024 9:08,Mokaccino,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+24,4/14/2024 9:30,Espresso Quarta,,Espresso Bar,BEVERAGES,3,1,FALSE,FALSE
+24,4/14/2024 9:30,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+24,4/14/2024 9:30,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+24,4/14/2024 9:30,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+26,4/14/2024 9:35,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+26,4/14/2024 9:35,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+26,4/14/2024 9:35,Espresso Quarta,,Espresso Bar,BEVERAGES,3,1,FALSE,FALSE
+25,4/14/2024 9:30,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+25,4/14/2024 9:30,Hot chocolate,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+27,4/14/2024 9:35,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+27,4/14/2024 9:35,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+27,4/14/2024 9:35,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+29,4/14/2024 9:43,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+30,4/14/2024 9:44,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+31,4/14/2024 9:46,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+31,4/14/2024 9:46,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+31,4/14/2024 9:46,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+33,4/14/2024 9:50,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+33,4/14/2024 9:50,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+34,4/14/2024 9:51,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+16,4/14/2024 9:20,Mokaccino,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+16,4/14/2024 9:20,Espresso Shakerato,,Espresso Bar,BEVERAGES,3.75,1,FALSE,FALSE
+35,4/14/2024 9:53,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+35,4/14/2024 9:53,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+37,4/14/2024 9:55,Mokaccino,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+38,4/14/2024 9:59,Espresso doppio macchiato,,Espresso Bar,BEVERAGES,3.75,1,FALSE,FALSE
+38,4/14/2024 9:59,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+39,4/14/2024 10:02,Cappuccino,,Espresso Bar,BEVERAGES,8.5,2,FALSE,FALSE
+40,4/14/2024 10:05,Americano,,Espresso Bar,BEVERAGES,4,1,FALSE,FALSE
+41,4/14/2024 10:06,Americano,,Espresso Bar,BEVERAGES,4,1,FALSE,FALSE
+41,4/14/2024 10:06,Americano,,Espresso Bar,BEVERAGES,4,1,FALSE,FALSE
+43,4/14/2024 10:12,Mokaccino,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+46,4/14/2024 10:16,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+46,4/14/2024 10:16,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+46,4/14/2024 10:16,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+47,4/14/2024 10:17,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+47,4/14/2024 10:17,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+48,4/14/2024 10:18,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+48,4/14/2024 10:18,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+49,4/14/2024 10:19,Espresso Salentino Shakerato,,Espresso Bar,BEVERAGES,3.9,1,FALSE,FALSE
+50,4/14/2024 10:20,Americano,,Espresso Bar,BEVERAGES,4,1,FALSE,FALSE
+52,4/14/2024 10:21,Cappuccino,,Espresso Bar,BEVERAGES,3.6,1,FALSE,FALSE
+52,4/14/2024 10:21,Cappuccino,,Espresso Bar,BEVERAGES,3.6,1,FALSE,FALSE
+51,4/14/2024 10:21,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+51,4/14/2024 10:21,Espresso doppio-double espresso,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+53,4/14/2024 10:27,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+53,4/14/2024 10:27,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+55,4/14/2024 10:28,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+55,4/14/2024 10:28,Americano,,Espresso Bar,BEVERAGES,4,1,FALSE,FALSE
+56,4/14/2024 10:30,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+46,4/14/2024 10:16,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+62,4/14/2024 10:49,Mokaccino Ferrero Rocher,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+61,4/14/2024 10:44,Espresso Salentino Shakerato,,Espresso Bar,BEVERAGES,3.9,1,FALSE,FALSE
+61,4/14/2024 10:44,Latte Macchiato,,Espresso Bar,BEVERAGES,8.5,2,FALSE,FALSE
+61,4/14/2024 10:44,Espresso Salentino Shakerato,,Espresso Bar,BEVERAGES,3.9,1,FALSE,FALSE
+63,4/14/2024 10:54,Mokaccino Ferrero Rocher,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+63,4/14/2024 10:54,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1,FALSE,FALSE
+62,4/14/2024 10:49,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+64,4/14/2024 10:56,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+65,4/14/2024 10:59,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+65,4/14/2024 10:59,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+65,4/14/2024 10:59,Hot chocolate,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+65,4/14/2024 10:59,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+52,4/14/2024 10:21,Cappuccino,,Espresso Bar,BEVERAGES,3.6,1,FALSE,FALSE
+52,4/14/2024 10:21,Cappuccino,,Espresso Bar,BEVERAGES,3.61,1,FALSE,FALSE
+68,4/14/2024 11:12,Espresso Macchiato,,Espresso Bar,BEVERAGES,3.25,1,TRUE,FALSE
+67,4/14/2024 11:09,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+67,4/14/2024 11:09,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+69,4/14/2024 11:12,Mokaccino Ferrero Rocher,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+69,4/14/2024 11:12,Mokaccino Ferrero Rocher,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+69,4/14/2024 11:12,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+68,4/14/2024 11:12,Espresso doppio macchiato,,Espresso Bar,BEVERAGES,3.75,1,FALSE,FALSE
+74,4/14/2024 11:25,Espresso doppio-double espresso,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+73,4/14/2024 11:19,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+68,4/14/2024 11:12,Espresso doppio macchiato,,Espresso Bar,BEVERAGES,3.75,1,FALSE,FALSE
+76,4/14/2024 11:39,Mokaccino Ferrero Rocher,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+77,4/14/2024 11:40,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5.5,1,FALSE,FALSE
+77,4/14/2024 11:40,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5.5,1,FALSE,FALSE
+78,4/14/2024 11:41,Espresso Salentino Shakerato,,Espresso Bar,BEVERAGES,3.9,1,FALSE,FALSE
+80,4/14/2024 11:45,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+68,4/14/2024 11:12,Espresso doppio macchiato,,Espresso Bar,BEVERAGES,3.75,1,FALSE,FALSE
+81,4/14/2024 11:46,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+83,4/14/2024 11:47,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1,FALSE,FALSE
+85,4/14/2024 11:50,Espresso doppio-double espresso,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+87,4/14/2024 11:59,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+88,4/14/2024 12:01,Latte Macchiato,,Espresso Bar,BEVERAGES,6.73,2,FALSE,FALSE
+89,4/14/2024 12:02,Cappuccino,,Espresso Bar,BEVERAGES,8.5,2,FALSE,FALSE
+76,4/14/2024 11:39,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+77,4/14/2024 11:40,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+97,4/14/2024 12:28,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+97,4/14/2024 12:28,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+100,4/14/2024 12:33,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+101,4/14/2024 12:35,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+103,4/14/2024 12:37,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+103,4/14/2024 12:37,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+107,4/14/2024 12:43,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+108,4/14/2024 12:45,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+108,4/14/2024 12:45,Espresso Shakerato,,Espresso Bar,BEVERAGES,3.75,1,FALSE,FALSE
+108,4/14/2024 12:45,Espresso Shakerato,,Espresso Bar,BEVERAGES,3.75,1,FALSE,FALSE
+106,4/14/2024 12:40,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,10,2,FALSE,FALSE
+111,4/14/2024 12:53,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+103,4/14/2024 12:37,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+103,4/14/2024 12:37,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+112,4/14/2024 12:55,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+113,4/14/2024 12:57,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+94,4/14/2024 12:17,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+94,4/14/2024 12:17,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+94,4/14/2024 12:17,Espresso Shakerato,,Espresso Bar,BEVERAGES,3.75,1,FALSE,FALSE
+114,4/14/2024 13:00,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+117,4/14/2024 13:17,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+117,4/14/2024 13:17,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+118,4/14/2024 13:18,Latte Macchiato,,Espresso Bar,BEVERAGES,7.69,2,FALSE,FALSE
+120,4/14/2024 13:21,Cappuccino,,Espresso Bar,BEVERAGES,8.5,2,FALSE,FALSE
+112,4/14/2024 12:55,Espresso con panna,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+122,4/14/2024 13:27,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+122,4/14/2024 13:27,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+122,4/14/2024 13:27,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+126,4/14/2024 13:42,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+125,4/14/2024 13:41,Espresso doppio-double espresso,,Espresso Bar,BEVERAGES,3.5,1,FALSE,FALSE
+127,4/14/2024 13:45,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1,FALSE,FALSE
+127,4/14/2024 13:45,Americano,,Espresso Bar,BEVERAGES,4,1,FALSE,FALSE
+126,4/14/2024 13:42,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5,1,FALSE,FALSE
+126,4/14/2024 13:42,Americano,,Espresso Bar,BEVERAGES,4,1,FALSE,FALSE
+75,4/14/2024 11:38,Mimosa cocktail,,House Cocktails,BEVERAGES,9,1,FALSE,FALSE
+75,4/14/2024 11:38,Mimosa cocktail,,House Cocktails,BEVERAGES,9,1,FALSE,FALSE
+76,4/14/2024 11:39,Spritz Limoncello,,House Cocktails,BEVERAGES,13.5,1,FALSE,FALSE
+90,4/14/2024 12:09,Spritz Aperol,,House Cocktails,BEVERAGES,13.5,1,FALSE,FALSE
+90,4/14/2024 12:09,Spritz Aperol,,House Cocktails,BEVERAGES,13.5,1,FALSE,FALSE
+75,4/14/2024 11:38,Mimosa cocktail,,House Cocktails,BEVERAGES,9,1,FALSE,FALSE
+75,4/14/2024 11:38,Mimosa cocktail,,House Cocktails,BEVERAGES,9,1,FALSE,FALSE
+62,4/14/2024 10:49,PIZZA MARGHERITA,,Kids,FOOD,8.35,1,FALSE,FALSE
+69,4/14/2024 11:12,PASTA VERDE,,Kids,FOOD,13.73,1,FALSE,FALSE
+69,4/14/2024 11:12,PASTA VERDE,,Kids,FOOD,13.73,1,FALSE,FALSE
+124,4/14/2024 13:38,PIZZA MARGHERITA,,Kids,FOOD,8.35,1,FALSE,FALSE
+124,4/14/2024 13:38,PIZZA MARGHERITA,,Kids,FOOD,8.35,1,FALSE,FALSE
+24,4/14/2024 9:30,Pocket Coffee 5 piece,,MARKET,RETAIL,14.5,1,FALSE,FALSE
+33,4/14/2024 9:50,VV Candle,,MARKET,RETAIL,25,1,FALSE,FALSE
+68,4/14/2024 11:12,Kinder Country Cereal\bar,,MARKET,RETAIL,2.5,2,FALSE,FALSE
+73,4/14/2024 11:19,VV Tarallini\Friselline,,MARKET,RETAIL,4.99,1,FALSE,FALSE
+73,4/14/2024 11:19,VV Tomato Sauce,,MARKET,RETAIL,4.19,1,FALSE,FALSE
+73,4/14/2024 11:19,Fondo Montebello Glaze Aged,,MARKET,RETAIL,6.99,1,FALSE,FALSE
+101,4/14/2024 12:35,Maglio Eggs covered with almonds,,MARKET,RETAIL,12,1,FALSE,FALSE
+102,4/14/2024 12:37,VV Tarallini\Friselline,,MARKET,RETAIL,4.99,1,FALSE,FALSE
+133,4/14/2024 14:07,VV Tarallini\Friselline,,MARKET,RETAIL,4.99,1,TRUE,FALSE
+133,4/14/2024 14:07,VV Tarallini\Friselline,,MARKET,RETAIL,4.99,1,TRUE,FALSE
+134,4/14/2024 14:08,VV Tarallini\Friselline,,MARKET,RETAIL,4.99,1,FALSE,FALSE
+134,4/14/2024 14:08,VV Tarallini\Friselline,,MARKET,RETAIL,4.99,1,FALSE,FALSE
+52,4/14/2024 10:21,Santal Fruit Juice,,Non-Alcoholic,BEVERAGES,2.5,1,FALSE,FALSE
+52,4/14/2024 10:21,Santal Fruit Juice,,Non-Alcoholic,BEVERAGES,2.5,1,FALSE,FALSE
+78,4/14/2024 11:41,Aranciata Rossa can,,Non-Alcoholic,BEVERAGES,4.5,1,FALSE,FALSE
+82,4/14/2024 11:46,Lavazza Cold Brew Can,,Non-Alcoholic,BEVERAGES,7.5,1,FALSE,FALSE
+81,4/14/2024 11:46,San Pellegrino Lemonade Aranciata can,,Non-Alcoholic,BEVERAGES,4.5,1,FALSE,FALSE
+83,4/14/2024 11:47,San Pellegrino Glass Bottle Small,,Non-Alcoholic,BEVERAGES,2.5,1,FALSE,FALSE
+92,4/14/2024 12:11,Diet Coke -draft,,Non-Alcoholic,BEVERAGES,2.5,1,FALSE,FALSE
+91,4/14/2024 12:10,Coke -draft,,Non-Alcoholic,BEVERAGES,2.5,1,FALSE,FALSE
+93,4/14/2024 12:15,Sprite bottle,,Non-Alcoholic,BEVERAGES,4.5,1,TRUE,FALSE
+100,4/14/2024 12:33,San Pellegrino Cans Orange - Lemon,,Non-Alcoholic,BEVERAGES,4.5,1,FALSE,FALSE
+101,4/14/2024 12:35,San Pellegrino Cans Orange - Lemon,,Non-Alcoholic,BEVERAGES,4.5,1,FALSE,FALSE
+116,4/14/2024 13:12,Lemonade -draft/oj,,Non-Alcoholic,BEVERAGES,2.5,1,FALSE,FALSE
+116,4/14/2024 13:12,Diet Coke -draft,,Non-Alcoholic,BEVERAGES,2.5,1,FALSE,FALSE
+125,4/14/2024 13:41,San Pellegrino glass bottle,,Non-Alcoholic,BEVERAGES,3.75,1,FALSE,FALSE
+125,4/14/2024 13:41,Filette still/sparkling Water Bottle,,Non-Alcoholic,BEVERAGES,4.75,1,FALSE,FALSE
+125,4/14/2024 13:41,Filette still/sparkling Water Bottle,,Non-Alcoholic,BEVERAGES,4.75,1,FALSE,FALSE
+13,4/14/2024 9:08,VOLARE,,Panini,FOOD,11.13,1,FALSE,FALSE
+33,4/14/2024 9:50,O SOLE MIO,,Panini,FOOD,11.13,1,FALSE,FALSE
+33,4/14/2024 9:50,NAPULÈ,,Panini,FOOD,11.13,1,FALSE,FALSE
+26,4/14/2024 9:35,NESSUN DORMA,,Panini,FOOD,33.4,3,FALSE,FALSE
+44,4/14/2024 10:14,L ITALIANO,,Panini,FOOD,18.55,2,FALSE,FALSE
+46,4/14/2024 10:16,PIADINA,,Panini,FOOD,6.96,1,FALSE,FALSE
+48,4/14/2024 10:18,AZZURRO,,Panini,FOOD,9.28,1,FALSE,FALSE
+62,4/14/2024 10:49,NAPULÈ,,Panini,FOOD,11.13,1,FALSE,FALSE
+69,4/14/2024 11:12,AZZURRO,,Panini,FOOD,12.8,1,FALSE,FALSE
+68,4/14/2024 11:12,L ITALIANO,,Panini,FOOD,9.28,1,FALSE,FALSE
+74,4/14/2024 11:25,RIGOLETTO,,Panini,FOOD,9.28,1,FALSE,FALSE
+76,4/14/2024 11:39,O SOLE MIO,,Panini,FOOD,11.13,1,FALSE,FALSE
+81,4/14/2024 11:46,O SOLE MIO,,Panini,FOOD,11.13,1,FALSE,FALSE
+83,4/14/2024 11:47,NAPULÈ,,Panini,FOOD,11.13,1,FALSE,FALSE
+77,4/14/2024 11:40,VA PENSIERO,,Panini,FOOD,11.13,1,FALSE,FALSE
+75,4/14/2024 11:38,RIGOLETTO,,Panini,FOOD,9.28,1,FALSE,FALSE
+86,4/14/2024 11:58,NAPULÈ,,Panini,FOOD,11.13,1,FALSE,FALSE
+78,4/14/2024 11:41,NAPULÈ,,Panini,FOOD,11.13,1,FALSE,FALSE
+78,4/14/2024 11:41,RIGOLETTO,,Panini,FOOD,9.28,1,FALSE,FALSE
+93,4/14/2024 12:15,L ITALIANO,,Panini,FOOD,9.28,1,TRUE,FALSE
+94,4/14/2024 12:17,L ITALIANO,,Panini,FOOD,0,1,FALSE,FALSE
+77,4/14/2024 11:40,NAPULÈ,,Panini,FOOD,11.13,1,FALSE,FALSE
+100,4/14/2024 12:33,VOLARE,,Panini,FOOD,11.13,1,FALSE,FALSE
+100,4/14/2024 12:33,VA PENSIERO,,Panini,FOOD,11.13,1,FALSE,FALSE
+105,4/14/2024 12:39,L ITALIANO,,Panini,FOOD,9.28,1,FALSE,FALSE
+107,4/14/2024 12:43,NAPULÈ,,Panini,FOOD,11.13,1,FALSE,FALSE
+111,4/14/2024 12:53,NAPULÈ,,Panini,FOOD,11.13,1,FALSE,FALSE
+111,4/14/2024 12:53,VA PENSIERO,,Panini,FOOD,11.13,1,FALSE,FALSE
+112,4/14/2024 12:55,NESSUN DORMA,,Panini,FOOD,11.13,1,FALSE,FALSE
+112,4/14/2024 12:55,NESSUN DORMA,,Panini,FOOD,11.13,1,FALSE,FALSE
+116,4/14/2024 13:12,VA PENSIERO,,Panini,FOOD,11.13,1,FALSE,FALSE
+94,4/14/2024 12:17,VA PENSIERO,,Panini,FOOD,11.13,1,FALSE,FALSE
+94,4/14/2024 12:17,VA PENSIERO,,Panini,FOOD,11.13,1,FALSE,FALSE
+94,4/14/2024 12:17,L ITALIANO,,Panini,FOOD,9.28,1,FALSE,FALSE
+122,4/14/2024 13:27,NESSUN DORMA,,Panini,FOOD,11.13,1,FALSE,FALSE
+122,4/14/2024 13:27,O SOLE MIO,,Panini,FOOD,11.13,1,FALSE,FALSE
+126,4/14/2024 13:42,NAPULÈ,,Panini,FOOD,11.13,1,FALSE,FALSE
+62,4/14/2024 10:49,AL PACINO,INSALATA - SALADS,Pranzo - Lunch,FOOD,12.98,1,FALSE,FALSE
+63,4/14/2024 10:54,BOLOGNESE,PASTA AND SOUPS,Pranzo - Lunch,FOOD,18.55,1,FALSE,FALSE
+63,4/14/2024 10:54,AL PACINO,INSALATA - SALADS,Pranzo - Lunch,FOOD,12.98,1,FALSE,FALSE
+63,4/14/2024 10:54,LUCIA,INSALATA - SALADS,Pranzo - Lunch,FOOD,12.98,1,FALSE,FALSE
+73,4/14/2024 11:19,PASTA TIROLESE,PASTA AND SOUPS,Pranzo - Lunch,FOOD,21.33,1,FALSE,FALSE
+76,4/14/2024 11:39,POSEIDONE,INSALATA - SALADS,Pranzo - Lunch,FOOD,14.85,1,FALSE,FALSE
+75,4/14/2024 11:38,MINA,INSALATA - SALADS,Pranzo - Lunch,FOOD,14.85,1,FALSE,FALSE
+81,4/14/2024 11:46,CAPRESE VV,INSALATA - SALADS,Pranzo - Lunch,FOOD,13.91,1,FALSE,FALSE
+86,4/14/2024 11:58,AL PACINO,INSALATA - SALADS,Pranzo - Lunch,FOOD,12.98,1,FALSE,FALSE
+90,4/14/2024 12:09,ALBERTO SORDI,INSALATA - SALADS,Pranzo - Lunch,FOOD,14.85,1,FALSE,FALSE
+90,4/14/2024 12:09,LUCIA,INSALATA - SALADS,Pranzo - Lunch,FOOD,12.98,1,FALSE,FALSE
+91,4/14/2024 12:10,MINA,INSALATA - SALADS,Pranzo - Lunch,FOOD,14.85,1,FALSE,FALSE
+91,4/14/2024 12:10,TUSCAN RIBOLLITA,PASTA AND SOUPS,Pranzo - Lunch,FOOD,17.63,1,FALSE,FALSE
+92,4/14/2024 12:11,BOLOGNESE,PASTA AND SOUPS,Pranzo - Lunch,FOOD,18.55,1,FALSE,FALSE
+92,4/14/2024 12:11,PASTA SICILIANA,PASTA AND SOUPS,Pranzo - Lunch,FOOD,16.7,1,FALSE,FALSE
+103,4/14/2024 12:37,MINA,INSALATA - SALADS,Pranzo - Lunch,FOOD,14.85,1,FALSE,FALSE
+105,4/14/2024 12:39,PASTA TIROLESE,PASTA AND SOUPS,Pranzo - Lunch,FOOD,21.33,1,FALSE,FALSE
+104,4/14/2024 12:38,PASTA PUGLIESE,PASTA AND SOUPS,Pranzo - Lunch,FOOD,18.55,1,FALSE,FALSE
+107,4/14/2024 12:43,ALBERTO SORDI,INSALATA - SALADS,Pranzo - Lunch,FOOD,14.85,1,FALSE,FALSE
+116,4/14/2024 13:12,ALBERTO SORDI,INSALATA - SALADS,Pranzo - Lunch,FOOD,14.85,1,FALSE,FALSE
+117,4/14/2024 13:17,LUCIA,INSALATA - SALADS,Pranzo - Lunch,FOOD,12.98,1,FALSE,FALSE
+122,4/14/2024 13:27,LUCIA,INSALATA - SALADS,Pranzo - Lunch,FOOD,12.98,1,FALSE,FALSE
+122,4/14/2024 13:27,SOFIA LOREN,INSALATA - SALADS,Pranzo - Lunch,FOOD,14.85,1,FALSE,FALSE
+124,4/14/2024 13:38,PASTA NAPOLETANA,PASTA AND SOUPS,Pranzo - Lunch,FOOD,16.7,1,FALSE,FALSE
+124,4/14/2024 13:38,BOLOGNESE,PASTA AND SOUPS,Pranzo - Lunch,FOOD,18.55,1,FALSE,FALSE
+124,4/14/2024 13:38,BOLOGNESE,PASTA AND SOUPS,Pranzo - Lunch,FOOD,18.55,1,FALSE,FALSE
+126,4/14/2024 13:42,CAPRESE VV,INSALATA - SALADS,Pranzo - Lunch,FOOD,18.55,1,FALSE,FALSE
+128,4/14/2024 13:46,LUCIA,INSALATA - SALADS,Pranzo - Lunch,FOOD,0,1,FALSE,FALSE
+24,4/14/2024 9:30,Rosso di Montepulciano - Cantine Dei,,RETAIL WINE,RETAIL,22,1,FALSE,FALSE
+57,4/14/2024 10:32,Toscana Rosso - Ciacci Piccolomini d'Aragona,,RETAIL WINE,RETAIL,16,1,FALSE,FALSE
+58,4/14/2024 10:33,Chianti Riserva Casanova - La Spinetta,,RETAIL WINE,RETAIL,35,1,FALSE,FALSE
+58,4/14/2024 10:33,Brunello di Montalcino - Mocali,,RETAIL WINE,RETAIL,57,1,FALSE,FALSE
+99,4/14/2024 12:32,Cannonau di Sardegna Tonaghe - Contini,,RETAIL WINE,RETAIL,15,1,FALSE,FALSE
+124,4/14/2024 13:38,Pinot Grigio - Mirabello,,RETAIL WINE,RETAIL,20,1,FALSE,FALSE
+124,4/14/2024 13:38,Corkage fee,,RETAIL WINE,RETAIL,15,1,TRUE,FALSE
+131,4/14/2024 13:50,Pinot Grigio  - San Pietro,,RETAIL WINE,RETAIL,15,1,FALSE,FALSE
+131,4/14/2024 13:50,Barbera D'Alba - Luigi Voghera,,RETAIL WINE,RETAIL,17,1,FALSE,FALSE
+129,4/14/2024 13:48,Titos,,Vodka,BEVERAGES,10,1,FALSE,FALSE
+92,4/14/2024 12:11,Glass Rosato - Il Corzanello,,Wine - Glasses,BEVERAGES,9.5,1,FALSE,FALSE
+107,4/14/2024 12:43,Glass Chardonnay - Maccan,,Wine - Glasses,BEVERAGES,9,1,FALSE,FALSE
+23,4/14/2024 9:29,Gift Card,,,,13,1,FALSE,TRUE
+104,4/14/2024 12:38,Side Of Focaccia,,,,2,1,FALSE,FALSE
