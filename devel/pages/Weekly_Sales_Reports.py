@@ -6,18 +6,18 @@ import os
 from calendar import day_name
 
 # Main project directory
-main_dir = 'C:\\Users\\Jeremiah\\OneDrive\\Documents\\VV\\Daily_Order_Data\\data_dashboard_streamlit\\'
-
+main_dir = 'C:\\Users\\Jeremiah\\OneDrive\\Documents\\VV\\Daily_Order_Data\\data_dashboard_streamlit\\devel\\'
 os.chdir(main_dir)
 
-five_weeks_dirs = get_five_weeks_dirs(main_dir)
+five_weeks_dirs = get_five_weeks_dirs(f"{main_dir}Data\\")
+print("five_week_dirs:", five_weeks_dirs)
 
 weekday_selected = st.selectbox('Select day of the week:', 
                                 options=('Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'))
 
 files_lst = []
 for dir in five_weeks_dirs:
-    os.chdir(dir)
+    os.chdir(f"{main_dir}Data\\{dir}")
 
     # Get a sorted list of file names in this directory
     sorted_files = sorted(os.listdir())
@@ -31,7 +31,7 @@ for dir in five_weeks_dirs:
     # corresponding weekday index to the files list
     files_lst.append(os.path.abspath(sorted_files[weekday_index-1]))
 
-    os.chdir(main_dir)
+    os.chdir(f"{main_dir}Data")
 
 # print(files_lst)
 

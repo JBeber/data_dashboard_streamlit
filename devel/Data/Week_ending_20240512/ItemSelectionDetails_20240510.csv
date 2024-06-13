@@ -1,0 +1,799 @@
+Order #,Order Date,Menu Item,Menu Subgroup(s),Menu Group,Menu,Net Price,Qty,Void?,Deferred
+1,5/10/24 7:59 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.75,1.0,false,false
+1,5/10/24 7:59 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+2,5/10/24 8:00 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.50,1.0,false,false
+2,5/10/24 8:00 AM,Plain Cornetto,,Cornetti/Bombolone,FOOD,3.02,1.0,false,false
+2,5/10/24 8:00 AM,Plain Cornetto,,Cornetti/Bombolone,FOOD,3.02,1.0,false,false
+2,5/10/24 8:00 AM,Mokaccino,,Espresso Bar,BEVERAGES,3.50,1.0,false,false
+4,5/10/24 8:07 AM,Espresso doppio macchiato,,Espresso Bar,BEVERAGES,7.50,2.0,false,false
+5,5/10/24 8:13 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+5,5/10/24 8:13 AM,Espresso Macchiato,,Espresso Bar,BEVERAGES,3.25,1.0,false,false
+5,5/10/24 8:13 AM,San Pellegrino glass bottle,,Non-Alcoholic,BEVERAGES,1.88,0.5,false,false
+6,5/10/24 8:14 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+6,5/10/24 8:14 AM,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+7,5/10/24 8:16 AM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+7,5/10/24 8:16 AM,Pesche - pink liquor dessert,,BAKERY DISPLAY,RETAIL,4.00,1.0,false,false
+7,5/10/24 8:16 AM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+7,5/10/24 8:16 AM,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+7,5/10/24 8:16 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+5,5/10/24 8:13 AM,Nutella cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+5,5/10/24 8:13 AM,Piadina Ham & Cheese,,Panini,FOOD,6.96,1.0,false,false
+9,5/10/24 8:21 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+9,5/10/24 8:21 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+9,5/10/24 8:21 AM,Frittata,,Colazione - Breakfast,FOOD,8.35,1.0,true,false
+9,5/10/24 8:21 AM,Piadina Ham & Cheese,,Colazione - Breakfast,FOOD,6.96,1.0,false,false
+10,5/10/24 8:23 AM,Single serving desserts,,BAKERY DISPLAY,RETAIL,4.77,1.0,false,false
+10,5/10/24 8:23 AM,San Pellegrino glass bottle,,Non-Alcoholic,BEVERAGES,2.75,1.0,false,false
+10,5/10/24 8:23 AM,San Pellegrino Lemonade Aranciata can,,Non-Alcoholic,BEVERAGES,3.31,1.0,false,false
+10,5/10/24 8:23 AM,Cappuccino,,Espresso Bar,BEVERAGES,3.12,1.0,false,false
+10,5/10/24 8:23 AM,Fruit tartlette,,BAKERY DISPLAY,RETAIL,3.49,1.0,false,false
+10,5/10/24 8:23 AM,Frittata,,Colazione - Breakfast,FOOD,6.13,1.0,false,false
+6,5/10/24 8:14 AM,Nutella cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+6,5/10/24 8:14 AM,Nutella cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+4,5/10/24 8:07 AM,Espresso doppio macchiato,,Espresso Bar,BEVERAGES,7.50,2.0,false,false
+11,5/10/24 8:27 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+11,5/10/24 8:27 AM,L'ITALIANO,,Panini,FOOD,9.28,1.0,false,false
+12,5/10/24 8:31 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,false
+12,5/10/24 8:31 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+13,5/10/24 8:32 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+13,5/10/24 8:32 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+13,5/10/24 8:32 AM,Nutella cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+13,5/10/24 8:32 AM,Nutella cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+15,5/10/24 8:40 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+15,5/10/24 8:40 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.25,1.0,false,false
+16,5/10/24 8:42 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.50,1.0,false,false
+4,5/10/24 8:07 AM,Ham and Cheese,,Cornetti/Bombolone,FOOD,6.50,1.0,false,false
+4,5/10/24 8:07 AM,Plain Cornetto,,Cornetti/Bombolone,FOOD,3.02,1.0,false,false
+4,5/10/24 8:07 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+4,5/10/24 8:07 AM,Espresso doppio macchiato,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+5,5/10/24 8:13 AM,Espresso Macchiato,,Espresso Bar,BEVERAGES,3.25,1.0,false,false
+18,5/10/24 8:48 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+18,5/10/24 8:48 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,false
+15,5/10/24 8:40 AM,Frittata,,Colazione - Breakfast,FOOD,8.35,1.0,false,false
+16,5/10/24 8:42 AM,Nutella cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+19,5/10/24 8:52 AM,Americano,,Espresso Bar,BEVERAGES,4.50,1.0,false,false
+19,5/10/24 8:52 AM,Americano,,Espresso Bar,BEVERAGES,4.50,1.0,false,false
+19,5/10/24 8:52 AM,Piadina Ham & Cheese,,Colazione - Breakfast,FOOD,6.96,1.0,false,false
+5,5/10/24 8:13 AM,San Pellegrino glass bottle,,Non-Alcoholic,BEVERAGES,1.88,0.5,false,false
+21,5/10/24 9:10 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.50,1.0,false,false
+21,5/10/24 9:10 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,false
+22,5/10/24 9:11 AM,Cappuccino,,Espresso Bar,BEVERAGES,8.50,2.0,false,false
+22,5/10/24 9:11 AM,Nutella cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+22,5/10/24 9:11 AM,Plain Cornetto,,Cornetti/Bombolone,FOOD,3.02,1.0,false,false
+24,5/10/24 9:17 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.50,1.0,false,false
+24,5/10/24 9:17 AM,Plain Cornetto,,Cornetti/Bombolone,FOOD,3.02,1.0,false,false
+25,5/10/24 9:22 AM,Fruit tartlette,,BAKERY DISPLAY,RETAIL,14.25,3.0,false,false
+25,5/10/24 9:22 AM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,25.50,3.0,false,false
+25,5/10/24 9:22 AM,Plain Cornetto,,Cornetti/Bombolone,FOOD,3.02,1.0,false,false
+25,5/10/24 9:22 AM,Nutella cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+25,5/10/24 9:22 AM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,false
+26,5/10/24 9:23 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+26,5/10/24 9:23 AM,Loaf Cake\cinnamon roll,,Cornetti/Bombolone,FOOD,3.94,1.0,false,false
+27,5/10/24 9:24 AM,Plain Cornetto,,Cornetti/Bombolone,FOOD,3.02,1.0,false,false
+27,5/10/24 9:24 AM,Ham and Cheese,,Cornetti/Bombolone,FOOD,6.50,1.0,false,false
+27,5/10/24 9:24 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.50,1.0,false,false
+28,5/10/24 9:27 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+29,5/10/24 9:28 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,false
+29,5/10/24 9:28 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+31,5/10/24 9:29 AM,chocolate cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+31,5/10/24 9:29 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+30,5/10/24 9:28 AM,Espresso Quarta,,Espresso Bar,BEVERAGES,3.00,1.0,false,false
+30,5/10/24 9:28 AM,Espresso Quarta,,Espresso Bar,BEVERAGES,3.00,1.0,false,false
+30,5/10/24 9:28 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,false
+30,5/10/24 9:28 AM,Apricot\strawberry cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+28,5/10/24 9:27 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+32,5/10/24 9:39 AM,AZZURRO,,Panini,FOOD,9.28,1.0,false,false
+32,5/10/24 9:39 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+34,5/10/24 9:41 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+34,5/10/24 9:41 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+34,5/10/24 9:41 AM,Espresso Shakerato,,Espresso Bar,BEVERAGES,3.75,1.0,false,false
+33,5/10/24 9:40 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,8.35,2.0,false,false
+35,5/10/24 9:46 AM,Cappuccino,,Espresso Bar,BEVERAGES,2.13,1.0,false,false
+35,5/10/24 9:46 AM,MARBLE CAKE/ LOAF,,BAKERY DISPLAY,RETAIL,1.75,1.0,false,false
+36,5/10/24 9:47 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.25,1.0,false,false
+37,5/10/24 9:55 AM,Cappuccino,,Espresso Bar,BEVERAGES,0.00,1.0,false,false
+37,5/10/24 9:55 AM,Cappuccino,,Espresso Bar,BEVERAGES,0.00,1.0,false,false
+37,5/10/24 9:55 AM,Americano,,Espresso Bar,BEVERAGES,0.00,1.0,false,false
+34,5/10/24 9:41 AM,Frittata,,Colazione - Breakfast,FOOD,8.35,1.0,false,false
+34,5/10/24 9:41 AM,Ham and Cheese,,Cornetti/Bombolone,FOOD,6.50,1.0,false,false
+38,5/10/24 9:59 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.25,1.0,false,false
+38,5/10/24 9:59 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.50,1.0,false,false
+39,5/10/24 10:00 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+28,5/10/24 9:27 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+40,5/10/24 10:11 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+40,5/10/24 10:11 AM,Sfogliatella napoletana,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+19,5/10/24 8:52 AM,Baci - Perugina - bag,,MARKET,RETAIL,9.00,1.0,false,false
+31,5/10/24 9:29 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+41,5/10/24 10:28 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+43,5/10/24 10:38 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+43,5/10/24 10:38 AM,San Pellegrino glass bottle,,Non-Alcoholic,BEVERAGES,3.75,1.0,false,false
+44,5/10/24 10:40 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,true,false
+43,5/10/24 10:38 AM,O SOLE MIO,,Panini,FOOD,11.13,1.0,false,false
+43,5/10/24 10:38 AM,Piadina Crudo,,Panini,FOOD,16.70,2.0,false,false
+43,5/10/24 10:38 AM,Roasted Potatoes,,Colazione - Breakfast,FOOD,4.17,1.0,false,false
+45,5/10/24 10:48 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+43,5/10/24 10:38 AM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,19.50,3.0,false,false
+48,5/10/24 10:58 AM,Espresso Macchiato,,Espresso Bar,BEVERAGES,3.25,1.0,false,false
+48,5/10/24 10:58 AM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,false
+49,5/10/24 11:04 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+50,5/10/24 11:04 AM,Mokaccino,,Espresso Bar,BEVERAGES,4.50,1.0,false,false
+50,5/10/24 11:04 AM,ALBERTO SORDI,,Salad,FOOD,14.85,1.0,false,false
+51,5/10/24 11:05 AM,Mokaccino Ferrero Rocher,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+51,5/10/24 11:05 AM,Ham and Cheese,,Cornetti/Bombolone,FOOD,6.50,1.0,false,false
+51,5/10/24 11:05 AM,Sfogliatella napoletana,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+52,5/10/24 11:07 AM,RIGOLETTO,,Panini,FOOD,9.28,1.0,false,false
+49,5/10/24 11:04 AM,AZZURRO,,Panini,FOOD,9.28,1.0,false,false
+49,5/10/24 11:04 AM,PUGLIESE,,Pasta,FOOD,20.41,1.0,false,false
+50,5/10/24 11:04 AM,Mokaccino,,Espresso Bar,BEVERAGES,4.50,1.0,false,false
+53,5/10/24 11:14 AM,VA PENSIERO,,Panini,FOOD,11.13,1.0,false,false
+53,5/10/24 11:14 AM,L'ITALIANO,,Panini,FOOD,9.28,1.0,false,false
+53,5/10/24 11:14 AM,Chianti Riserva Casanova - La Spinetta,,RETAIL WINE,RETAIL,35.00,1.0,false,false
+55,5/10/24 11:27 AM,RIGOLETTO,,Panini,FOOD,9.28,1.0,false,false
+55,5/10/24 11:27 AM,Roasted Potatoes,,Panini,FOOD,4.17,1.0,false,false
+55,5/10/24 11:27 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+56,5/10/24 11:28 AM,Espresso doppio-double espresso,,Espresso Bar,BEVERAGES,3.50,1.0,false,false
+56,5/10/24 11:28 AM,Santal Fruit Juice,,Non-Alcoholic,BEVERAGES,2.95,1.0,false,false
+57,5/10/24 11:28 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+58,5/10/24 11:29 AM,Hot chocolate,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+58,5/10/24 11:29 AM,Plain Cornetto,,Cornetti/Bombolone,FOOD,3.02,1.0,false,false
+56,5/10/24 11:28 AM,PIZZA MARGHERITA,,Kids,FOOD,8.35,1.0,false,false
+56,5/10/24 11:28 AM,TIROLESE,,Pasta,FOOD,19.48,1.0,false,false
+59,5/10/24 11:33 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+59,5/10/24 11:33 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+49,5/10/24 11:04 AM,Fruit tartlette,,BAKERY DISPLAY,RETAIL,9.50,2.0,false,false
+49,5/10/24 11:04 AM,Pesche - pink liquor dessert,,BAKERY DISPLAY,RETAIL,8.00,2.0,false,false
+60,5/10/24 11:41 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+60,5/10/24 11:41 AM,AL PACINO,,Salad,FOOD,13.91,1.0,false,false
+60,5/10/24 11:41 AM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,false
+61,5/10/24 11:41 AM,Mokaccino Ferrero Rocher,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+61,5/10/24 11:41 AM,Mokaccino Ferrero Rocher,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+61,5/10/24 11:41 AM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+61,5/10/24 11:41 AM,Pesche - pink liquor dessert,,BAKERY DISPLAY,RETAIL,4.00,1.0,false,false
+61,5/10/24 11:41 AM,Fruit tartlette,,BAKERY DISPLAY,RETAIL,4.75,1.0,false,false
+62,5/10/24 11:42 AM,Piadina Ham & Cheese,,Panini,FOOD,5.21,1.0,true,false
+60,5/10/24 11:41 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+64,5/10/24 11:44 AM,Espresso Salentino Shakerato,,Espresso Bar,BEVERAGES,3.90,1.0,false,false
+64,5/10/24 11:44 AM,Espresso Salentino Shakerato,,Espresso Bar,BEVERAGES,3.90,1.0,false,false
+64,5/10/24 11:44 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+64,5/10/24 11:44 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.25,1.0,false,false
+63,5/10/24 11:43 AM,NESSUN DORMA,,Panini,FOOD,11.13,1.0,false,false
+63,5/10/24 11:43 AM,BIANCA,,Kids,FOOD,8.35,1.0,false,false
+66,5/10/24 11:47 AM,O SOLE MIO,,Panini,FOOD,11.13,1.0,false,false
+66,5/10/24 11:47 AM,AZZURRO,,Panini,FOOD,9.28,1.0,false,false
+68,5/10/24 11:48 AM,GENOVESE,,Pasta,FOOD,21.33,1.0,false,false
+68,5/10/24 11:48 AM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+68,5/10/24 11:48 AM,Diet Coke -draft,,Non-Alcoholic,BEVERAGES,2.50,1.0,false,false
+59,5/10/24 11:33 AM,LUCIA,,Salad,FOOD,16.24,1.0,false,false
+59,5/10/24 11:33 AM,SOFIA LOREN,,Salad,FOOD,14.85,1.0,false,false
+59,5/10/24 11:33 AM,POSEIDONE,,Salad,FOOD,32.46,2.0,false,false
+57,5/10/24 11:28 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+57,5/10/24 11:28 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+69,5/10/24 11:51 AM,ZUPPA AL POMODORO,,Soup,FOOD,12.98,1.0,false,false
+69,5/10/24 11:51 AM,VELLUTATA,,Soup,FOOD,14.85,2.0,false,false
+69,5/10/24 11:51 AM,Piadina Ham & Cheese,,Panini,FOOD,6.96,1.0,false,false
+69,5/10/24 11:51 AM,O SOLE MIO,,Panini,FOOD,11.13,1.0,false,false
+69,5/10/24 11:51 AM,Iced Tea,,Non-Alcoholic,BEVERAGES,3.50,1.0,false,false
+69,5/10/24 11:51 AM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+69,5/10/24 11:51 AM,San Pellegrino water can,,Non-Alcoholic,BEVERAGES,2.75,1.0,false,false
+57,5/10/24 11:28 AM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+57,5/10/24 11:28 AM,PUGLIESE,,Pasta,FOOD,20.41,1.0,false,false
+70,5/10/24 11:54 AM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.75,1.0,false,false
+64,5/10/24 11:44 AM,VELLUTATA,,Soup,FOOD,14.85,1.0,false,false
+64,5/10/24 11:44 AM,TUSCAN RIBOLLITA,,Soup,FOOD,17.63,1.0,false,false
+64,5/10/24 11:44 AM,MINA,,Salad,FOOD,16.24,1.0,false,false
+64,5/10/24 11:44 AM,POSEIDONE,,Salad,FOOD,16.24,1.0,false,false
+72,5/10/24 11:57 AM,TIROLESE,,Pasta,FOOD,19.48,1.0,false,false
+72,5/10/24 11:57 AM,LUCIA,,Salad,FOOD,16.24,1.0,false,false
+59,5/10/24 11:33 AM,Piadina Ham & Cheese,,Panini,FOOD,6.96,1.0,false,false
+69,5/10/24 11:51 AM,Glass Pinot Grigio - Mirabello,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+73,5/10/24 12:07 PM,Ham and Cheese,,Cornetti/Bombolone,FOOD,6.50,1.0,false,false
+56,5/10/24 11:28 AM,chocolate cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+73,5/10/24 12:07 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+73,5/10/24 12:07 PM,Crostone Avocado,,Colazione - Breakfast,FOOD,12.06,1.0,false,false
+74,5/10/24 12:11 PM,Limoncello Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+74,5/10/24 12:11 PM,Limoncello Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+74,5/10/24 12:11 PM,Glass Prosecco Brut - Castel Nuovo del Garda,,Wine - Glasses,BEVERAGES,12.00,1.0,false,false
+75,5/10/24 12:14 PM,L'ITALIANO,,Panini,FOOD,9.28,1.0,false,false
+76,5/10/24 12:18 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+74,5/10/24 12:11 PM,Piadina Crudo,,Colazione - Breakfast,FOOD,8.35,1.0,false,false
+74,5/10/24 12:11 PM,LUCIA,,Salad,FOOD,16.24,1.0,false,false
+74,5/10/24 12:11 PM,CAPRESE VV,,Salad,FOOD,18.55,1.0,false,false
+74,5/10/24 12:11 PM,PUGLIESE,,Pasta,FOOD,20.41,1.0,false,false
+78,5/10/24 12:20 PM,VELLUTATA,,Soup,FOOD,14.85,1.0,false,false
+78,5/10/24 12:20 PM,Baladin Spuma Nera,,Non-Alcoholic,BEVERAGES,3.30,1.0,false,false
+79,5/10/24 12:21 PM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+56,5/10/24 11:28 AM,Espresso doppio-double espresso,,Espresso Bar,BEVERAGES,3.50,1.0,false,false
+80,5/10/24 12:29 PM,POSEIDONE,,Salad,FOOD,16.24,1.0,false,false
+80,5/10/24 12:29 PM,AL PACINO,,Salad,FOOD,13.91,1.0,false,false
+79,5/10/24 12:21 PM,NAPULÈ,,Panini,FOOD,5.57,0.5,false,false
+79,5/10/24 12:21 PM,AL PACINO,,Salad,FOOD,6.96,0.5,false,false
+81,5/10/24 12:31 PM,NESSUN DORMA,,Panini,FOOD,11.13,1.0,false,false
+81,5/10/24 12:31 PM,VA PENSIERO,,Panini,FOOD,11.13,1.0,false,false
+82,5/10/24 12:35 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+68,5/10/24 11:48 AM,Sprite -draft,,Non-Alcoholic,BEVERAGES,2.50,1.0,false,false
+64,5/10/24 11:44 AM,RIGOLETTO,,Panini,FOOD,9.28,1.0,false,false
+64,5/10/24 11:44 AM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+64,5/10/24 11:44 AM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+64,5/10/24 11:44 AM,TIRAMISU,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+72,5/10/24 11:57 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+72,5/10/24 11:57 AM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+85,5/10/24 12:42 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+86,5/10/24 12:44 PM,Americano,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+86,5/10/24 12:44 PM,Americano,,Espresso Bar,BEVERAGES,4.50,1.0,false,false
+86,5/10/24 12:44 PM,POSEIDONE,,Salad,FOOD,16.24,1.0,false,false
+86,5/10/24 12:44 PM,Piadina Crudo,,Panini,FOOD,8.35,1.0,false,false
+64,5/10/24 11:44 AM,Tartufo Gelato,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+64,5/10/24 11:44 AM,Tartufo Gelato,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+64,5/10/24 11:44 AM,Glass cup gelato,,BAKERY DISPLAY,RETAIL,7.50,1.0,false,false
+64,5/10/24 11:44 AM,Bomba gelato,,BAKERY DISPLAY,RETAIL,7.50,1.0,false,false
+59,5/10/24 11:33 AM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+90,5/10/24 12:50 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+90,5/10/24 12:50 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+90,5/10/24 12:50 PM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,8.35,2.0,false,false
+91,5/10/24 12:52 PM,POSEIDONE,,Salad,FOOD,16.24,1.0,false,false
+91,5/10/24 12:52 PM,Iced Tea,,Non-Alcoholic,BEVERAGES,3.50,1.0,false,false
+91,5/10/24 12:52 PM,POSEIDONE,,Salad,FOOD,16.24,1.0,false,false
+91,5/10/24 12:52 PM,Diet Coke -draft,,Non-Alcoholic,BEVERAGES,2.50,1.0,false,false
+91,5/10/24 12:52 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,false
+91,5/10/24 12:52 PM,Iced Tea,,Non-Alcoholic,BEVERAGES,3.50,1.0,false,false
+91,5/10/24 12:52 PM,AL PACINO,,Salad,FOOD,13.91,1.0,false,false
+91,5/10/24 12:52 PM,Glass Pinot Grigio - Mirabello,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+79,5/10/24 12:21 PM,POSEIDONE,,Salad,FOOD,16.24,1.0,true,false
+93,5/10/24 12:57 PM,VA PENSIERO,,Panini,FOOD,11.13,1.0,false,false
+93,5/10/24 12:57 PM,AZZURRO,,Panini,FOOD,9.28,1.0,false,false
+90,5/10/24 12:50 PM,O SOLE MIO,,Panini,FOOD,11.13,1.0,false,false
+90,5/10/24 12:50 PM,SICILIANA,,Pasta,FOOD,16.70,1.0,false,false
+85,5/10/24 12:42 PM,NESSUN DORMA,,Panini,FOOD,5.57,0.5,false,false
+93,5/10/24 12:57 PM,Baladin Agrumata,,Non-Alcoholic,BEVERAGES,3.30,1.0,false,false
+94,5/10/24 12:58 PM,Cappuccino Pistacchio,,Espresso Bar,BEVERAGES,10.00,2.0,false,false
+94,5/10/24 12:58 PM,Isaac - Baladin,,Beer,BEVERAGES,8.50,1.0,false,false
+96,5/10/24 1:03 PM,Espresso doppio-double espresso,,Espresso Bar,BEVERAGES,3.50,1.0,false,false
+94,5/10/24 12:58 PM,GENOVESE,,Pasta,FOOD,21.33,1.0,false,false
+94,5/10/24 12:58 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+94,5/10/24 12:58 PM,TIROLESE,,Pasta,FOOD,19.48,1.0,false,false
+97,5/10/24 1:04 PM,Americano,,Espresso Bar,BEVERAGES,9.00,2.0,false,false
+79,5/10/24 12:21 PM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+99,5/10/24 1:05 PM,VELLUTATA,,Soup,FOOD,14.85,1.0,false,false
+99,5/10/24 1:05 PM,VELLUTATA,,Soup,FOOD,14.85,1.0,false,false
+98,5/10/24 1:04 PM,L'ITALIANO,,Panini,FOOD,18.55,2.0,false,false
+98,5/10/24 1:04 PM,San Pellegrino Cans Orange - Lemon,,Non-Alcoholic,BEVERAGES,9.00,2.0,false,false
+100,5/10/24 1:14 PM,Ham and Cheese,,Cornetti/Bombolone,FOOD,12.98,2.0,false,false
+100,5/10/24 1:14 PM,L'ITALIANO,,Panini,FOOD,9.28,1.0,false,false
+100,5/10/24 1:14 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+100,5/10/24 1:14 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+100,5/10/24 1:14 PM,Espressino freddo,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+85,5/10/24 12:42 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+101,5/10/24 1:16 PM,Espresso Macchiato,,Espresso Bar,BEVERAGES,3.25,1.0,false,false
+101,5/10/24 1:16 PM,NESSUN DORMA,,Panini,FOOD,11.13,1.0,false,false
+102,5/10/24 1:17 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+74,5/10/24 12:11 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,9.00,2.0,false,false
+74,5/10/24 12:11 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+74,5/10/24 12:11 PM,Tartufo Gelato,,BAKERY DISPLAY,RETAIL,19.50,3.0,false,false
+103,5/10/24 1:19 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,0.00,1.0,false,false
+104,5/10/24 1:20 PM,RIGOLETTO,,Panini,FOOD,9.28,1.0,false,false
+104,5/10/24 1:20 PM,RIGOLETTO,,Panini,FOOD,9.28,1.0,false,false
+93,5/10/24 12:57 PM,Espresso Quarta,,Espresso Bar,BEVERAGES,3.00,1.0,false,false
+93,5/10/24 12:57 PM,Espresso Quarta,,Espresso Bar,BEVERAGES,3.00,1.0,false,false
+79,5/10/24 12:21 PM,NAPULÈ,,Panini,FOOD,5.57,0.5,false,false
+79,5/10/24 12:21 PM,AL PACINO,,Salad,FOOD,6.96,0.5,false,false
+93,5/10/24 12:57 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+93,5/10/24 12:57 PM,Sfogliatella napoletana,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+93,5/10/24 12:57 PM,Pesche - pink liquor dessert,,BAKERY DISPLAY,RETAIL,8.00,2.0,false,false
+105,5/10/24 1:27 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,false
+105,5/10/24 1:27 PM,CAPRESE VV,,Salad,FOOD,18.55,1.0,false,false
+94,5/10/24 12:58 PM,Isaac - Baladin,,Beer,BEVERAGES,8.50,1.0,false,false
+106,5/10/24 1:37 PM,Barocco,,,,60.00,1.0,false,false
+91,5/10/24 12:52 PM,Gelato,,BAKERY DISPLAY,RETAIL,3.50,1.0,false,false
+91,5/10/24 12:52 PM,Bomba gelato,,BAKERY DISPLAY,RETAIL,7.50,1.0,false,false
+91,5/10/24 12:52 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+91,5/10/24 12:52 PM,Tartufo Gelato,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+91,5/10/24 12:52 PM,Fruit tartlette,,BAKERY DISPLAY,RETAIL,4.75,1.0,false,false
+107,5/10/24 1:45 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+108,5/10/24 1:45 PM,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+108,5/10/24 1:45 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+108,5/10/24 1:45 PM,Ham and Cheese,,Cornetti/Bombolone,FOOD,6.50,1.0,false,false
+108,5/10/24 1:45 PM,Sfogliatella napoletana,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+109,5/10/24 1:46 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,false
+109,5/10/24 1:46 PM,PROFITTEROLES,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+109,5/10/24 1:46 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.25,1.0,false,false
+110,5/10/24 1:46 PM,Espresso in ghiaccio/with ice,,Espresso Bar,BEVERAGES,3.50,1.0,false,false
+110,5/10/24 1:46 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+110,5/10/24 1:46 PM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,4.17,1.0,false,false
+93,5/10/24 12:57 PM,Espresso Quarta,,Espresso Bar,BEVERAGES,0.00,1.0,false,false
+93,5/10/24 12:57 PM,Espresso Quarta,,Espresso Bar,BEVERAGES,0.00,1.0,false,false
+111,5/10/24 1:51 PM,Quarta Caffe Classico,,MARKET,RETAIL,10.00,1.0,false,false
+105,5/10/24 1:27 PM,Single serving desserts,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+113,5/10/24 1:53 PM,Glass Gavi - Le Rive,,Wine - Glasses,BEVERAGES,10.00,1.0,false,false
+113,5/10/24 1:53 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+112,5/10/24 1:53 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+114,5/10/24 1:54 PM,Peroni - Draft,,Beer,BEVERAGES,7.00,1.0,false,false
+114,5/10/24 1:54 PM,Glass Prosecco Brut - Castel Nuovo del Garda,,Wine - Glasses,BEVERAGES,12.00,1.0,false,false
+85,5/10/24 12:42 PM,NESSUN DORMA,,Panini,FOOD,5.57,0.5,false,false
+86,5/10/24 12:44 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,true,false
+114,5/10/24 1:54 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+118,5/10/24 1:58 PM,Americano,,Espresso Bar,BEVERAGES,4.50,1.0,false,false
+118,5/10/24 1:58 PM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+118,5/10/24 1:58 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+119,5/10/24 2:01 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.50,1.0,false,false
+119,5/10/24 2:01 PM,Espresso Martini,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+113,5/10/24 1:53 PM,LUCIA,,Salad,FOOD,16.24,1.0,false,false
+113,5/10/24 1:53 PM,Roasted Potatoes,,Panini,FOOD,4.17,1.0,false,false
+113,5/10/24 1:53 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,false
+114,5/10/24 1:54 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+120,5/10/24 2:08 PM,Espresso in ghiaccio/with ice,,Espresso Bar,BEVERAGES,0.00,1.0,false,false
+119,5/10/24 2:01 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,false
+119,5/10/24 2:01 PM,ZUPPA AL POMODORO,,Soup,FOOD,12.98,1.0,false,false
+121,5/10/24 2:09 PM,VV Candle,,MARKET,RETAIL,25.00,1.0,false,false
+121,5/10/24 2:09 PM,Maglio choc bar Tavoletta,,MARKET,RETAIL,12.25,1.0,false,false
+113,5/10/24 1:53 PM,Glass Gavi - Le Rive,,Wine - Glasses,BEVERAGES,10.00,1.0,false,false
+125,5/10/24 2:16 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+126,5/10/24 2:18 PM,TIROLESE,,Pasta,FOOD,19.48,1.0,false,false
+125,5/10/24 2:16 PM,Lemonade -draft/oj,,Non-Alcoholic,BEVERAGES,2.50,1.0,false,false
+125,5/10/24 2:16 PM,Bellucci,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+127,5/10/24 2:23 PM,Cappuccino,,Espresso Bar,BEVERAGES,8.50,2.0,false,false
+127,5/10/24 2:23 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+128,5/10/24 2:24 PM,LUCIA,,Salad,FOOD,16.24,1.0,false,false
+125,5/10/24 2:16 PM,VELLUTATA,,Soup,FOOD,18.55,1.0,false,false
+125,5/10/24 2:16 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+125,5/10/24 2:16 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+129,5/10/24 2:27 PM,O SOLE MIO,,Panini,FOOD,11.13,1.0,false,false
+129,5/10/24 2:27 PM,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+129,5/10/24 2:27 PM,Glass Pinot Grigio - Mirabello,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+130,5/10/24 2:29 PM,Falanghina del Beneventano - Il Raduno delle Streghe,,RETAIL WINE,RETAIL,30.00,2.0,false,false
+130,5/10/24 2:29 PM,NESSUN DORMA,,Panini,FOOD,22.26,2.0,false,false
+130,5/10/24 2:29 PM,L'ITALIANO,,Panini,FOOD,9.28,1.0,false,false
+130,5/10/24 2:29 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,false
+130,5/10/24 2:29 PM,TUSCAN RIBOLLITA,,Soup,FOOD,14.85,1.0,false,false
+130,5/10/24 2:29 PM,Baladin Cedrata,,Non-Alcoholic,BEVERAGES,3.30,1.0,false,false
+131,5/10/24 2:33 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+131,5/10/24 2:33 PM,Roasted Potatoes,,Panini,FOOD,4.17,1.0,false,false
+131,5/10/24 2:33 PM,VOLARE,,Panini,FOOD,11.13,1.0,false,false
+132,5/10/24 2:35 PM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+132,5/10/24 2:35 PM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+127,5/10/24 2:23 PM,Espresso Quarta,,Espresso Bar,BEVERAGES,3.00,1.0,false,false
+127,5/10/24 2:23 PM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+127,5/10/24 2:23 PM,Plain Cornetto,,Cornetti/Bombolone,FOOD,3.02,1.0,false,false
+127,5/10/24 2:23 PM,CAPRESE VV,,Salad,FOOD,18.55,1.0,false,false
+125,5/10/24 2:16 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+125,5/10/24 2:16 PM,Bellucci,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+133,5/10/24 2:53 PM,Fruit tartlette,,BAKERY DISPLAY,RETAIL,14.25,3.0,false,false
+133,5/10/24 2:53 PM,12 BISCOTTI DI NATALE,,Catering,FOOD,22.26,1.0,true,false
+128,5/10/24 2:24 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+133,5/10/24 2:53 PM,traditional biscotto mix,,BAKERY DISPLAY,RETAIL,5.00,1.0,false,false
+135,5/10/24 3:13 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+135,5/10/24 3:13 PM,RIGOLETTO,,Panini,FOOD,9.28,1.0,false,false
+135,5/10/24 3:13 PM,Roasted Potatoes,,Panini,FOOD,4.17,1.0,false,false
+136,5/10/24 3:14 PM,O SOLE MIO,,Panini,FOOD,11.13,1.0,false,false
+136,5/10/24 3:14 PM,Apricot\strawberry cornetto,,Cornetti/Bombolone,FOOD,6.96,2.0,false,false
+136,5/10/24 3:14 PM,Pistacchio cornetto,,Cornetti/Bombolone,FOOD,6.96,2.0,false,false
+136,5/10/24 3:14 PM,Saccottino Choc/ Danish,,Cornetti/Bombolone,FOOD,8.35,2.0,false,false
+136,5/10/24 3:14 PM,MARBLE CAKE/ LOAF,,BAKERY DISPLAY,RETAIL,3.50,1.0,false,false
+137,5/10/24 3:17 PM,Apricot\strawberry cornetto,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+138,5/10/24 3:26 PM,VOLARE,,Panini,FOOD,11.13,1.0,false,false
+138,5/10/24 3:26 PM,San Pellegrino water can,,Non-Alcoholic,BEVERAGES,2.75,1.0,false,false
+140,5/10/24 3:43 PM,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,17.00,2.0,false,false
+142,5/10/24 3:50 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+142,5/10/24 3:50 PM,Bellucci,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+143,5/10/24 3:57 PM,Espressino freddo,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+143,5/10/24 3:57 PM,Espresso Salentino Shakerato,,Espresso Bar,BEVERAGES,3.90,1.0,false,false
+143,5/10/24 3:57 PM,TIRAMISU,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+144,5/10/24 4:00 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+144,5/10/24 4:00 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.50,1.0,false,false
+144,5/10/24 4:00 PM,TIRAMISU,,BAKERY DISPLAY,RETAIL,13.00,2.0,false,false
+145,5/10/24 4:01 PM,VA PENSIERO,,Panini,FOOD,11.13,1.0,false,false
+145,5/10/24 4:01 PM,VA PENSIERO,,Panini,FOOD,11.13,1.0,false,false
+145,5/10/24 4:01 PM,O SOLE MIO,,Panini,FOOD,11.13,1.0,false,false
+145,5/10/24 4:01 PM,L'ITALIANO,,Panini,FOOD,9.28,1.0,false,false
+145,5/10/24 4:01 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+145,5/10/24 4:01 PM,Diet Coke -draft,,Non-Alcoholic,BEVERAGES,2.50,1.0,false,false
+146,5/10/24 4:02 PM,Glass Pinot Grigio - Mirabello,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+146,5/10/24 4:02 PM,Glass Pinot Grigio - Mirabello,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+147,5/10/24 4:03 PM,Aperol Spritz,,House Cocktails,BEVERAGES,27.00,2.0,false,false
+148,5/10/24 4:07 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,false
+148,5/10/24 4:07 PM,NESSUN DORMA,,Panini,FOOD,11.13,1.0,false,false
+146,5/10/24 4:02 PM,Espresso doppio-double espresso,,Espresso Bar,BEVERAGES,3.50,1.0,false,false
+149,5/10/24 4:08 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.25,1.0,false,false
+149,5/10/24 4:08 PM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+150,5/10/24 4:18 PM,L'ITALIANO,,Panini,FOOD,9.28,1.0,false,false
+152,5/10/24 4:22 PM,NESSUN DORMA,,Panini,FOOD,11.13,1.0,false,false
+152,5/10/24 4:22 PM,Roasted Potatoes,,Panini,FOOD,4.17,1.0,false,false
+151,5/10/24 4:19 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.50,1.0,false,false
+151,5/10/24 4:19 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+146,5/10/24 4:02 PM,Pesche - pink liquor dessert,,BAKERY DISPLAY,RETAIL,8.00,2.0,false,false
+145,5/10/24 4:01 PM,VA PENSIERO,,Panini,FOOD,11.13,1.0,false,false
+145,5/10/24 4:01 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+145,5/10/24 4:01 PM,Sfogliatella napoletana,,Cornetti/Bombolone,FOOD,10.44,3.0,false,false
+154,5/10/24 4:42 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+152,5/10/24 4:22 PM,TIRAMISU,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+155,5/10/24 4:51 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,true,false
+156,5/10/24 4:53 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.50,1.0,false,false
+142,5/10/24 3:50 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+142,5/10/24 3:50 PM,Bellucci,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+157,5/10/24 5:00 PM,Glass Rosato di Ampeleia - Ampeleia,,Wine - Glasses,BEVERAGES,13.50,1.0,false,false
+157,5/10/24 5:00 PM,VV Mocktail,,Non-Alcoholic,BEVERAGES,9.00,1.0,false,false
+158,5/10/24 5:02 PM,Italicus With Prosecco,,,,8.00,1.0,false,false
+158,5/10/24 5:02 PM,Panzerotto,,Special Events,FOOD,1.16,0.3333333333333333,false,false
+159,5/10/24 5:04 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.25,2.0,false,false
+160,5/10/24 5:04 PM,L’Ippa - Baladin,,Beer,BEVERAGES,8.50,1.0,false,false
+160,5/10/24 5:04 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+158,5/10/24 5:02 PM,Italicus With Prosecco,,,,8.00,1.0,false,false
+158,5/10/24 5:02 PM,Italicus With Prosecco,,,,8.00,1.0,false,false
+158,5/10/24 5:02 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+158,5/10/24 5:02 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+161,5/10/24 5:10 PM,Glass Chianti Riserva - San Vincente,,Wine - Glasses,BEVERAGES,13.00,1.0,false,false
+161,5/10/24 5:10 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+161,5/10/24 5:10 PM,Fruit Juice bottle,,Non-Alcoholic,BEVERAGES,3.25,1.0,false,false
+161,5/10/24 5:10 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+161,5/10/24 5:10 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+161,5/10/24 5:10 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+161,5/10/24 5:10 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+162,5/10/24 5:11 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+163,5/10/24 5:11 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,0.00,1.0,false,false
+157,5/10/24 5:00 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+157,5/10/24 5:00 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+157,5/10/24 5:00 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+160,5/10/24 5:04 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+160,5/10/24 5:04 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+164,5/10/24 5:15 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+165,5/10/24 5:15 PM,Chianti Riserva Casanova - La Spinetta,,RETAIL WINE,RETAIL,35.00,1.0,false,false
+164,5/10/24 5:15 PM,VOLARE,,Panini,FOOD,11.13,1.0,false,false
+164,5/10/24 5:15 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+164,5/10/24 5:15 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+164,5/10/24 5:15 PM,Pesche - pink liquor dessert,,BAKERY DISPLAY,RETAIL,4.00,1.0,false,false
+157,5/10/24 5:00 PM,Fritto Misto,,Antipasti,FOOD,11.13,1.0,false,false
+167,5/10/24 5:17 PM,Fruit Juice bottle,,Non-Alcoholic,BEVERAGES,3.25,1.0,false,false
+167,5/10/24 5:17 PM,Fruit Juice bottle,,Non-Alcoholic,BEVERAGES,3.25,1.0,false,false
+167,5/10/24 5:17 PM,VV Mocktail,,Non-Alcoholic,BEVERAGES,9.00,1.0,false,false
+167,5/10/24 5:17 PM,Rosso di Sera Mocktail,,Non-Alcoholic,BEVERAGES,9.00,1.0,false,false
+161,5/10/24 5:10 PM,Fritto Misto,,Antipasti,FOOD,11.13,1.0,false,false
+161,5/10/24 5:10 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+161,5/10/24 5:10 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+161,5/10/24 5:10 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+161,5/10/24 5:10 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+168,5/10/24 5:19 PM,CAPRESE VV,,Salad,FOOD,18.55,1.0,false,false
+167,5/10/24 5:17 PM,Primitivo Orion - Masseria Li Veli,,Wine - Bottles,BEVERAGES,30.00,1.0,false,false
+164,5/10/24 5:15 PM,Mokaccino Ferrero Rocher,,Espresso Bar,BEVERAGES,5.00,1.0,false,false
+164,5/10/24 5:15 PM,Gelato,,BAKERY DISPLAY,RETAIL,3.50,1.0,false,false
+169,5/10/24 5:23 PM,Glass Prosecco Rosato - Castel Nuovo del Garda,,Wine - Glasses,BEVERAGES,12.00,1.0,false,false
+169,5/10/24 5:23 PM,Glass Barbera D'Asti - Le Orme,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+170,5/10/24 5:26 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+170,5/10/24 5:26 PM,Espresso Martini,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+168,5/10/24 5:19 PM,Chianti Riserva - San Vincente,,Wine - Bottles,BEVERAGES,42.00,1.0,false,false
+142,5/10/24 3:50 PM,Bellucci,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+160,5/10/24 5:04 PM,TIRAMISU,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+172,5/10/24 5:32 PM,Bulleit Rye,,Bourbon,BEVERAGES,7.50,1.0,false,false
+172,5/10/24 5:32 PM,Glass Chardonnay - Maccan,,Wine - Glasses,BEVERAGES,12.00,1.0,false,false
+168,5/10/24 5:19 PM,TIROLESE,,Pasta,FOOD,19.48,1.0,false,false
+168,5/10/24 5:19 PM,LASAGNA,,Pasta,FOOD,18.55,1.0,false,false
+167,5/10/24 5:17 PM,Crostoni,,Antipasti,FOOD,11.13,1.0,false,false
+167,5/10/24 5:17 PM,Crostoni,,Antipasti,FOOD,11.13,1.0,false,false
+167,5/10/24 5:17 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,false
+167,5/10/24 5:17 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+167,5/10/24 5:17 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+167,5/10/24 5:17 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+167,5/10/24 5:17 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+167,5/10/24 5:17 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+161,5/10/24 5:10 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,4.88,1.0,false,false
+158,5/10/24 5:02 PM,Bellucci,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+169,5/10/24 5:23 PM,Glass Prosecco Rosato - Castel Nuovo del Garda,,Wine - Glasses,BEVERAGES,12.00,1.0,false,false
+169,5/10/24 5:23 PM,Glass Prosecco Rosato - Castel Nuovo del Garda,,Wine - Glasses,BEVERAGES,12.00,1.0,true,false
+173,5/10/24 5:40 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+173,5/10/24 5:40 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+173,5/10/24 5:40 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.75,1.0,false,false
+173,5/10/24 5:40 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.75,1.0,false,false
+157,5/10/24 5:00 PM,Glass Rosato di Ampeleia - Ampeleia,,Wine - Glasses,BEVERAGES,13.50,1.0,false,false
+169,5/10/24 5:23 PM,Glass Barbera D'Asti - Le Orme,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+174,5/10/24 5:47 PM,VV Mocktail,,Non-Alcoholic,BEVERAGES,9.00,1.0,false,false
+174,5/10/24 5:47 PM,Rosso di Sera Mocktail,,Non-Alcoholic,BEVERAGES,9.00,1.0,false,false
+161,5/10/24 5:10 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+161,5/10/24 5:10 PM,Sfogliatella napoletana,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+161,5/10/24 5:10 PM,Sfogliatella napoletana,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+172,5/10/24 5:32 PM,Fritto Misto,,Antipasti,FOOD,11.13,1.0,false,false
+176,5/10/24 5:52 PM,Sprite -draft,,Non-Alcoholic,BEVERAGES,1.56,1.0,false,false
+176,5/10/24 5:52 PM,Aperol Spritz,,House Cocktails,BEVERAGES,8.44,1.0,false,false
+169,5/10/24 5:23 PM,Panzerotto,,Special Events,FOOD,6.96,2.0,false,false
+162,5/10/24 5:11 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+175,5/10/24 5:49 PM,Negroni,,House Cocktails,BEVERAGES,26.00,2.0,false,false
+175,5/10/24 5:49 PM,Panzerotto,,Special Events,FOOD,6.96,2.0,false,false
+178,5/10/24 5:59 PM,Glass Barbera D'Asti - Le Orme,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+173,5/10/24 5:40 PM,SICILIANA,,Pasta,FOOD,16.70,1.0,false,false
+180,5/10/24 6:01 PM,VELLUTATA,,Soup,FOOD,14.85,1.0,false,false
+180,5/10/24 6:01 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+180,5/10/24 6:01 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+178,5/10/24 5:59 PM,Panzerotto,,Special Events,FOOD,20.87,6.0,false,false
+181,5/10/24 6:02 PM,Hot chocolate,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+181,5/10/24 6:02 PM,Peroni - Draft,,Beer,BEVERAGES,7.00,1.0,false,false
+181,5/10/24 6:02 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+181,5/10/24 6:02 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+181,5/10/24 6:02 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+181,5/10/24 6:02 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+181,5/10/24 6:02 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+181,5/10/24 6:02 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+181,5/10/24 6:02 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+172,5/10/24 5:32 PM,Glass Chardonnay - Maccan,,Wine - Glasses,BEVERAGES,12.00,1.0,false,false
+172,5/10/24 5:32 PM,Bulleit Rye,,Bourbon,BEVERAGES,7.50,1.0,false,false
+158,5/10/24 5:02 PM,Bellucci,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+158,5/10/24 5:02 PM,Panzerotto,,Special Events,FOOD,1.16,0.3333333333333333,false,false
+158,5/10/24 5:02 PM,Bellucci,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+158,5/10/24 5:02 PM,Panzerotto,,Special Events,FOOD,1.16,0.3333333333333333,false,false
+178,5/10/24 5:59 PM,MINA,,Salad,FOOD,16.24,1.0,false,false
+178,5/10/24 5:59 PM,POSEIDONE,,Salad,FOOD,16.24,1.0,false,false
+178,5/10/24 5:59 PM,SICILIANA,,Pasta,FOOD,16.70,1.0,false,false
+178,5/10/24 5:59 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+178,5/10/24 5:59 PM,Peroni Zero - Bottle,,Beer,BEVERAGES,4.50,1.0,false,false
+184,5/10/24 6:06 PM,Panzerotto,,Special Events,FOOD,34.79,10.0,false,false
+186,5/10/24 6:10 PM,Titos,,Vodka,BEVERAGES,9.00,1.0,false,false
+167,5/10/24 5:17 PM,Espresso con panna,,Espresso Bar,BEVERAGES,3.50,1.0,false,false
+167,5/10/24 5:17 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+167,5/10/24 5:17 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,4.75,1.0,false,false
+186,5/10/24 6:10 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+186,5/10/24 6:10 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+167,5/10/24 5:17 PM,Mokaccino,,Espresso Bar,BEVERAGES,3.50,1.0,false,false
+167,5/10/24 5:17 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+180,5/10/24 6:01 PM,Cincy Godfather,,House Cocktails,BEVERAGES,13.00,1.0,false,false
+187,5/10/24 6:16 PM,Campari Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+187,5/10/24 6:16 PM,Espresso Martini,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+187,5/10/24 6:16 PM,Sfogliatella napoletana,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+187,5/10/24 6:16 PM,Sfogliatella napoletana,,Cornetti/Bombolone,FOOD,3.48,1.0,false,false
+187,5/10/24 6:16 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+188,5/10/24 6:19 PM,LASAGNA,,Pasta,FOOD,18.55,1.0,false,false
+188,5/10/24 6:19 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,false
+188,5/10/24 6:19 PM,Glass Chianti Riserva - San Vincente,,Wine - Glasses,BEVERAGES,26.00,2.0,false,false
+168,5/10/24 5:19 PM,Bomba gelato,,BAKERY DISPLAY,RETAIL,7.50,1.0,false,false
+168,5/10/24 5:19 PM,Panzerotto,,Special Events,FOOD,10.44,3.0,false,false
+167,5/10/24 5:17 PM,Mokaccino,,Espresso Bar,BEVERAGES,3.50,1.0,false,false
+189,5/10/24 6:23 PM,Occhio di bue/custard Cookie,,BAKERY DISPLAY,RETAIL,7.00,2.0,false,false
+189,5/10/24 6:23 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+178,5/10/24 5:59 PM,Glass Barbera D'Asti - Le Orme,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+172,5/10/24 5:32 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+190,5/10/24 6:24 PM,Panzerotto,,Special Events,FOOD,6.96,2.0,false,false
+167,5/10/24 5:17 PM,TIRAMISU,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+167,5/10/24 5:17 PM,TIRAMISU,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+167,5/10/24 5:17 PM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+167,5/10/24 5:17 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+167,5/10/24 5:17 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+167,5/10/24 5:17 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+167,5/10/24 5:17 PM,Fruit tartlette,,BAKERY DISPLAY,RETAIL,4.75,1.0,false,false
+167,5/10/24 5:17 PM,Fruit tartlette,,BAKERY DISPLAY,RETAIL,4.75,1.0,false,false
+191,5/10/24 6:26 PM,Panzerotto,,Special Events,FOOD,17.39,5.0,false,false
+192,5/10/24 6:27 PM,Glass Barbera D'Asti - Le Orme,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+192,5/10/24 6:27 PM,Bulleit Rye,,Bourbon,BEVERAGES,11.50,1.0,false,false
+167,5/10/24 5:17 PM,Espresso Macchiato,,Espresso Bar,BEVERAGES,3.25,1.0,false,false
+167,5/10/24 5:17 PM,Latte Macchiato,,Espresso Bar,BEVERAGES,5.25,1.0,false,false
+173,5/10/24 5:40 PM,Pesche - pink liquor dessert,,BAKERY DISPLAY,RETAIL,4.00,1.0,false,false
+180,5/10/24 6:01 PM,Single serving desserts,,BAKERY DISPLAY,RETAIL,6.50,1.0,true,false
+180,5/10/24 6:01 PM,Single serving desserts,,BAKERY DISPLAY,RETAIL,6.50,1.0,true,false
+180,5/10/24 6:01 PM,Single serving desserts,,BAKERY DISPLAY,RETAIL,6.50,1.0,true,false
+180,5/10/24 6:01 PM,Single serving desserts,,BAKERY DISPLAY,RETAIL,6.50,1.0,true,false
+180,5/10/24 6:01 PM,Pesche - pink liquor dessert,,BAKERY DISPLAY,RETAIL,4.00,1.0,false,false
+178,5/10/24 5:59 PM,Fruit tartlette,,BAKERY DISPLAY,RETAIL,19.00,4.0,false,false
+192,5/10/24 6:27 PM,PUGLIESE,,Pasta,FOOD,20.41,1.0,false,false
+192,5/10/24 6:27 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+167,5/10/24 5:17 PM,Espresso Quarta,,Espresso Bar,BEVERAGES,3.00,1.0,false,false
+195,5/10/24 6:36 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+195,5/10/24 6:36 PM,Occhio di bue/custard Cookie,,BAKERY DISPLAY,RETAIL,3.50,1.0,false,false
+195,5/10/24 6:36 PM,Pasticciotto with custard and amarena cherries,,BAKERY DISPLAY,RETAIL,4.00,1.0,false,false
+195,5/10/24 6:36 PM,Pesche - pink liquor dessert,,BAKERY DISPLAY,RETAIL,4.00,1.0,false,false
+196,5/10/24 6:36 PM,Cincy Godfather,,House Cocktails,BEVERAGES,13.00,1.0,false,false
+196,5/10/24 6:36 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+178,5/10/24 5:59 PM,Panzerotto,,Special Events,FOOD,17.39,5.0,false,false
+178,5/10/24 5:59 PM,Fruit tartlette,,BAKERY DISPLAY,RETAIL,9.50,2.0,false,false
+197,5/10/24 6:37 PM,Limoncello Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+197,5/10/24 6:37 PM,Bellucci,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+198,5/10/24 6:41 PM,Glass Chianti Riserva - San Vincente,,Wine - Glasses,BEVERAGES,13.00,1.0,false,false
+198,5/10/24 6:41 PM,Paloma,,House Cocktails,BEVERAGES,12.00,1.0,false,false
+176,5/10/24 5:52 PM,Aperol Spritz,,House Cocktails,BEVERAGES,8.44,1.0,false,false
+176,5/10/24 5:52 PM,Hugo Rose,,House Cocktails,BEVERAGES,8.44,1.0,false,false
+176,5/10/24 5:52 PM,Panzerotto,,Special Events,FOOD,4.35,2.0,false,false
+176,5/10/24 5:52 PM,Panzerotto,,Special Events,FOOD,4.35,2.0,false,false
+176,5/10/24 5:52 PM,BIANCA,,Kids,FOOD,5.22,1.0,false,false
+180,5/10/24 6:01 PM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+199,5/10/24 6:45 PM,Friscous,,,,10.00,1.0,false,false
+200,5/10/24 6:45 PM,Quarta Caffe Classic beans,,MARKET,RETAIL,10.00,1.0,false,false
+202,5/10/24 6:49 PM,Crostoni,,Antipasti,FOOD,11.13,1.0,false,false
+202,5/10/24 6:49 PM,Half Tante Belle Cose,,Antipasti,FOOD,23.19,1.0,false,false
+202,5/10/24 6:49 PM,Glass Chardonnay - Maccan,,Wine - Glasses,BEVERAGES,12.00,1.0,false,false
+196,5/10/24 6:36 PM,Half Tante Belle Cose,,Antipasti,FOOD,23.19,1.0,false,false
+196,5/10/24 6:36 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+176,5/10/24 5:52 PM,Panzerotto,,Special Events,FOOD,4.35,2.0,false,false
+176,5/10/24 5:52 PM,Panzerotto,,Special Events,FOOD,4.35,2.0,false,false
+176,5/10/24 5:52 PM,Panzerotto,,Special Events,FOOD,4.35,2.0,false,false
+192,5/10/24 6:27 PM,Pesche - pink liquor dessert,,BAKERY DISPLAY,RETAIL,4.00,1.0,false,false
+198,5/10/24 6:41 PM,Half Tante Belle Cose,,Antipasti,FOOD,23.19,1.0,false,false
+203,5/10/24 6:57 PM,Panzerotto,,Special Events,FOOD,34.79,10.0,false,false
+225,5/10/24 7:39 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+206,5/10/24 7:00 PM,Glass Chianti Riserva - San Vincente,,Wine - Glasses,BEVERAGES,13.00,1.0,false,false
+204,5/10/24 6:59 PM,Juice,,,,2.00,1.0,false,false
+202,5/10/24 6:49 PM,Espresso Martini,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+202,5/10/24 6:49 PM,Glass Nerello Mascalese - Libero,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+202,5/10/24 6:49 PM,Glass Nerello Mascalese - Libero,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+202,5/10/24 6:49 PM,Rosso di Sera Mocktail,,Non-Alcoholic,BEVERAGES,9.00,1.0,false,false
+202,5/10/24 6:49 PM,Rosso di Sera Mocktail,,Non-Alcoholic,BEVERAGES,9.00,1.0,false,false
+208,5/10/24 7:00 PM,LUCIA,,Salad,FOOD,16.24,1.0,false,false
+208,5/10/24 7:00 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,false
+208,5/10/24 7:00 PM,SICILIANA,,Pasta,FOOD,16.70,1.0,false,false
+209,5/10/24 7:01 PM,Primitivo Orion - Masseria Li Veli,,RETAIL WINE,RETAIL,15.00,1.0,false,false
+210,5/10/24 7:02 PM,Maglio single choc,,MARKET,RETAIL,3.75,3.0,false,false
+196,5/10/24 6:36 PM,Negroni,,House Cocktails,BEVERAGES,13.00,1.0,false,false
+196,5/10/24 6:36 PM,Limoncello Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+211,5/10/24 7:03 PM,TUSCAN RIBOLLITA,,Soup,FOOD,12.38,1.0,false,false
+211,5/10/24 7:03 PM,SOFIA LOREN,,Salad,FOOD,12.37,1.0,false,false
+211,5/10/24 7:03 PM,VERDE,,Kids,FOOD,6.96,1.0,false,false
+206,5/10/24 7:00 PM,NESSUN DORMA,,Panini,FOOD,11.13,1.0,false,false
+206,5/10/24 7:00 PM,GENOVESE,,Pasta,FOOD,21.33,1.0,false,false
+211,5/10/24 7:03 PM,Panzerotto,,Special Events,FOOD,2.90,1.0,false,false
+212,5/10/24 7:07 PM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+212,5/10/24 7:07 PM,Fruit tartlette,,BAKERY DISPLAY,RETAIL,9.50,2.0,false,false
+180,5/10/24 6:01 PM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,51.00,6.0,false,false
+213,5/10/24 7:13 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+213,5/10/24 7:13 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+176,5/10/24 5:52 PM,ROSSA,,Kids,FOOD,5.22,1.0,false,false
+176,5/10/24 5:52 PM,Aperol Spritz,,House Cocktails,BEVERAGES,8.44,1.0,false,false
+176,5/10/24 5:52 PM,Panzerotto,,Special Events,FOOD,2.18,1.0,false,false
+176,5/10/24 5:52 PM,Panzerotto,,Special Events,FOOD,2.19,1.0,false,false
+215,5/10/24 7:21 PM,Paloma,,House Cocktails,BEVERAGES,12.00,1.0,false,false
+216,5/10/24 7:21 PM,Primitivo Orion - Masseria Li Veli,,RETAIL WINE,RETAIL,15.00,1.0,false,false
+215,5/10/24 7:21 PM,Rosso di Sera Mocktail,,Non-Alcoholic,BEVERAGES,9.00,1.0,false,false
+202,5/10/24 6:49 PM,TIROLESE,,Pasta,FOOD,19.48,1.0,false,false
+202,5/10/24 6:49 PM,TIROLESE,,Pasta,FOOD,19.48,1.0,false,false
+202,5/10/24 6:49 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+202,5/10/24 6:49 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+202,5/10/24 6:49 PM,LASAGNA,,Pasta,FOOD,18.55,1.0,false,false
+202,5/10/24 6:49 PM,Espresso Quarta,,Espresso Bar,BEVERAGES,3.00,1.0,false,false
+202,5/10/24 6:49 PM,Espresso Quarta,,Espresso Bar,BEVERAGES,3.00,1.0,false,false
+218,5/10/24 7:23 PM,Single serving desserts,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+217,5/10/24 7:22 PM,TUSCAN RIBOLLITA,,Soup,FOOD,29.68,2.0,false,false
+217,5/10/24 7:22 PM,Single serving desserts,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+217,5/10/24 7:22 PM,SLICE CROSTATA,,BAKERY DISPLAY,RETAIL,6.00,1.0,false,false
+217,5/10/24 7:22 PM,Campari,,,,3.50,1.0,false,false
+198,5/10/24 6:41 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+198,5/10/24 6:41 PM,LASAGNA,,Pasta,FOOD,18.55,1.0,false,false
+208,5/10/24 7:00 PM,Glass Nerello Mascalese - Libero,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+215,5/10/24 7:21 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+219,5/10/24 7:30 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+219,5/10/24 7:30 PM,Negroni,,House Cocktails,BEVERAGES,13.00,1.0,false,false
+220,5/10/24 7:32 PM,Negroni Sbagliato,,House Cocktails,BEVERAGES,26.00,2.0,false,false
+220,5/10/24 7:32 PM,Panzerotto,,Special Events,FOOD,6.96,2.0,false,false
+221,5/10/24 7:36 PM,Paloma,,House Cocktails,BEVERAGES,12.00,1.0,false,false
+221,5/10/24 7:36 PM,Limoncello Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+221,5/10/24 7:36 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+221,5/10/24 7:36 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+221,5/10/24 7:36 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+222,5/10/24 7:37 PM,Gavi Masera,,,,23.60,1.0,false,false
+219,5/10/24 7:30 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+219,5/10/24 7:30 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+206,5/10/24 7:00 PM,Diet Coke -draft,,Non-Alcoholic,BEVERAGES,2.50,1.0,false,false
+223,5/10/24 7:38 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+198,5/10/24 6:41 PM,Glass Chianti Riserva - San Vincente,,Wine - Glasses,BEVERAGES,13.00,1.0,false,false
+225,5/10/24 7:39 PM,Mimosa cocktail,,House Cocktails,BEVERAGES,0.00,1.0,false,false
+225,5/10/24 7:39 PM,Mimosa cocktail,,House Cocktails,BEVERAGES,0.00,1.0,false,false
+225,5/10/24 7:39 PM,Mimosa cocktail,,House Cocktails,BEVERAGES,0.00,1.0,false,false
+202,5/10/24 6:49 PM,Glass Nerello Mascalese - Libero,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+196,5/10/24 6:36 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+208,5/10/24 7:00 PM,Limoncello Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+220,5/10/24 7:32 PM,PUGLIESE,,Pasta,FOOD,20.41,1.0,false,false
+220,5/10/24 7:32 PM,TIROLESE,,Pasta,FOOD,19.48,1.0,false,false
+220,5/10/24 7:32 PM,Glass Chianti Riserva - San Vincente,,Wine - Glasses,BEVERAGES,13.00,1.0,false,false
+226,5/10/24 7:47 PM,TIRAMISU,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+226,5/10/24 7:47 PM,TIRAMISU,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+227,5/10/24 7:49 PM,CAPRESE VV,,Salad,FOOD,18.55,1.0,false,false
+227,5/10/24 7:49 PM,PIZZA MARGHERITA,,Kids,FOOD,8.35,1.0,false,false
+227,5/10/24 7:49 PM,Chianti Classico - Isole e Olena,,Wine - Bottles,BEVERAGES,50.00,1.0,false,false
+225,5/10/24 7:39 PM,GENOVESE,,Pasta,FOOD,0.00,1.0,false,false
+225,5/10/24 7:39 PM,GENOVESE,,Pasta,FOOD,0.00,1.0,false,false
+225,5/10/24 7:39 PM,GENOVESE,,Pasta,FOOD,0.00,1.0,false,false
+225,5/10/24 7:39 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+225,5/10/24 7:39 PM,MINA,,Salad,FOOD,16.24,1.0,false,false
+202,5/10/24 6:49 PM,Glass Nerello Mascalese - Libero,,Wine - Glasses,BEVERAGES,11.00,1.0,false,false
+221,5/10/24 7:36 PM,TIROLESE,,Pasta,FOOD,19.48,1.0,false,false
+221,5/10/24 7:36 PM,SICILIANA,,Pasta,FOOD,16.70,1.0,false,false
+228,5/10/24 7:53 PM,Hugo Rose,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+220,5/10/24 7:32 PM,Cincy Godfather,,House Cocktails,BEVERAGES,13.00,1.0,false,false
+208,5/10/24 7:00 PM,Affogato,,Espresso Bar,BEVERAGES,6.50,1.0,false,false
+208,5/10/24 7:00 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+202,5/10/24 6:49 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+202,5/10/24 6:49 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+202,5/10/24 6:49 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+202,5/10/24 6:49 PM,Espresso Quarta,,Espresso Bar,BEVERAGES,3.00,1.0,false,false
+202,5/10/24 6:49 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+229,5/10/24 7:58 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+229,5/10/24 7:58 PM,VOLARE,,Panini,FOOD,11.13,1.0,false,false
+229,5/10/24 7:58 PM,Sprite bottle,,Non-Alcoholic,BEVERAGES,4.50,1.0,false,false
+198,5/10/24 6:41 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+176,5/10/24 5:52 PM,Negroni,,House Cocktails,BEVERAGES,8.14,1.0,false,false
+228,5/10/24 7:53 PM,Half Tante Belle Cose,,Antipasti,FOOD,11.59,0.5,false,false
+225,5/10/24 7:39 PM,Crostoni,,Antipasti,FOOD,0.00,1.0,false,false
+230,5/10/24 8:01 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+230,5/10/24 8:01 PM,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+231,5/10/24 8:08 PM,Glass Chardonnay - Maccan,,Wine - Glasses,BEVERAGES,12.00,1.0,false,false
+231,5/10/24 8:08 PM,Bellucci,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+227,5/10/24 7:49 PM,ROSSA,,Kids,FOOD,25.05,3.0,false,false
+227,5/10/24 7:49 PM,BOLOGNESE,,Pasta,FOOD,37.11,2.0,false,false
+232,5/10/24 8:10 PM,Cincy Godfather,,House Cocktails,BEVERAGES,13.00,1.0,false,false
+232,5/10/24 8:10 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+232,5/10/24 8:10 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+233,5/10/24 8:11 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+233,5/10/24 8:11 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+231,5/10/24 8:08 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+231,5/10/24 8:08 PM,LASAGNA,,Pasta,FOOD,18.55,1.0,false,false
+234,5/10/24 8:16 PM,Free Mimosa,,Special Events,FOOD,0.00,1.0,false,false
+235,5/10/24 8:17 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+235,5/10/24 8:17 PM,PUGLIESE,,Pasta,FOOD,20.41,1.0,false,false
+233,5/10/24 8:11 PM,NESSUN DORMA,,Panini,FOOD,11.13,1.0,false,false
+233,5/10/24 8:11 PM,VOLARE,,Panini,FOOD,11.13,1.0,false,false
+233,5/10/24 8:11 PM,NAPULÈ,,Panini,FOOD,11.13,1.0,false,false
+232,5/10/24 8:10 PM,mini bomboloni,,Cornetti/Bombolone,FOOD,1.71,1.0,false,false
+232,5/10/24 8:10 PM,LUCIA,,Salad,FOOD,16.24,1.0,false,false
+232,5/10/24 8:10 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+236,5/10/24 8:18 PM,AZZURRO,,Panini,FOOD,7.04,1.0,false,false
+236,5/10/24 8:18 PM,Panzerotto,,Special Events,FOOD,5.27,2.0,false,false
+236,5/10/24 8:18 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,4.93,1.0,false,false
+176,5/10/24 5:52 PM,Panzerotto,,Special Events,FOOD,2.18,1.0,false,false
+176,5/10/24 5:52 PM,Panzerotto,,Special Events,FOOD,2.19,1.0,false,false
+220,5/10/24 7:32 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+220,5/10/24 7:32 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+220,5/10/24 7:32 PM,Lemon Vanilla/Zeppole/mimosa cake,,BAKERY DISPLAY,RETAIL,8.50,1.0,false,false
+236,5/10/24 8:18 PM,Cake,,,,49.26,1.0,false,false
+237,5/10/24 8:26 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+237,5/10/24 8:26 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+237,5/10/24 8:26 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+233,5/10/24 8:11 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+233,5/10/24 8:11 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+239,5/10/24 8:27 PM,Glass Rosato di Ampeleia - Ampeleia,,Wine - Glasses,BEVERAGES,13.50,1.0,false,false
+239,5/10/24 8:27 PM,Espresso Martini,,House Cocktails,BEVERAGES,14.00,1.0,false,false
+232,5/10/24 8:10 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+237,5/10/24 8:26 PM,LASAGNA,,Pasta,FOOD,18.55,1.0,false,false
+237,5/10/24 8:26 PM,GENOVESE,,Pasta,FOOD,17.63,1.0,false,false
+237,5/10/24 8:26 PM,Negroni,,House Cocktails,BEVERAGES,13.00,1.0,false,false
+237,5/10/24 8:26 PM,Paloma,,House Cocktails,BEVERAGES,12.00,1.0,false,false
+237,5/10/24 8:26 PM,Hot Italian Tea,,Espresso Bar,BEVERAGES,2.50,1.0,false,false
+239,5/10/24 8:27 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+239,5/10/24 8:27 PM,BOLOGNESE,,Pasta,FOOD,18.55,1.0,false,false
+239,5/10/24 8:27 PM,LUCIA,,Salad,FOOD,16.24,1.0,false,false
+239,5/10/24 8:27 PM,LUCIA,,Salad,FOOD,16.24,1.0,false,false
+233,5/10/24 8:11 PM,Aperol Spritz,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+232,5/10/24 8:10 PM,Cincy Godfather,,House Cocktails,BEVERAGES,13.00,1.0,false,false
+221,5/10/24 7:36 PM,Bomba gelato,,BAKERY DISPLAY,RETAIL,7.50,1.0,false,false
+239,5/10/24 8:27 PM,Panzerotto,,Special Events,FOOD,13.91,4.0,false,false
+240,5/10/24 8:37 PM,Panzerotto,,Special Events,FOOD,3.14,1.0,false,false
+240,5/10/24 8:37 PM,Panzerotto,,Special Events,FOOD,3.13,1.0,false,false
+240,5/10/24 8:37 PM,Negroni,,House Cocktails,BEVERAGES,11.70,1.0,false,false
+241,5/10/24 8:39 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+241,5/10/24 8:39 PM,Panzerotto,,Special Events,FOOD,3.48,1.0,false,false
+241,5/10/24 8:39 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+240,5/10/24 8:37 PM,ZUPPA AL POMODORO,,Soup,FOOD,11.69,1.0,false,false
+240,5/10/24 8:37 PM,SICILIANA,,Pasta,FOOD,15.03,1.0,false,false
+244,5/10/24 8:42 PM,SICILIANA,,Pasta,FOOD,16.70,1.0,false,false
+244,5/10/24 8:42 PM,PUGLIESE,,Pasta,FOOD,20.41,1.0,false,false
+243,5/10/24 8:42 PM,GENOVESE,,Pasta,FOOD,0.00,1.0,false,false
+243,5/10/24 8:42 PM,GENOVESE,,Pasta,FOOD,0.00,1.0,false,false
+227,5/10/24 7:49 PM,Amaro Nonino,,Digestivi,BEVERAGES,11.00,1.0,false,false
+244,5/10/24 8:42 PM,Negroni,,House Cocktails,BEVERAGES,13.00,1.0,false,false
+244,5/10/24 8:42 PM,Glass Rosato di Ampeleia - Ampeleia,,Wine - Glasses,BEVERAGES,13.50,1.0,false,false
+225,5/10/24 7:39 PM,Nocciolino Affogato,,Espresso Bar,BEVERAGES,0.00,1.0,false,false
+225,5/10/24 7:39 PM,SINGLE SERVING glass coppa,,BAKERY DISPLAY,RETAIL,0.00,1.0,false,false
+225,5/10/24 7:39 PM,Panzerotto,,Special Events,FOOD,0.00,1.0,false,false
+232,5/10/24 8:10 PM,Prosecco - Mionetto,,RETAIL WINE,RETAIL,13.00,1.0,false,false
+245,5/10/24 8:53 PM,Cappuccino,,Espresso Bar,BEVERAGES,0.00,1.0,false,false
+235,5/10/24 8:17 PM,Tartufo Gelato,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+235,5/10/24 8:17 PM,Gelato,,BAKERY DISPLAY,RETAIL,3.50,1.0,false,false
+246,5/10/24 8:54 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+246,5/10/24 8:54 PM,Cappuccino,,Espresso Bar,BEVERAGES,4.25,1.0,false,false
+246,5/10/24 8:54 PM,Mimosa,,,,5.00,1.0,false,false
+228,5/10/24 7:53 PM,Single serving desserts,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+228,5/10/24 7:53 PM,Single serving desserts,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+225,5/10/24 7:39 PM,Torrente - del Ducato,,Beer,BEVERAGES,9.00,1.0,false,false
+232,5/10/24 8:10 PM,Cincy Godfather,,House Cocktails,BEVERAGES,13.00,1.0,false,false
+228,5/10/24 7:53 PM,Hugo Rose,,House Cocktails,BEVERAGES,13.50,1.0,false,false
+228,5/10/24 7:53 PM,Half Tante Belle Cose,,Antipasti,FOOD,11.59,0.5,false,false
+250,5/10/24 9:16 PM,Occhio di bue/custard Cookie,,BAKERY DISPLAY,RETAIL,10.50,3.0,false,false
+239,5/10/24 8:27 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+239,5/10/24 8:27 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+239,5/10/24 8:27 PM,Glass Moscato D'Asti - La Morandina,,Wine - Glasses,BEVERAGES,12.00,1.0,false,false
+239,5/10/24 8:27 PM,Glass Moscato D'Asti - La Morandina,,Wine - Glasses,BEVERAGES,12.00,1.0,false,false
+253,5/10/24 9:32 PM,SLICE CAKE,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+253,5/10/24 9:32 PM,Single serving desserts,,BAKERY DISPLAY,RETAIL,6.50,1.0,false,false
+253,5/10/24 9:32 PM,Glass Chianti Riserva - San Vincente,,Wine - Glasses,BEVERAGES,13.00,1.0,false,false
+254,5/10/24 9:33 PM,Americano,,Espresso Bar,BEVERAGES,4.00,1.0,false,false
+232,5/10/24 8:10 PM,Prosecco - Mionetto,,RETAIL WINE,RETAIL,13.00,1.0,true,false
+232,5/10/24 8:10 PM,Cincy Godfather,,House Cocktails,BEVERAGES,13.00,1.0,false,false

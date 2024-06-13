@@ -47,14 +47,12 @@ def collect_data(args):
 # Collect all available week ending dates from subdirectories 
 # in the main directory and return the five most recent weeks
 # as a list of directory names
-def get_five_weeks_dirs(main_dir):
+def get_five_weeks_dirs(data_dir):
     # Get today's date
     today = date.today()
 
     # Get a list of relevant directory names
-    dir_lst = [name for name in os.listdir(main_dir) 
-                if os.path.isdir(name) and 
-                name.startswith('Week_ending_')]
+    dir_lst = [name for name in os.listdir(data_dir) if name.startswith('Week_ending_')]
     
     # Initialize a list to store directory names for return
     returned_dirs = []
