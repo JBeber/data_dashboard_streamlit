@@ -20,6 +20,21 @@ mode = st.selectbox(
     ),
 )
 
+new_event = st.popover('Add Event')
+event_name = new_event.text_input('Event Name')
+
+event_start_date = new_event.date_input("Start Date")
+event_end_date = new_event.date_input("End Date")
+
+if event_start_date == event_end_date:
+    allday_event = new_event.checkbox('All day event?')
+else:
+    allday_event = True
+
+if not allday_event:
+    event_start_time = new_event.time_input('Start Time')
+    event_end_time = new_event.time_input('End Time')
+
 # Resources (e.g. specific rooms, equipment, or personnel
 # are not needed at this time, but can be specified later
 # should the need arise.
@@ -78,104 +93,32 @@ calendar_events = [
     {
         "title": "Event 1",
         "color": "#FF6C6C",
-        "start": "2023-07-03",
-        "end": "2023-07-05",
+        "start": "2025-03-10",
+        "end": "2025-03-13",
     },
     {
         "title": "Event 2",
         "color": "#FFBD45",
-        "start": "2023-07-01",
-        "end": "2023-07-10",
+        "start": "2025-03-01",
+        "end": "2025-03-03",
     },
     {
         "title": "Event 3",
         "color": "#FF4B4B",
-        "start": "2023-07-20",
-        "end": "2023-07-20",
-    },
-    {
-        "title": "Event 4",
-        "color": "#FF6C6C",
-        "start": "2023-07-23",
-        "end": "2023-07-25",
-    },
-    {
-        "title": "Event 5",
-        "color": "#FFBD45",
-        "start": "2023-07-29",
-        "end": "2023-07-30",
-    },
-    {
-        "title": "Event 6",
-        "color": "#FF4B4B",
-        "start": "2023-07-28",
-        "end": "2023-07-20",
+        "start": "2025-03-20",
+        "end": "2025-03-20",
     },
     {
         "title": "Event 7",
         "color": "#FF4B4B",
-        "start": "2023-07-01T08:30:00",
-        "end": "2023-07-01T10:30:00",
-    },
-    {
-        "title": "Event 8",
-        "color": "#3D9DF3",
-        "start": "2023-07-01T07:30:00",
-        "end": "2023-07-01T10:30:00",
-    },
-    {
-        "title": "Event 9",
-        "color": "#3DD56D",
-        "start": "2023-07-02T10:40:00",
-        "end": "2023-07-02T12:30:00",
-    },
-    {
-        "title": "Event 10",
-        "color": "#FF4B4B",
-        "start": "2023-07-15T08:30:00",
-        "end": "2023-07-15T10:30:00",
-    },
-    {
-        "title": "Event 11",
-        "color": "#3DD56D",
-        "start": "2023-07-15T07:30:00",
-        "end": "2023-07-15T10:30:00",
-    },
-    {
-        "title": "Event 12",
-        "color": "#3D9DF3",
-        "start": "2023-07-21T10:40:00",
-        "end": "2023-07-21T12:30:00",
-    },
-    {
-        "title": "Event 13",
-        "color": "#FF4B4B",
-        "start": "2023-07-17T08:30:00",
-        "end": "2023-07-17T10:30:00",
-    },
-    {
-        "title": "Event 14",
-        "color": "#3D9DF3",
-        "start": "2023-07-17T09:30:00",
-        "end": "2023-07-17T11:30:00",
-    },
-    {
-        "title": "Event 15",
-        "color": "#3DD56D",
-        "start": "2023-07-17T10:30:00",
-        "end": "2023-07-17T12:30:00",
-    },
-    {
-        "title": "Event 16",
-        "color": "#FF6C6C",
-        "start": "2023-07-17T13:30:00",
-        "end": "2023-07-17T14:30:00",
+        "start": "2025-03-20T08:30:00",
+        "end": "2025-03-20T10:30:00",
     },
     {
         "title": "Event 17",
         "color": "#FFBD45",
-        "start": "2023-07-17T15:30:00",
-        "end": "2023-07-17T16:30:00",
+        "start": "2025-03-13T15:30:00",
+        "end": "2025-03-13T16:30:00",
     },
 ]
 
