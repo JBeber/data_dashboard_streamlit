@@ -20,23 +20,6 @@ mode = st.selectbox(
     ),
 )
 
-def save_new_event(name, st_date, en_date, st_time, en_time):
-    
-    if event_start_time is not None:
-        pass
-
-    
-
-    # calendar_events.append(
-    #     {
-    #     "title": event.event_name,
-    #     "color": "#FF6C6C",
-    #     "start": ,
-    #     "end": ,
-
-    #     },
-    # )
-    
 new_event = st.popover('Add Event')
 event_name = new_event.text_input('Event Name')
 
@@ -51,12 +34,6 @@ else:
 if not allday_event:
     event_start_time = new_event.time_input('Start Time')
     event_end_time = new_event.time_input('End Time')
-else:
-    event_start_time = event_end_time = None
-
-new_event.button('Save', on_click=save_new_event, args=(event_name,event_start_date,event_end_date,
-                                                        event_start_time,event_end_time)
-)
 
 # Resources (e.g. specific rooms, equipment, or personnel
 # are not needed at this time, but can be specified later
@@ -168,7 +145,7 @@ state = calendar(
 if state.get("eventsSet") is not None:
     st.session_state["events"] = state["eventsSet"]
 
-# st.write(state)
+st.write(state)
 
-# st.markdown("## API reference")
-# st.help(calendar)
+st.markdown("## API reference")
+st.help(calendar)
