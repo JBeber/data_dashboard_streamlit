@@ -5,28 +5,18 @@ import os
 from datetime import date
 from VV_data_collect import parse_date
 
-# Main project directory
-main_dir = 'C:\\Users\\Jeremiah\\OneDrive\\Documents\\VV\\Daily_Order_Data\\data_dashboard_streamlit\\devel\\'
-os.chdir(main_dir)
+# Root and data directories
+main_dir = st.secrets['main_dir']
+data_dir = st.secrets['data_dir']
 
 @st.cache_data
 def get_directories():
-    lst = [name for name in os.listdir(f"{main_dir}Data") 
-                if name.startswith('Week_ending_')]    
+    lst = [name for name in os.listdir(data_dir)]    
     return lst
 
 data_directories = get_directories()
-# print(data_directories)
 
-# List of strings to populate the selection box
-# display_weeks = [name.replace('_', ' ') for name in data_directories]
-
-week = st.selectbox('Select week to display', data_directories)
-
-# Date corresponding to the last day of the currently selected week
-# week_ending_date = '20240609'
-
-os.chdir(f'{main_dir}Data\\{week}')
+week_selected = st.selectbox('Select week to display', data_directories)
 
 # Items to exclude from the displayed data
 excluded_items = ['Piadina Crudo', 'Piadina Ham & Cheese', 'Piadina Nutella', 'Roasted Potatoes', 'PIADINA']
@@ -39,10 +29,10 @@ def load_data(filepath):
     return data
 
 # List of data filenames for the currently selected week
-week_data = [name for name in os.listdir('.')]
+week_data = [name for name in os.listdir(f'{data_dir}{week_selected}')]
 
 for filename in week_data:
-    day_df = load_data(filename)
+    day_df = load_data(f'{data_dir}{week_selected}/{filename}')
 
     # Keep only rows for panini that are not voided transactions
     day_df = day_df[(day_df['Menu Group'] == 'Panini') & 
