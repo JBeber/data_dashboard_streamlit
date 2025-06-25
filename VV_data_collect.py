@@ -5,13 +5,7 @@ from calendar import day_name
 import streamlit as st
 import pandas as pd
 
-# Parse a Python date object from string in YYYYMMDD format
-def parse_date(s: str) -> date:
-    year = int(s[:4])
-    month = int(s[4:6])
-    day = int(s[-2:])
 
-    return date(year, month, day)
 
 # def collect_data(args):
 #     with pysftp.Connection(st.secrets['hostname'], 
@@ -46,20 +40,7 @@ def parse_date(s: str) -> date:
 #             if day_name[single_date.weekday()] == 'Sunday':
 #                 os.chdir('../')
 
-def collect_data(start_date: str, end_date: str) -> None:
-    # Set operatings days for date range generation
-    vv_weekmask = 'Tue Wed Thu Fri Sat Sun'
-    vv_bdays = pd.offsets.CustomBusinessDay(weekmask=vv_weekmask)
 
-    date_lst = pd.date_range(start=date(2025, 6, 2), end = date(2025, 6, 17), freq=vv_bdays).to_list()
-    str_dt_lst = [dt.strftime('%Y%m%d') for dt in date_lst]
-
-    with pysftp.Connection(st.secrets['hostname'], 
-                            username=st.secrets['username'],
-                            private_key=st.secrets['private_key'],
-                            private_key_pass=st.secrets['pwd']) as sftp:
-            
-        sftp.chdir(st.secrets['export_id'])
             
     # TODO: store data remotely in a subdirectory accessible by Streamlit
         # for date_str in str_dt_lst:
