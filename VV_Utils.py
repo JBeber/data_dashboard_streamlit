@@ -23,7 +23,7 @@ def collect_data() -> None:
     last_collect_dt = parse_date(last_collect_str)
     latest_data_dt = date.today() - timedelta(days=1)  # Use yesterday's date as the latest data date
 
-    # Check if the last date data was collected is before today's date
+    # Check if the last date data was collected is before the last collection date
     if last_collect_dt < latest_data_dt:        
 
         with st.spinner('Collecting latest restaurant data...'):
@@ -40,7 +40,7 @@ def collect_data() -> None:
                 for date_str in str_dt_lst:
                     sftp.chdir(f'./{date_str}')
                     sftp.get('./AllItemsReport.csv', 
-                                        localpath=f'../Daily_Data/AllItemsReport_{date_str}.csv')
+                                        localpath=f'Daily_Data/AllItemsReport_{date_str}.csv')
                     sftp.chdir('../')
 
         # Update the last data collection date in session state

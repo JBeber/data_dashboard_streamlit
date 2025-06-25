@@ -4,8 +4,6 @@ from datetime import date, datetime
 from VV_Utils import vv_business_days as bdays
 from math import ceil
 
-
-
 # Specify new date range to use for analysis
 date_lst = pd.date_range(start=date(2025, 1, 1), end = date(2025, 6, 17), freq=bdays).to_list()
 #date.today().strftime('%Y%m%d')
@@ -19,7 +17,7 @@ date_info = pd.DataFrame({
 date_info['week'] = date_info['date'].dt.isocalendar().week
 
 # 2. Map each file to its week
-date_info['file'] = date_info['date_str'].apply(lambda ds: f'../Daily_Data/AllItemsReport_{ds}.csv')
+date_info['file'] = date_info['date_str'].apply(lambda ds: f'Daily_Data/AllItemsReport_{ds}.csv')
 
 # Get the last date for each week
 week_ending_dates = date_info.groupby('week')['date'].max().reset_index()
