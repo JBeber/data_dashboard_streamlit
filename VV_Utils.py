@@ -1,4 +1,4 @@
-import pysftp, os, sys
+import pysftp
 from datetime import date, timedelta
 import pandas as pd
 import streamlit as st
@@ -26,18 +26,27 @@ def collect_data() -> None:
     # Check if the last date data was collected is before today's date
     if last_collect_dt < latest_data_dt:        
 
-        date_lst = pd.date_range(start=last_collect_dt, end=latest_data_dt, freq=vv_business_days).to_list()
-        str_dt_lst = [dt.strftime('%Y%m%d') for dt in date_lst]
+        with st.spinner('Collecting latest restaurant data...'):
+            date_lst = pd.date_range(start=last_collect_dt, end=latest_data_dt, freq=vv_business_days).to_list()
+            str_dt_lst = [dt.strftime('%Y%m%d') for dt in date_lst]
 
-        with pysftp.Connection(st.secrets['hostname'], 
-                                username=st.secrets['username'],
-                                private_key=st.secrets['private_key'],
-                                private_key_pass=st.secrets['pwd']) as sftp:
-                
-            sftp.chdir(st.secrets['export_id'])
+            with pysftp.Connection(st.secrets['hostname'], 
+                                    username=st.secrets['username'],
+                                    private_key=st.secrets['private_key'],
+                                    private_key_pass=st.secrets['pwd']) as sftp:
+                    
+                sftp.chdir(st.secrets['export_id'])
 
-            for date_str in str_dt_lst:
-                sftp.chdir(f'./{date_str}')
-                sftp.get('./AllItemsReport.csv', 
-                                    localpath=f'../Daily_Data/AllItemsReport_{date_str}.csv')
-                sftp.chdir('../')
+                for date_str in str_dt_lst:
+                    sftp.chdir(f'./{date_str}')
+                    sftp.get('./AllItemsReport.csv', 
+                                        localpath=f'../Daily_Data/AllItemsReport_{date_str}.csv')
+                    sftp.chdir('../')
+
+        # Update the last data collection date in session state
+        st.session_state['last_data_collect'] = latest_data_dt.strftime('%Y%m%d')
+        # Update the last data collection date in params.txt
+        with open('params.txt', 'w') as f:
+            f.write(f'last_data_collect={st.session_state["last_data_collect"]}\n')
+            
+        st.success(f"Data collected successfully from {last_collect_dt.strftime('%Y-%m-%d')} to {latest_data_dt.strftime('%Y-%m-%d')}.")
