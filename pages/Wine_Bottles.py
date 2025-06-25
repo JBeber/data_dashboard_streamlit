@@ -5,6 +5,7 @@ from VV_Utils import vv_business_days as bdays
 from math import ceil
 
 
+
 # Specify new date range to use for analysis
 date_lst = pd.date_range(start=date(2025, 1, 1), end = date(2025, 6, 17), freq=bdays).to_list()
 #date.today().strftime('%Y%m%d')
@@ -62,6 +63,8 @@ for week, df in weekly_dfs.items():
     whole_bottles_sold = bottles_df.groupby('Menu Item')['Item Qty'].sum() if not bottles_df.empty else 0
     glasses_sold = glasses_df.groupby('Menu Item')['Item Qty'].sum() if not glasses_df.empty else 0
 
+    week_ending_date = week_ending_dates[week_ending_dates['week'] == week]['date'].values[0]
+
     for bottle in btg_bottles:
         bottle_count = whole_bottles_sold.get(bottle, 0)
         glass_name = bottle_to_glass_map.get(bottle)
@@ -69,12 +72,10 @@ for week, df in weekly_dfs.items():
         
         bottle_totals[bottle] = bottle_count + ceil(glass_count / 4)
 
-    week_ending_date = week_ending_dates[week_ending_dates['week'] == week]['date'].values[0]
-
-    output_df.loc[len(output_df)] = [
+        output_df.loc[len(output_df)] = [
             week_ending_date,
             bottle,
             bottle_totals[bottle]
-        ]
+        ]    
     
 st.write(output_df)

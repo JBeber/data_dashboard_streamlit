@@ -1,6 +1,21 @@
 import streamlit as st
-import os
-# TODO: from VV_data_collect import collect_data
+from VV_Utils import collect_data
 
-# TODO: Add functionality to auto-detect when new data needs to be downloaded
 st.image('vv_logo.jpeg')
+
+# Read params from params.txt into a dictionary
+params = {}
+with open('params.txt', 'r') as f:
+    for line in f:
+        key, value = line.strip().split('=')
+        params[key] = value
+
+# Add params to Streamlit session state
+for key, value in params.items():
+    if key not in st.session_state:
+        st.session_state[key] = value
+
+# print("Session state initialized with parameters:", st.session_state)
+# st.write(params)
+
+collect_data()
