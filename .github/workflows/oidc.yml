@@ -1,0 +1,32 @@
+name: Google Cloud OIDC Auth
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write   # Required for OIDC
+  contents: read    # To checkout code
+
+jobs:
+  auth-gcp:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Authenticate to Google Cloud using OIDC
+      id: 'auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        # Replace this with your workload identity provider resource name:
+        workload_identity_provider: 'projects/129319322449/locations/global/workloadIdentityPools/github-oidc/providers/oidc-for-github'
+        # Replace this with your Google Cloud service account email:
+        service_account: 'dashboard-data@vv-data-dashboard.iam.gserviceaccount.com'
+
+    - name: Test authentication
+      run: |
+        gcloud auth list
+        gcloud projects list
