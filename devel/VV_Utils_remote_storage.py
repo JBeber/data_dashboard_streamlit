@@ -1,22 +1,19 @@
-import pysftp, io
+import pysftp
 from datetime import date, timedelta
 import pandas as pd
 import streamlit as st
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
-from googleapiclient.http import MediaIoBaseUpload
 
 # Set operatings days for date range generation
 vv_weekmask = 'Tue Wed Thu Fri Sat Sun'
 vv_business_days = pd.offsets.CustomBusinessDay(weekmask=vv_weekmask)
 
 # Path to your downloaded service account JSON key
-SERVICE_ACCOUNT_FILE = "E:\\Documents\\VV\\Daily_Order_Data\\vv-data-dashboard-13561c2cf33f.json"
+SERVICE_ACCOUNT_FILE = "E:\\Documents\\VV\\Daily_Order_Data\\vv-data-dashboard-d05b7f359027.json"
 
 # The required scope for full Drive access
 SCOPES = ['https://www.googleapis.com/auth/drive']
-
-FOLDER_ID = '1uvfruQbnPC_Y2AJ_44b8UhzaXetUS6DG'
 
 # Parse a Python date object from string in YYYYMMDD format
 def parse_date(s: str) -> date:
@@ -37,29 +34,6 @@ def get_drive_service():
 
 
 def collect_data() -> None:
-    # Build the Google Drive API client
-    drive_service = get_drive_service()
-
-    # # Query to exclude folders
-    # query = "mimeType != 'application/vnd.google-apps.folder'"
-
-    # files = []
-    # page_token = None
-    
-    # while True:
-    #     response = drive_service.files().list(
-    #         q=query,
-    #         spaces='drive',
-    #         fields='nextPageToken, files(name)',
-    #         pageToken=page_token
-    #     ).execute()
-    #     files.extend(response.get('files', []))
-    #     page_token = response.get('nextPageToken', None)
-    #     if page_token is None:
-    #         break
-
-    # file_names = [file['name'] for file in files]
-
     last_collect_str = st.session_state['last_data_collect']
     # today_str = date.today().strftime('%Y%m%d')
 
@@ -82,39 +56,39 @@ def collect_data() -> None:
 
                 for date_str in str_dt_lst:
                     sftp.chdir(f'./{date_str}')
-                    # sftp.get('./AllItemsReport.csv', 
-        #                      localpath=f'Daily_Data/AllItemsReport_{date_str}.csv')
-
-                    # Read file into memory instead of local disk
-                    file_obj = io.BytesIO()
-                    sftp.getfo('AllItemsReport.csv', file_obj)
-                    file_obj.seek(0)  # Reset pointer
-
-                    # Prepare upload to Google Drive
-                    file_metadata = {
-                        'name': f'AllItemsReport_{date_str}.csv',
-                        'parents': [FOLDER_ID],  # Set your Google Drive folder ID here
-                    }
-                    media = MediaIoBaseUpload(file_obj, mimetype='text/csv')
-
-                    # Upload to Google Drive
-                    uploaded_file = drive_service.files().create(
-                        body=file_metadata,
-                        media_body=media,
-                        fields='id'
-                    ).execute()
-
-                    sftp.chdir('../')                    
+                    sftp.get('./AllItemsReport.csv', 
+                                        localpath=f'Daily_Data/AllItemsReport_{date_str}.csv')
+                    sftp.chdir('../')
 
         # Update the last data collection date in session state
         st.session_state['last_data_collect'] = latest_data_dt.strftime('%Y%m%d')
-        
         # Update the last data collection date in params.txt
         with open('params.txt', 'w') as f:
             f.write(f'last_data_collect={st.session_state["last_data_collect"]}\n')
             
         st.success(f"Data collected successfully from {last_collect_dt.strftime('%Y-%m-%d')} to {latest_data_dt.strftime('%Y-%m-%d')}.")
 
+    # Build the Google Drive API client
+    drive_service = get_drive_service()
+
+    # Query to exclude folders
+    query = "mimeType != 'application/vnd.google-apps.folder'"
+
+    files = []
+    page_token = None
     
+    while True:
+        response = drive_service.files().list(
+            q=query,
+            spaces='drive',
+            fields='nextPageToken, files(name)',
+            pageToken=page_token
+        ).execute()
+        files.extend(response.get('files', []))
+        page_token = response.get('nextPageToken', None)
+        if page_token is None:
+            break
+
+    file_names = [file['name'] for file in files]
 
     

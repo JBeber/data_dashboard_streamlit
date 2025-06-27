@@ -1,11 +1,11 @@
 import streamlit as st
 import pandas as pd
 from datetime import date, datetime
-from VV_Utils import vv_business_days as bdays
+from data_dashboard_streamlit.VV_Utils import *
 from math import ceil
 
 # Specify new date range to use for analysis
-date_lst = pd.date_range(start=date(2025, 1, 1), end = date(2025, 6, 17), freq=bdays).to_list()
+date_lst = pd.date_range(start=date(2025, 1, 1), end = date(2025, 6, 17), freq=vv_business_days).to_list()
 #date.today().strftime('%Y%m%d')
 str_dt_lst = [dt.strftime('%Y%m%d') for dt in date_lst]
 
