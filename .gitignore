@@ -2,3 +2,5 @@
 /__pycache__
 /.streamlit
 *.ipynb
+test_google_access.py
+/Daily_Data
