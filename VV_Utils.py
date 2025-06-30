@@ -79,8 +79,6 @@ def collect_data() -> None:
                                     private_key=keyfile_path,
                                     private_key_pass=st.secrets['Toast_SFTP']['pwd'],
                                     cnopts=cnopts) as sftp:
-                                    private_key_pass=st.secrets['Toast_SFTP']['pwd'],
-                                    cnopts=cnopts) as sftp:
                     
                     sftp.chdir(st.secrets['Toast_SFTP']['export_id'])
 
