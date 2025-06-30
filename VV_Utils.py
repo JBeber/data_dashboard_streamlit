@@ -62,18 +62,14 @@ def get_existing_dates(drive_service, folder_id):
         m = date_pattern.match(name)
         if m:
             dates.add(datetime.strptime(m.group(1), "%Y%m%d").date())
+
+    st.write(dates)
     return dates
 
 
 def collect_data() -> None:
     # Build the Google Drive API client
     drive_service = get_drive_service()
-
-    # last_collect_str = st.session_state['last_data_collect']
-    # today_str = date.today().strftime('%Y%m%d')
-
-    # last_collect_dt = parse_date(last_collect_str)
-    # latest_data_dt = date.today() - timedelta(days=1)  # Use yesterday's date as the latest data date
 
     existing_dates = get_existing_dates(drive_service, folder_id)
     yesterday = date.today() - timedelta(days=1)
@@ -131,16 +127,7 @@ def collect_data() -> None:
                 ).execute()
                 st.success(f"Uploaded {file_name} to Google Drive.")
                 sftp.chdir('..')
-                
+
     finally:
         if os.path.exists(keyfile_path):
             os.remove(keyfile_path)
-
-        # Update the last data collection date in session state
-        # st.session_state['last_data_collect'] = latest_data_dt.strftime('%Y%m%d')
-
-        # # Update the last data collection date in params.txt
-        # with open('params.txt', 'w') as f:
-        #     f.write(f'last_data_collect={st.session_state["last_data_collect"]}\n')
-            
-        # st.success(f"Data collected successfully from {last_collect_dt.strftime('%Y-%m-%d')} to {latest_data_dt.strftime('%Y-%m-%d')}.")
