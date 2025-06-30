@@ -101,19 +101,51 @@ def collect_data() -> None:
                         sftp.getfo('AllItemsReport.csv', file_obj)
                         file_obj.seek(0)  # Reset pointer
 
-                        # Prepare upload to Google Drive
-                        file_metadata = {
-                            'name': f'AllItemsReport_{date_str}.csv',
-                            'parents': [st.secrets['Google_Drive']['folder_id']],
-                        }
+                        # # Prepare upload to Google Drive
+                        # file_metadata = {
+                        #     'name': f'AllItemsReport_{date_str}.csv',
+                        #     'parents': [st.secrets['Google_Drive']['folder_id']],
+                        # }
+                        
+                        # media = MediaIoBaseUpload(file_obj, mimetype='text/csv')
+
+                        # # Upload to Google Drive                        
+                        # uploaded_file = drive_service.files().create(
+                        # body=file_metadata,
+                        # media_body=media,
+                        # fields='id'
+                        # ).execute()
+
+                        file_name = f'AllItemsReport_{date_str}.csv'
+                        folder_id = st.secrets['Google_Drive']['folder_id']
+
+                        # ------------- NEW: Check for existing file -------------
+                        query = f"name='{file_name}' and '{folder_id}' in parents and trashed=false"
+                        search = drive_service.files().list(q=query, spaces='drive', fields='files(id, name)').execute()
+                        files = search.get('files', [])
+
                         media = MediaIoBaseUpload(file_obj, mimetype='text/csv')
 
-                        # Upload to Google Drive                        
-                        uploaded_file = drive_service.files().create(
-                        body=file_metadata,
-                        media_body=media,
-                        fields='id'
-                        ).execute()
+                        if files:
+                            # File exists, update (overwrite) it
+                            file_id = files[0]['id']
+                            uploaded_file = drive_service.files().update(
+                                fileId=file_id,
+                                media_body=media
+                            ).execute()
+                            st.info(f"Updated file: {file_name} in Google Drive.")
+                        else:
+                            # File does not exist, create it
+                            file_metadata = {
+                                'name': file_name,
+                                'parents': [folder_id],
+                            }
+                            uploaded_file = drive_service.files().create(
+                                body=file_metadata,
+                                media_body=media,
+                                fields='id'
+                            ).execute()
+                            st.info(f"Created file: {file_name} in Google Drive.")
 
                         sftp.chdir('../')
             finally:
