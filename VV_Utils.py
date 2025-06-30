@@ -76,6 +76,8 @@ def collect_data() -> None:
                 cnopts.hostkeys.add(st.secrets['Toast_SFTP']['hostname'], 
                                     'ssh-rsa', 
                                     st.secrets['Toast_SFTP']['host_key'])
+                print(type(st.secrets['Toast_SFTP']['hostname']))
+                print(type(st.secrets['Toast_SFTP']['host_key']))
 
                 with pysftp.Connection(st.secrets['Toast_SFTP']['hostname'], 
                                     username=st.secrets['Toast_SFTP']['username'],
