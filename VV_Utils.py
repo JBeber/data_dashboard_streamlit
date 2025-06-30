@@ -109,7 +109,7 @@ def collect_data() -> None:
                     sftp.chdir(f'./{date_str}')
                 except IOError:
                     st.warning(f"SFTP folder for {date_str} not found, skipping.")
-                    # sftp.chdir('..')
+                    sftp.chdir('..')
                     continue
 
                 file_obj = io.BytesIO()
@@ -122,27 +122,16 @@ def collect_data() -> None:
                     continue
 
                 file_name = f'AllItemsReport_{date_str}.csv'
+                file_metadata = {'name': file_name, 'parents': [folder_id]}
                 media = MediaIoBaseUpload(file_obj, mimetype='text/csv')
-                # Search again by name to avoid race conditions
-                query = f"name='{file_name}' and '{folder_id}' in parents and trashed=false"
-                search = drive_service.files().list(q=query, spaces='drive', fields='files(id)').execute()
-                files = search.get('files', [])
-                if files:
-                    file_id = files[0]['id']
-                    drive_service.files().update(
-                        fileId=file_id,
-                        media_body=media
-                    ).execute()
-                    st.info(f"Updated file: {file_name} in Google Drive.")
-                else:
-                    file_metadata = {'name': file_name, 'parents': [folder_id]}
-                    drive_service.files().create(
-                        body=file_metadata,
-                        media_body=media,
-                        fields='id'
-                    ).execute()
-                    st.success(f"Uploaded {file_name} to Google Drive.")
+                drive_service.files().create(
+                    body=file_metadata,
+                    media_body=media,
+                    fields='id'
+                ).execute()
+                st.success(f"Uploaded {file_name} to Google Drive.")
                 sftp.chdir('..')
+                
     finally:
         if os.path.exists(keyfile_path):
             os.remove(keyfile_path)
