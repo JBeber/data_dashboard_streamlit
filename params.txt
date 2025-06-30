@@ -1,1 +1,1 @@
-last_data_collect=20250626
+last_data_collect=20250623
