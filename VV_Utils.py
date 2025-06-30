@@ -124,6 +124,29 @@ def collect_data() -> None:
                         search = drive_service.files().list(q=query, spaces='drive', fields='files(id, name)').execute()
                         files = search.get('files', [])
 
+                        # # Prepare upload to Google Drive
+                        # file_metadata = {
+                        #     'name': f'AllItemsReport_{date_str}.csv',
+                        #     'parents': [st.secrets['Google_Drive']['folder_id']],
+                        # }
+                        
+                        # media = MediaIoBaseUpload(file_obj, mimetype='text/csv')
+
+                        # # Upload to Google Drive                        
+                        # uploaded_file = drive_service.files().create(
+                        # body=file_metadata,
+                        # media_body=media,
+                        # fields='id'
+                        # ).execute()
+
+                        file_name = f'AllItemsReport_{date_str}.csv'
+                        folder_id = st.secrets['Google_Drive']['folder_id']
+
+                        # ------------- NEW: Check for existing file -------------
+                        query = f"name='{file_name}' and '{folder_id}' in parents and trashed=false"
+                        search = drive_service.files().list(q=query, spaces='drive', fields='files(id, name)').execute()
+                        files = search.get('files', [])
+
                         media = MediaIoBaseUpload(file_obj, mimetype='text/csv')
 
                         if files:
