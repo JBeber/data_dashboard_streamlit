@@ -71,10 +71,14 @@ def collect_data() -> None:
                 keyfile_path = keyfile.name
 
             try:
+                cnopts = pysftp.CnOpts()
+                cnopts.hostkeys.load('hostname', 'ssh-rsa', key_string=st.secrets['Toast_SFTP']['host_key'])
+
                 with pysftp.Connection(st.secrets['Toast_SFTP']['hostname'], 
                                     username=st.secrets['Toast_SFTP']['username'],
                                     private_key=keyfile_path,
-                                    private_key_pass=st.secrets['Toast_SFTP']['pwd']) as sftp:
+                                    private_key_pass=st.secrets['Toast_SFTP']['pwd'],
+                                    cnopts=cnopts) as sftp:
                     
                     sftp.chdir(st.secrets['Toast_SFTP']['export_id'])
 
