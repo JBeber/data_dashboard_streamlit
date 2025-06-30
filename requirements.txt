@@ -1,5 +1,6 @@
-streamlit
-pandas
-plotly
-pysftp
-streamlit-calendar
+google_api_python_client==2.173.0
+pandas==2.0.0
+plotly==6.0.0
+protobuf==4.25.3
+pysftp==0.2.9
+streamlit==1.37.1
