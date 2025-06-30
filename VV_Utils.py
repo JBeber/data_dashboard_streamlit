@@ -76,6 +76,9 @@ def collect_data() -> None:
                 # cnopts.hostkeys.add(st.secrets['Toast_SFTP']['hostname'], 
                 #                     'ssh-rsa', 
                 #                     st.secrets['Toast_SFTP']['host_key'])
+                # cnopts.hostkeys.add(st.secrets['Toast_SFTP']['hostname'], 
+                #                     'ssh-rsa', 
+                #                     st.secrets['Toast_SFTP']['host_key'])
                 # cnopts.hostkeys.add('s-9b0f88558b264dfda.server.transfer.us-east-1.amazonaws.com', 
                 #                     'ssh-rsa', 
                 #                     'AAAAB3NzaC1yc2EAAAADAQABAAABAQCpJVs5xW6SNtcFu/hyhuGbqZu9qV6fD62+3mzLkgGRco5LzFlBiKdHPPAnPEIFrRg1GCClCoaF1AbSFO326yyLqu0ealxqHK/ygrguTuGhLZ/pCrejNoqrRGpnP5Gyd3IKhUCkoWWR+HDpMo/107IZVOu6ZvRgm/Yly2lMKioZLzmhNLIL9gJtBk45f247TGnpgX64wc7ho4TMBwN9p9sdLUY3Mq97MwvknfqSplw2Ch8xlYCYVaWVbsWGNoSmLDh1Lu97jElc6EtaRoTVKOPgWZDWJL6Jn20sBSxbCZGhJST9//x4gMIsOqHqL+2qjfWJp+DvS/zhgtEGn/bh/O8z')
