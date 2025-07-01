@@ -18,4 +18,9 @@ st.image('vv_logo.jpeg')
 # print("Session state initialized with parameters:", st.session_state)
 # st.write(params)
 
-collect_data()
+if 'data_init_complete' not in st.session_state:
+    st.session_state['data_init_complete'] = False
+
+if not st.session_state['data_init_complete']:
+    collect_data()
+    st.session_state['data_init_complete'] = True
