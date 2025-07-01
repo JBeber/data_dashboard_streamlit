@@ -1,7 +1,7 @@
 import streamlit as st
-from VV_Utils import collect_data
 
-st.image('vv_logo.jpeg')
+def main():
+    st.image('vv_logo.jpeg')
 
 # Read params from params.txt into a dictionary
 # params = {}
@@ -18,9 +18,3 @@ st.image('vv_logo.jpeg')
 # print("Session state initialized with parameters:", st.session_state)
 # st.write(params)
 
-if 'data_init_complete' not in st.session_state:
-    st.session_state['data_init_complete'] = False
-
-if not st.session_state['data_init_complete']:
-    collect_data()
-    st.session_state['data_init_complete'] = True
