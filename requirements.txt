@@ -5,3 +5,4 @@ protobuf
 pysftp>=0.2.9
 paramiko==2.12.0
 streamlit
+PyYAML>=5.4
