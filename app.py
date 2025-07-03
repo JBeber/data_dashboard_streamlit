@@ -4,6 +4,27 @@ from VV_Utils import collect_data
 # Modular page imports
 from modules import home
 
+
+# Load the password from Streamlit secrets
+PASSWORD = st.secrets["auth"]["password"]
+
+def check_password():
+    """Simple password check and session state."""
+    if "authenticated" not in st.session_state:
+        st.session_state["authenticated"] = False
+
+    if not st.session_state["authenticated"]:
+        pwd = st.text_input("Enter password", type="password")
+        if st.button("Login"):
+            if pwd == PASSWORD:
+                st.session_state["authenticated"] = True
+                st.rerun()
+            else:
+                st.error("Incorrect password")
+        st.stop()
+
+check_password()
+
 # Navigation config
 PAGES = {
     "Home": home,
