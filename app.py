@@ -25,7 +25,7 @@ if not st.session_state["data_init_complete"]:
 
 # Modular custom sidebar
 else:
-    st.sidebar.image("vv_logo.jpeg", use_column_width=True)
+    st.sidebar.image("vv_logo.jpeg", use_container_width=True)
     for page_name in PAGES:
         # Highlight current page, disable nav to same page
         if st.sidebar.button(page_name, disabled=st.session_state["page"] == page_name):
