@@ -1,4 +1,5 @@
 import pysftp, io, tempfile, os, re
+import yaml
 from datetime import datetime, date, timedelta
 import pandas as pd
 import streamlit as st
@@ -6,21 +7,53 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 
-# Set operatings days for date range generation
-vv_weekmask = 'Tue Wed Thu Fri Sat Sun'
-vv_business_days = pd.offsets.CustomBusinessDay(weekmask=vv_weekmask)
-
-first_data_date = date(2025, 1, 1)  # First date for which data is available
 
 folder_id = st.secrets['Google_Drive']['folder_id']
 
-# Parse a Python date object from string in YYYYMMDD format
-def parse_date(s: str) -> date:
-    year = int(s[:4])
-    month = int(s[4:6])
-    day = int(s[-2:])
+def load_config(config_path):
+    with open(config_path, 'r') as f:
+        config = yaml.safe_load(f)
+    holidays = []
+    # Single dates
+    for item in config.get('holidays', []):
+        if isinstance(item, str):
+            holidays.append(item)
+        elif isinstance(item, dict) and 'range' in item:
+            start, end = item['range']
+            # Expand range
+            rng = pd.date_range(start, end, freq='D')
+            holidays.extend(rng.strftime('%Y-%m-%d').tolist())
+    # Ranges in separate section
+    for rng in config.get('holiday_ranges', []):
+        start, end = rng
+        rng_dates = pd.date_range(start, end, freq='D')
+        holidays.extend(rng_dates.strftime('%Y-%m-%d').tolist())
 
-    return date(year, month, day)
+    config['holidays'] = pd.to_datetime(holidays)
+
+    # Parse first_data_date if present
+    if 'first_data_date' in config:
+        config['first_data_date'] = pd.to_datetime(config['first_data_date'])
+    return config
+
+
+# Set operatings days for date range generation
+vv_weekmask = 'Tue Wed Thu Fri Sat Sun'
+
+# Load holidays from a YAML configuration file
+# This file should contain a list of holidays and holiday ranges in the format:
+# holidays:
+#   - 2025-12-25
+#   - 2025-01-01
+#   - range: [2025-12-01, 2025-12-13]
+# holiday_ranges:
+#   - [2026-01-05, 2026-01-10]
+config = load_config('config.yaml')
+vv_holidays = config['holidays'] if 'holidays' in config else []
+print(f"Loaded holidays: {vv_holidays}")
+vv_business_days = pd.offsets.CustomBusinessDay(weekmask=vv_weekmask, holidays=vv_holidays)
+first_data_date = config['first_data_date'] if 'first_data_date' in config else date(2025, 1, 1)
+
 
 @st.cache_resource
 def get_drive_service():
