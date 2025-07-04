@@ -1,7 +1,7 @@
 import pandas as pd
 from math import ceil
 from datetime import date, datetime
-from VV_Utils import vv_business_days
+from VV_Utils import get_business_days
 # Import other needed utilities (e.g., for reading from GDrive) here
 
 class WineDashboardData:
@@ -16,6 +16,7 @@ class WineDashboardData:
         self._load_and_aggregate()
 
     def _date_list(self):
+        vv_business_days = get_business_days()
         return pd.date_range(start=self.date_start, end=self.date_end, freq=vv_business_days).to_list()
 
     def _date_str_list(self):

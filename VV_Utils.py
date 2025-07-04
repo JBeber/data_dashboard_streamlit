@@ -34,25 +34,25 @@ def load_config(config_path):
     # Parse first_data_date if present
     if 'first_data_date' in config:
         config['first_data_date'] = pd.to_datetime(config['first_data_date'])
+    else:
+        config['first_data_date'] = date(2025, 1, 1)
+
     return config
 
 
-# Set operatings days for date range generation
-vv_weekmask = 'Tue Wed Thu Fri Sat Sun'
+def get_business_days():
+    """
+    Returns the business days string (weekmask) based on config and holiday logic.
+    Replace the logic below with your actual implementation.
+    """
+    # Load holidays, first_data_date, and weekmask from config
+    config = load_config('config.yaml')
+    # Set operatings days for date range generation
+    vv_weekmask = config.get('weekmask', 'Tue Wed Thu Fri Sat Sun')
+    vv_holidays = config.get('holidays', [])
+    vv_business_days = pd.offsets.CustomBusinessDay(weekmask=vv_weekmask, holidays=vv_holidays)
 
-# Load holidays from a YAML configuration file
-# This file should contain a list of holidays and holiday ranges in the format:
-# holidays:
-#   - 2025-12-25
-#   - 2025-01-01
-#   - range: [2025-12-01, 2025-12-13]
-# holiday_ranges:
-#   - [2026-01-05, 2026-01-10]
-config = load_config('config.yaml')
-vv_holidays = config['holidays'] if 'holidays' in config else []
-print(f"Loaded holidays: {vv_holidays}")
-vv_business_days = pd.offsets.CustomBusinessDay(weekmask=vv_weekmask, holidays=vv_holidays)
-first_data_date = config['first_data_date'] if 'first_data_date' in config else date(2025, 1, 1)
+    return vv_business_days
 
 
 @st.cache_resource

@@ -6,3 +6,4 @@ holiday_ranges:
   - [2025-07-01, 2025-07-06]  # Summer Break
 
 first_data_date: 2025-01-01  # First date for which data is collected
+weekmask: Tue Wed Thu Fri Sat Sun
