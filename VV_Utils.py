@@ -1,5 +1,7 @@
-import pysftp, io, tempfile, os, re
+import pysftp
+import io, tempfile, os, re
 import yaml
+from functools import lru_cache
 from datetime import datetime, date, timedelta
 import pandas as pd
 import streamlit as st
@@ -10,6 +12,7 @@ from googleapiclient.http import MediaIoBaseUpload
 
 folder_id = st.secrets['Google_Drive']['folder_id']
 
+@lru_cache(maxsize=1)
 def load_config(config_path):
     with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
