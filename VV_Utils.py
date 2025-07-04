@@ -108,6 +108,10 @@ def get_existing_dates(drive_service, folder_id):
 
 
 def collect_data() -> None:
+    config = load_config('config.yaml')
+    first_data_date = config.get('first_data_date', date(2025, 1, 1))
+    vv_business_days = get_business_days()
+    
     # Build the Google Drive API client
     drive_service = get_drive_service()
 
