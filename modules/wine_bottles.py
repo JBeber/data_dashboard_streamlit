@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from datetime import date, datetime
-from data_dashboard_streamlit.VV_Utils import *
+from VV_Utils import *
 from math import ceil
 
 # Specify new date range to use for analysis
