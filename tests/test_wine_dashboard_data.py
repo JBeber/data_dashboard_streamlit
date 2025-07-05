@@ -40,8 +40,8 @@ def test_weekly_bottle_counts(wine_data):
     # Assert the DataFrame is not empty
     assert not df.empty
     # Optionally, check columns or values
-    assert 'bottle' in df.columns
-    assert df['bottle_totals'].sum() > 0
+    assert 'Bottle' in df.columns
+    assert df['Bottles Total'].sum() > 0
 
 def test_with_no_data():
     # Loader returns an empty DataFrame

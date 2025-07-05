@@ -12,7 +12,7 @@ class WineDashboardData:
         self.bottle_names = bottle_names
         self.glass_names = glass_names
         self.bottle_to_glass_map = bottle_to_glass_map
-        self.output_df = pd.DataFrame(columns=['Week Ending Date', 'Item', 'Bottles Total'])
+        self.output_df = pd.DataFrame(columns=['Week Ending Date', 'Bottle', 'Bottles Total'])
         self._load_and_aggregate()
 
     def _date_list(self):
