@@ -5,9 +5,9 @@ from VV_Utils import get_business_days
 # Import other needed utilities (e.g., for reading from GDrive) here
 
 class WineDashboardData:
-    def __init__(self, date_start, date_end, data_loader_func, bottle_names, glass_names, bottle_to_glass_map):
-        self.date_start = date_start
-        self.date_end = date_end
+    def __init__(self, start_date, end_date, data_loader_func, bottle_names, glass_names, bottle_to_glass_map):
+        self.start_date = start_date
+        self.end_date = end_date
         self.data_loader_func = data_loader_func # expects a function that returns a DataFrame per date string
         self.bottle_names = bottle_names
         self.glass_names = glass_names
@@ -17,7 +17,7 @@ class WineDashboardData:
 
     def _date_list(self):
         vv_business_days = get_business_days()
-        return pd.date_range(start=self.date_start, end=self.date_end, freq=vv_business_days).to_list()
+        return pd.date_range(start=self.start_date, end=self.end_date, freq=vv_business_days).to_list()
 
     def _date_str_list(self):
         return [dt.strftime('%Y%m%d') for dt in self._date_list()]
