@@ -10,6 +10,7 @@ def dummy_loader(file_name):
     # The file-name parameter is not used in this dummy function
     # In a real scenario, you would read from a file collected from Drive
     return pd.DataFrame({
+        'date': pd.date_range('2022-01-01', '2022-01-04'),
         'Menu Group': ['RETAIL WINE', 'Wine - Bottles', 'Wine - Glasses', 'Wine - Glasses'],
         'Menu Item': ['A', 'B', 'GlassA', 'GlassB'],
         'Item Qty': [2, 3, 4, 5]
@@ -40,12 +41,12 @@ def test_weekly_bottle_counts(wine_data):
     assert not df.empty
     # Optionally, check columns or values
     assert 'bottle' in df.columns
-    assert df['count'].sum() > 0
+    assert df['bottle_totals'].sum() > 0
 
 def test_with_no_data():
     # Loader returns an empty DataFrame
     def empty_loader():
-        return pd.DataFrame(columns=['date', 'bottle', 'count'])
+        return pd.DataFrame(columns=['date', 'Menu Group', 'Menu Item', 'Item Qty'])
     wine_data = WineDashboardData(date(2022,1,1), date(2022,1,7), empty_loader, ['A'], ['GlassA'], {'A':'GlassA'})
     df = wine_data.get_weekly_bottle_counts()
     # Should handle gracefully (not crash)
