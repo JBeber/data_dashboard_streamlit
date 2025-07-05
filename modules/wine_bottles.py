@@ -44,8 +44,9 @@ class WineDashboardData:
                 try:
                     df = self.data_loader_func(file)
                     df_list.append(df)
-                except Exception:
-                    continue # Could log missing files
+                except Exception as e:
+                    print(e) # Could log the error or file name
+                    continue
             if df_list:
                 weekly_dfs[week] = pd.concat(df_list, ignore_index=True)
 

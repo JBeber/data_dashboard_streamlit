@@ -4,13 +4,15 @@ from datetime import date
 from modules.wine_bottles import WineDashboardData
 
 # 1. A loader function for test data
-def dummy_loader():
+def dummy_loader(file_name):
     # Simulate loading data as your real loader would
     # Here, we return a DataFrame with made-up data
+    # The file-name parameter is not used in this dummy function
+    # In a real scenario, you would read from a file collected from Drive
     return pd.DataFrame({
-        'date': pd.date_range('2022-01-01', '2022-01-14'),
-        'bottle': ['A', 'B'] * 7,
-        'count': [1, 2] * 7
+        'Menu Group': ['RETAIL WINE', 'Wine - Bottles', 'Wine - Glasses', 'Wine - Glasses'],
+        'Menu Item': ['A', 'B', 'GlassA', 'GlassB'],
+        'Item Qty': [2, 3, 4, 5]
     })
 
 # 2. Fixtures: reusable setup for tests (pytest feature)
