@@ -1,5 +1,7 @@
-import pysftp, io, tempfile, os, re
+import pysftp
+import io, tempfile, os, re
 import yaml
+from functools import lru_cache
 from datetime import datetime, date, timedelta
 import pandas as pd
 import streamlit as st
@@ -10,6 +12,7 @@ from googleapiclient.http import MediaIoBaseUpload
 
 folder_id = st.secrets['Google_Drive']['folder_id']
 
+@lru_cache(maxsize=1)
 def load_config(config_path):
     with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
@@ -34,25 +37,25 @@ def load_config(config_path):
     # Parse first_data_date if present
     if 'first_data_date' in config:
         config['first_data_date'] = pd.to_datetime(config['first_data_date'])
+    else:
+        config['first_data_date'] = date(2025, 1, 1)
+
     return config
 
 
-# Set operatings days for date range generation
-vv_weekmask = 'Tue Wed Thu Fri Sat Sun'
+def get_business_days():
+    """
+    Returns the business days string (weekmask) based on config and holiday logic.
+    Replace the logic below with your actual implementation.
+    """
+    # Load holidays, first_data_date, and weekmask from config
+    config = load_config('config.yaml')
+    # Set operatings days for date range generation
+    vv_weekmask = config.get('weekmask', 'Tue Wed Thu Fri Sat Sun')
+    vv_holidays = config.get('holidays', [])
+    vv_business_days = pd.offsets.CustomBusinessDay(weekmask=vv_weekmask, holidays=vv_holidays)
 
-# Load holidays from a YAML configuration file
-# This file should contain a list of holidays and holiday ranges in the format:
-# holidays:
-#   - 2025-12-25
-#   - 2025-01-01
-#   - range: [2025-12-01, 2025-12-13]
-# holiday_ranges:
-#   - [2026-01-05, 2026-01-10]
-config = load_config('config.yaml')
-vv_holidays = config['holidays'] if 'holidays' in config else []
-print(f"Loaded holidays: {vv_holidays}")
-vv_business_days = pd.offsets.CustomBusinessDay(weekmask=vv_weekmask, holidays=vv_holidays)
-first_data_date = config['first_data_date'] if 'first_data_date' in config else date(2025, 1, 1)
+    return vv_business_days
 
 
 @st.cache_resource
@@ -105,6 +108,10 @@ def get_existing_dates(drive_service, folder_id):
 
 
 def collect_data() -> None:
+    config = load_config('config.yaml')
+    first_data_date = config.get('first_data_date', date(2025, 1, 1))
+    vv_business_days = get_business_days()
+    
     # Build the Google Drive API client
     drive_service = get_drive_service()
 
