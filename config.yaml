@@ -7,3 +7,19 @@ holiday_ranges:
 
 first_data_date: 2025-01-01  # First date for which data is collected
 weekmask: Tue Wed Thu Fri Sat Sun
+
+bottle_to_glass_map:
+  "Barbera D'Asti - Vigne Vecchie": "Glass Barbera D'Asti - Vigne Vecchie"
+  "Primitivo Sin - Vigne Vecchie": "Glass Primitivo Sin - Vigne Vecchie"
+  "Pinot Grigio - Villa Loren": "Glass Pinot Grigio - Villa Loren"
+  "Chardonnay - Tenuta Maccan": "Glass Chardonnay - Tenuta Maccan"
+  "Moscato D'Asti - La Morandina": "Glass Moscato D'Asti - La Morandina"
+  "Gavi Masera - Stefano Massone": "Glass Gavi - Masera"
+  "Negramaro Rosato Soul - Vigne Vecchie": "Glass Rosato Soul - Vigne Vecchie"
+  "Gattinara Rosato Bricco Lorella - Antoniolo": "Glass Gattinara Rosato - Antoniolo Bricco Lorella"
+  "Prosecco Brut - Castel Nuovo del Garda": "Glass Prosecco Brut - Castel Nuovo del Garda"
+  "Prosecco Rose - Castel Nuovo del Garda": "Glass Prosecco Rosato - Castel Nuovo del Garda"
+  "Trento DOC - Maso Bianco - Seiterre": "Glass Trento DOC - Maso Bianco - Seiterre"
+  "Nebbiolo - Vigne Vecchie": "Glass Nebbiolo - Vigne Vecchie"
+  "Chianti Superiore - Banfi": "Glass Chianti Superiore - Banfi"
+  "Nerello Mascalese - Vento di Mare": "Glass Nerello Mascalese - Vento di Mare"
