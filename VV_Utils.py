@@ -5,11 +5,13 @@ from functools import lru_cache
 from datetime import datetime, date, timedelta
 import pandas as pd
 import streamlit as st
-from google.oauth2 import service_account
+from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
+from dotenv import load_dotenv
 
 
+load_dotenv()
 folder_id = st.secrets['Google_Drive']['folder_id']
 
 @lru_cache(maxsize=1)
@@ -46,7 +48,6 @@ def load_config(config_path):
 def get_business_days():
     """
     Returns the business days string (weekmask) based on config and holiday logic.
-    Replace the logic below with your actual implementation.
     """
     # Load holidays, first_data_date, and weekmask from config
     config = load_config('config.yaml')
@@ -60,29 +61,23 @@ def get_business_days():
 
 @st.cache_resource
 def get_drive_service():
-    """Build and return the Google Drive API client."""
+    """Build and return the Google Drive API client using OAuth credentials."""
 
-    # Get the JSON key from secrets
-    service_account_json_str = st.secrets["Google_Drive"]["service_account_json"]
+    # Load credentials from environment variables set by Secret Manager
+    client_id = os.environ["GOOGLE_CLIENT_ID"]
+    client_secret = os.environ["GOOGLE_CLIENT_SECRET"]
+    refresh_token = os.environ["GOOGLE_REFRESH_TOKEN"]
 
-    # Write to a temporary file
-    with tempfile.NamedTemporaryFile(mode="w+", suffix=".json", delete=False) as f:
-        f.write(service_account_json_str)
-        f.flush()
-        keyfile_path = f.name
+    creds = Credentials(
+        token=None,  # No access token, will be refreshed automatically
+        refresh_token=refresh_token,
+        token_uri="https://oauth2.googleapis.com/token",
+        client_id=client_id,
+        client_secret=client_secret,
+        scopes=["https://www.googleapis.com/auth/drive"],
+    )
 
-    try:
-        # Create credentials from the service account file
-        credentials = service_account.Credentials.from_service_account_file(
-            keyfile_path,
-            scopes = ['https://www.googleapis.com/auth/drive']
-        )
-    finally:
-        # Clean up the temporary file
-        if os.path.exists(keyfile_path):
-            os.remove(keyfile_path)
-
-    return build('drive', 'v3', credentials=credentials)
+    return build('drive', 'v3', credentials=creds)
 
 
 def get_existing_dates(drive_service, folder_id):
