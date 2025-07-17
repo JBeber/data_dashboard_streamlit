@@ -6,6 +6,7 @@ from VV_Utils import load_config
 class WineDashboardData:
     def __init__(self, start_date, end_date, data_loader_func, bottle_names, glass_names, bottle_to_glass_map):
         self.config = load_config('config.yaml')
+        self.config = load_config('config.yaml')
         self.start_date = start_date
         self.end_date = end_date
         self.data_loader_func = data_loader_func # expects a function that returns a DataFrame per date string
@@ -16,6 +17,7 @@ class WineDashboardData:
         self._load_and_aggregate()
 
     def _date_list(self):
+        vv_business_days = self.config.get('business_days', None)
         vv_business_days = self.config.get('business_days', None)
         return pd.date_range(start=self.start_date, end=self.end_date, freq=vv_business_days).to_list()
 
