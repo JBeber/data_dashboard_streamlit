@@ -1,11 +1,11 @@
 import pandas as pd
 from math import ceil
 from datetime import date, datetime
-from VV_Utils import get_business_days
-# Import other needed utilities (e.g., for reading from GDrive) here
+from VV_Utils import get_business_days, load_config
 
 class WineDashboardData:
     def __init__(self, start_date, end_date, data_loader_func, bottle_names, glass_names, bottle_to_glass_map):
+        self.config = load_config('config.yaml')
         self.start_date = start_date
         self.end_date = end_date
         self.data_loader_func = data_loader_func # expects a function that returns a DataFrame per date string
