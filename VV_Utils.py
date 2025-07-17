@@ -14,19 +14,6 @@ from dotenv import load_dotenv
 load_dotenv()
 folder_id = st.secrets['Google_Drive']['folder_id']
 
-# def get_business_days():
-#     """
-#     Returns the business days string (weekmask) based on config and holiday logic.
-#     Replace the logic below with your actual implementation.
-#     """
-    
-#     # Set operatings days for date range generation
-#     vv_weekmask = config.get('weekmask', None)
-#     vv_holidays = config.get('holidays', [])
-#     vv_business_days = pd.offsets.CustomBusinessDay(weekmask=vv_weekmask, holidays=vv_holidays)
-
-#     return vv_business_days
-
 
 @lru_cache(maxsize=1)
 def load_config(config_path):

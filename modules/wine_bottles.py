@@ -2,7 +2,6 @@ import pandas as pd
 from math import ceil
 from datetime import date, datetime
 from VV_Utils import load_config
-# Import other needed utilities (e.g., for reading from GDrive) here
 
 class WineDashboardData:
     def __init__(self, start_date, end_date, data_loader_func, bottle_names, glass_names, bottle_to_glass_map):
