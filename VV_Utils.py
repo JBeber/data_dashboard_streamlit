@@ -14,12 +14,10 @@ from dotenv import load_dotenv
 load_dotenv()
 folder_id = st.secrets['Google_Drive']['folder_id']
 
-
 @lru_cache(maxsize=1)
 def load_config(config_path):
     with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
-
 
     holidays = []
     # Single dates
@@ -44,12 +42,6 @@ def load_config(config_path):
         config['first_data_date'] = pd.to_datetime(config['first_data_date'])
     else:
         config['first_data_date'] = date(2025, 1, 1)
-
-    weekmask = config.get('weekmask', 'Tue Wed Thu Fri Sat Sun')
-    holidays = config.get('holidays', [])
-    config['business_days'] = pd.offsets.CustomBusinessDay(weekmask=weekmask, holidays=holidays)
-
-    config['bottle_to_glass_map'] = config.get('bottle_to_glass_map', {})
 
     weekmask = config.get('weekmask', 'Tue Wed Thu Fri Sat Sun')
     holidays = config.get('holidays', [])
