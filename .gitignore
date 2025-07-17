@@ -1,7 +1,9 @@
 /secret.py
-*__pycache__
+__pycache__/
 /.streamlit
 *.ipynb
-test_google_access.py
-/Daily_Data
 .env
+/.devcontainer
+/.pytest_cache
+/devel
+/tests
