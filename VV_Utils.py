@@ -35,17 +35,20 @@ def load_config(config_path):
         rng_dates = pd.date_range(start, end, freq='D')
         holidays.extend(rng_dates.strftime('%Y-%m-%d').tolist())
 
-    config['holidays'] = pd.to_datetime(holidays)
+    # Convert holidays to datetime for business days calculation
+    holidays_dt = pd.to_datetime(holidays)
+    config['holidays'] = holidays_dt
 
     # Parse first_data_date if present
     if 'first_data_date' in config:
-        config['first_data_date'] = pd.to_datetime(config['first_data_date'])
+        first_data_dt = pd.to_datetime(config['first_data_date'])
+        config['first_data_date'] = first_data_dt.date() if hasattr(first_data_dt, 'date') else first_data_dt
     else:
         config['first_data_date'] = date(2025, 1, 1)
 
     weekmask = config.get('weekmask', 'Tue Wed Thu Fri Sat Sun')
-    holidays = config.get('holidays', [])
-    config['business_days'] = pd.offsets.CustomBusinessDay(weekmask=weekmask, holidays=holidays)
+    # Use the converted datetime holidays for business days calculation
+    config['business_days'] = pd.offsets.CustomBusinessDay(weekmask=weekmask, holidays=holidays_dt)
 
     config['bottle_to_glass_map'] = config.get('bottle_to_glass_map', {})
 

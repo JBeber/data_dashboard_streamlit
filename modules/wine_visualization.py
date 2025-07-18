@@ -23,7 +23,8 @@ def wine_bottle_visualization():
     # Get available data range
     try:
         # Use a single day to quickly get available dates without processing all data
-        temp_data = WineDashboardData(date.today(), date.today())
+        yesterday = date.today() - timedelta(days=1)
+        temp_data = WineDashboardData(yesterday, yesterday)
         available_dates = temp_data.get_available_dates()
         available_wines = temp_data.get_available_wines()
         
@@ -37,6 +38,7 @@ def wine_bottle_visualization():
             
     except Exception as e:
         st.error(f"❌ Error connecting to data source: {e}")
+        st.error("Please check your configuration and Google Drive connection.")
         return
     
     # Date range selection
