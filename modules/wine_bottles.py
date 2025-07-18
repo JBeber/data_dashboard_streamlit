@@ -2,8 +2,14 @@ import pandas as pd
 from math import ceil
 from datetime import date, datetime
 import io
-from VV_Utils import get_existing_dates, load_config, get_drive_service
+import sys
+import os
 import streamlit as st
+
+# Add parent directory to path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from VV_Utils import get_existing_dates, load_config, get_drive_service
 
 class WineDashboardData:
     def __init__(self, start_date, end_date):
