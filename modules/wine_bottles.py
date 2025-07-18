@@ -1,6 +1,6 @@
 import pandas as pd
 from math import ceil
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import io
 import sys
 import os
@@ -25,7 +25,10 @@ class WineDashboardData:
 
     def _date_list(self):
         vv_business_days = self.config.get('business_days', None)
-        return pd.date_range(start=self.start_date, end=self.end_date, freq=vv_business_days).to_list()
+        # Don't include today's date since data is only available the day after
+        yesterday = date.today() - timedelta(days=1)
+        end_date = min(self.end_date, yesterday)
+        return pd.date_range(start=self.start_date, end=end_date, freq=vv_business_days).to_list()
 
     def _date_str_list(self):
         return [dt.strftime('%Y%m%d') for dt in self._date_list()]

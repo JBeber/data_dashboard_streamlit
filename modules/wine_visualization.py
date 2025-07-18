@@ -17,6 +17,9 @@ def wine_bottle_visualization():
     st.header("🍷 Wine Bottle Consumption Analysis")
     st.markdown("Track weekly wine bottle consumption including bottles sold directly and equivalent bottles from glass sales.")
     
+    # Info about data availability
+    st.info("📊 **Data Availability**: Restaurant data becomes available the day after service. The latest available data is from yesterday.")
+    
     # Get available data range
     try:
         # Use a single day to quickly get available dates without processing all data
@@ -41,23 +44,26 @@ def wine_bottle_visualization():
     
     min_date = min(available_dates)
     max_date = max(available_dates)
+    # Don't allow selection beyond yesterday since data is only available the day after
+    yesterday = date.today() - timedelta(days=1)
+    max_selectable_date = min(max_date, yesterday)
     
     with col1:
         start_date = st.date_input(
             "📅 Start Date",
-            value=max_date - timedelta(days=30),  # Default to last 30 days
+            value=max_selectable_date - timedelta(days=30),  # Default to last 30 days
             min_value=min_date,
-            max_value=max_date,
+            max_value=max_selectable_date,
             help="Select the start date for analysis"
         )
     
     with col2:
         end_date = st.date_input(
             "📅 End Date",
-            value=max_date,
+            value=max_selectable_date,
             min_value=min_date,
-            max_value=max_date,
-            help="Select the end date for analysis"
+            max_value=max_selectable_date,
+            help="Select the end date for analysis (data is available up to yesterday)"
         )
     
     # Wine selection
