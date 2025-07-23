@@ -388,6 +388,10 @@ def show_summary_statistics(df):
         mime="text/csv"
     )
 
+def main():
+    """Main entry point for the wine visualization module"""
+    wine_bottle_visualization()
+
 if __name__ == "__main__":
     # For testing
     wine_bottle_visualization()

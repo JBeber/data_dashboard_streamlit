@@ -3,6 +3,7 @@ from VV_Utils import collect_data
 
 # Modular page imports
 from modules import home
+from modules import wine_visualization
 
 
 # Load the password from Streamlit secrets
@@ -28,7 +29,7 @@ check_password()
 # Navigation config
 PAGES = {
     "Home": home,
-    # "Wine Bottles": wine_bottles
+    "BTG Wine Bottles": wine_visualization
 }
 
 # Session state setup
