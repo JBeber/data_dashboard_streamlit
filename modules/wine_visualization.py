@@ -37,7 +37,11 @@ def wine_bottle_visualization():
             return
             
     except Exception as e:
-        st.error(f"❌ Error connecting to data source: {e}")
+        error_str = str(e).lower()
+        if 'ssl' in error_str or 'record layer failure' in error_str:
+            st.warning("⚠️ Temporary network connectivity issue. Please refresh the page or try again in a moment.")
+        else:
+            st.error(f"❌ Error connecting to data source: {e}")
         st.error("Please check your configuration and Google Drive connection.")
         return
     
@@ -107,7 +111,7 @@ def wine_bottle_visualization():
 def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode, num_top=None):
     """Generate and display wine bottle analysis"""
     
-    with st.spinner("🔄 Processing wine data..."):
+    with st.spinner("🔄 Loading wine data from Google Drive..."):
         try:
             # Load data
             wine_data = WineDashboardData(start_date, end_date)
@@ -115,6 +119,10 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
             
             if df.empty:
                 st.warning("📊 No data found for the selected date range and wines.")
+                st.info("💡 This could be due to:")
+                st.info("• No sales during the selected period")
+                st.info("• Network connectivity issues (try refreshing)")
+                st.info("• Missing data files for those dates")
                 return
             
             # Filter for selected wines or get top performers
@@ -133,7 +141,13 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
             show_summary_statistics(df)
             
         except Exception as e:
-            st.error(f"❌ Error generating analysis: {e}")
+            error_str = str(e).lower()
+            if 'ssl' in error_str or 'record layer failure' in error_str:
+                st.error("🌐 Network connectivity issue occurred while loading data.")
+                st.info("💡 Please try again in a moment. Some data may have loaded successfully.")
+            else:
+                st.error(f"❌ Error generating analysis: {e}")
+                st.info("💡 Please check your date range and wine selections.")
 
 def create_visualizations(df):
     """Create various visualizations for wine bottle data"""
