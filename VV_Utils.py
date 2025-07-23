@@ -35,35 +35,24 @@ def load_config(config_path):
         rng_dates = pd.date_range(start, end, freq='D')
         holidays.extend(rng_dates.strftime('%Y-%m-%d').tolist())
 
-    config['holidays'] = pd.to_datetime(holidays)
+    # Convert holidays to datetime for business days calculation
+    holidays_dt = pd.to_datetime(holidays)
+    config['holidays'] = holidays_dt
 
     # Parse first_data_date if present
     if 'first_data_date' in config:
-        config['first_data_date'] = pd.to_datetime(config['first_data_date'])
+        first_data_dt = pd.to_datetime(config['first_data_date'])
+        config['first_data_date'] = first_data_dt.date() if hasattr(first_data_dt, 'date') else first_data_dt
     else:
         config['first_data_date'] = date(2025, 1, 1)
 
     weekmask = config.get('weekmask', 'Tue Wed Thu Fri Sat Sun')
-    holidays = config.get('holidays', [])
-    config['business_days'] = pd.offsets.CustomBusinessDay(weekmask=weekmask, holidays=holidays)
+    # Use the converted datetime holidays for business days calculation
+    config['business_days'] = pd.offsets.CustomBusinessDay(weekmask=weekmask, holidays=holidays_dt)
 
     config['bottle_to_glass_map'] = config.get('bottle_to_glass_map', {})
 
     return config
-
-
-def get_business_days():
-    """
-    Returns the business days string (weekmask) based on config and holiday logic.
-    """
-    # Load holidays, first_data_date, and weekmask from config
-    config = load_config('config.yaml')
-    # Set operatings days for date range generation
-    vv_weekmask = config.get('weekmask', 'Tue Wed Thu Fri Sat Sun')
-    vv_holidays = config.get('holidays', [])
-    vv_business_days = pd.offsets.CustomBusinessDay(weekmask=vv_weekmask, holidays=vv_holidays)
-
-    return vv_business_days
 
 
 @st.cache_resource
@@ -112,7 +101,7 @@ def get_existing_dates(drive_service, folder_id):
 def collect_data() -> None:
     config = load_config('config.yaml')
     first_data_date = config.get('first_data_date', date(2025, 1, 1))
-    vv_business_days = get_business_days()
+    vv_business_days = config.get('business_days', None)
     
     # Build the Google Drive API client
     drive_service = get_drive_service()
