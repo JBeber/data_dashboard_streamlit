@@ -158,6 +158,8 @@ def create_visualizations(df):
     
     # Prepare data for Altair
     trend_data = df.sort_values('Week Ending Date').copy()
+    # Create string version of date for tooltip to avoid temporal parsing issues
+    trend_data['Date_String'] = pd.to_datetime(trend_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
     trend_data['Week Ending Date'] = pd.to_datetime(trend_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
     
     # Create Altair line chart
@@ -173,7 +175,13 @@ def create_visualizations(df):
     ).encode(
         x=alt.X('Week Ending Date:T', 
                 title='Week Ending Date',
-                axis=alt.Axis(labelAngle=-45, labelFontSize=11, format='%m/%d')),
+                axis=alt.Axis(
+                    labelAngle=-45, 
+                    labelFontSize=11, 
+                    format='%m/%d',
+                    tickCount='week',
+                    grid=True
+                )),
         y=alt.Y('Bottles Total:Q', 
                 title='Bottles Sold',
                 scale=alt.Scale(nice=True, zero=False)),
@@ -188,7 +196,11 @@ def create_visualizations(df):
                            symbolType='circle',
                            labelLimit=200
                        )),
-        tooltip=['Week Ending Date:T', 'Bottle:N', 'Bottles Total:Q']
+        tooltip=[
+            alt.Tooltip('Date_String:N', title='Week Ending Date'),
+            alt.Tooltip('Bottle:N', title='Wine'),
+            alt.Tooltip('Bottles Total:Q', title='Bottles Sold')
+        ]
     ).properties(
         title=alt.TitleParams(
             text='Weekly Wine Bottle Sales Trends',
@@ -197,20 +209,20 @@ def create_visualizations(df):
             color='#2c3e50',
             fontWeight='bold'
         ),
-        height=400,
-        width=800
+        height=450,
+        width=1200
     ).configure_axis(
         labelFontSize=11,
         titleFontSize=12,
         grid=True,
         gridColor='#f0f0f0',
-        gridOpacity=0.5,
+        gridOpacity=0.3,
         domain=False
     ).configure_view(
         strokeWidth=0
     )
     
-    st.altair_chart(line_chart, use_container_width=True)
+    st.altair_chart(line_chart, use_container_width=False)
 
     # 2. Bar Chart - Total Bottles by Wine (Altair)
     st.subheader("📊 Total Bottles by Wine")
