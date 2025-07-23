@@ -12,10 +12,10 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from modules.wine_bottles import WineDashboardData
 
 def wine_bottle_visualization():
-    """Main wine bottle visualization widget for Streamlit dashboard"""
-    
-    st.header("🍷 Wine Bottle Consumption Analysis")
-    st.markdown("Track weekly wine bottle consumption including bottles sold directly and equivalent bottles from glass sales.")
+    """BTG wine bottle visualization widget for Streamlit dashboard"""
+
+    st.header("🍷 BTG Wine Bottle Sales Analysis")
+    st.markdown("Track weekly BTG wine bottle sales including bottles sold directly and equivalent bottles from glass sales.")
     
     # Info about data availability
     st.info("📊 **Data Availability**: Restaurant data becomes available the day after service. The latest available data is from yesterday.")
@@ -130,7 +130,7 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
                 # Get top performers by total bottles
                 top_wines = df.groupby('Bottle')['Bottles Total'].sum().sort_values(ascending=False).head(num_top)
                 df = df[df['Bottle'].isin(top_wines.index)]
-                st.info(f"🏆 Showing top {len(top_wines)} wines by total consumption")
+                st.info(f"🏆 Showing top {len(top_wines)} wines by total bottles sold")
             else:
                 df = df[df['Bottle'].isin(selected_wines)]
             
@@ -160,7 +160,7 @@ def create_visualizations(df):
         x='Week Ending Date',
         y='Bottles Total',
         color='Bottle',
-        title='Weekly Wine Bottle Consumption Trends',
+        title='Weekly Wine Bottle Sales Trends',
         markers=True,
         hover_data={'Bottles Total': True}
     )
@@ -175,24 +175,24 @@ def create_visualizations(df):
     )
     
     st.plotly_chart(fig_line, use_container_width=True)
+
+    # 2. Bar Chart - Total Bottles by Wine
+    st.subheader("📊 Total Bottles by Wine")
     
-    # 2. Bar Chart - Total Consumption
-    st.subheader("📊 Total Consumption by Wine")
-    
-    total_consumption = df.groupby('Bottle')['Bottles Total'].sum().sort_values(ascending=True)
+    total_bottles = df.groupby('Bottle')['Bottles Total'].sum().sort_values(ascending=True)
     
     fig_bar = px.bar(
-        x=total_consumption.values,
-        y=total_consumption.index,
+        x=total_bottles.values,
+        y=total_bottles.index,
         orientation='h',
-        title='Total Wine Bottle Consumption',
+        title='Total Wine Bottles Sold',
         labels={'x': 'Total Bottles', 'y': 'Wine'},
-        color=total_consumption.values,
+        color=total_bottles.values,
         color_continuous_scale='Blues'
     )
     
     fig_bar.update_layout(
-        height=max(400, len(total_consumption) * 30),
+        height=max(400, len(total_bottles) * 30),
         showlegend=False,
         title=dict(y=0.95, x=0.5, xanchor='center'),  # Position title consistently
         margin=dict(t=60)  # Add top margin for title
@@ -208,13 +208,13 @@ def create_visualizations(df):
         x='Week Ending Date',
         y='Bottles Total',
         color='Bottle',
-        title='Weekly Wine Consumption Comparison',
+        title='Weekly Wine Sales Comparison',
         barmode='group'
     )
     
     fig_weekly.update_layout(
         xaxis_title="Week Ending Date",
-        yaxis_title="Bottles Consumed",
+        yaxis_title="Bottles Sold",
         title=dict(y=0.95, x=0.5, xanchor='center'),
         legend=dict(orientation="v", yanchor="top", y=1, xanchor="left", x=1.02),  # Move legend to right side
         margin=dict(t=60, r=200),  # Reduce top margin, add right margin for legend
@@ -279,14 +279,14 @@ def show_summary_statistics(df):
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("**Top 5 Wines by Total Consumption:**")
+        st.markdown("**Top 5 Wines by Total Bottles Sold:**")
         for i, (wine, total) in enumerate(top_wines.head().items(), 1):
             st.write(f"{i}. **{wine}**: {total} bottles")
     
     with col2:
         # Average weekly performance
         avg_weekly_performance = df.groupby('Bottle')['Bottles Total'].mean().sort_values(ascending=False)
-        st.markdown("**Top 5 Wines by Average Weekly Consumption:**")
+        st.markdown("**Top 5 Wines by Average Weekly Bottles Sold:**")
         for i, (wine, avg) in enumerate(avg_weekly_performance.head().items(), 1):
             st.write(f"{i}. **{wine}**: {avg:.1f} bottles/week")
     
@@ -314,7 +314,7 @@ def show_summary_statistics(df):
     st.download_button(
         label="📥 Download Data as CSV",
         data=csv,
-        file_name=f"wine_consumption_{df['Week Ending Date'].min()}_{df['Week Ending Date'].max()}.csv",
+        file_name=f"btg_wine_sales_{df['Week Ending Date'].min()}_{df['Week Ending Date'].max()}.csv",
         mime="text/csv"
     )
 
