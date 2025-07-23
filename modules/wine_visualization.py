@@ -169,7 +169,9 @@ def create_visualizations(df):
         xaxis_title="Week Ending Date",
         yaxis_title="Bottles Consumed",
         hovermode='x unified',
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        title=dict(y=0.95, x=0.5, xanchor='center'),
+        legend=dict(orientation="v", yanchor="top", y=1, xanchor="left", x=1.02),  # Move legend to right side
+        margin=dict(t=60, r=200)  # Reduce top margin, add right margin for legend
     )
     
     st.plotly_chart(fig_line, use_container_width=True)
@@ -191,7 +193,9 @@ def create_visualizations(df):
     
     fig_bar.update_layout(
         height=max(400, len(total_consumption) * 30),
-        showlegend=False
+        showlegend=False,
+        title=dict(y=0.95, x=0.5, xanchor='center'),  # Position title consistently
+        margin=dict(t=60)  # Add top margin for title
     )
     
     st.plotly_chart(fig_bar, use_container_width=True)
@@ -211,10 +215,14 @@ def create_visualizations(df):
     fig_weekly.update_layout(
         xaxis_title="Week Ending Date",
         yaxis_title="Bottles Consumed",
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        title=dict(y=0.95, x=0.5, xanchor='center'),
+        legend=dict(orientation="v", yanchor="top", y=1, xanchor="left", x=1.02),  # Move legend to right side
+        margin=dict(t=60, r=200),  # Reduce top margin, add right margin for legend
+        height=500,  # Set reasonable height
+        width=1200   # Make chart wider for better week spacing
     )
     
-    st.plotly_chart(fig_weekly, use_container_width=True)
+    st.plotly_chart(fig_weekly, use_container_width=False)
     
     # 4. Heatmap (if multiple weeks)
     weeks = df['Week Ending Date'].nunique()
@@ -229,6 +237,11 @@ def create_visualizations(df):
             labels={'x': 'Week Ending Date', 'y': 'Wine', 'color': 'Bottles'},
             color_continuous_scale='RdYlBu_r',
             aspect='auto'
+        )
+        
+        fig_heatmap.update_layout(
+            title=dict(y=0.95, x=0.5, xanchor='center'),  # Position title consistently
+            margin=dict(t=60)  # Add top margin for title
         )
         
         st.plotly_chart(fig_heatmap, use_container_width=True)
