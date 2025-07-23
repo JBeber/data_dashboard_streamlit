@@ -5,6 +5,7 @@ import pandas as pd
 from datetime import date, timedelta
 import sys
 import os
+import altair as alt
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -152,99 +153,168 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
 def create_visualizations(df):
     """Create various visualizations for wine bottle data"""
     
-    # 1. Time Series Line Chart
+    # 1. Time Series Line Chart (Altair)
     st.subheader("📈 Weekly Trends")
     
-    fig_line = px.line(
-        df.sort_values('Week Ending Date'),
-        x='Week Ending Date',
-        y='Bottles Total',
-        color='Bottle',
-        title='Weekly Wine Bottle Sales Trends',
-        markers=True,
-        hover_data={'Bottles Total': True}
+    # Prepare data for Altair
+    trend_data = df.sort_values('Week Ending Date').copy()
+    trend_data['Week Ending Date'] = pd.to_datetime(trend_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
+    
+    # Create Altair line chart
+    line_chart = alt.Chart(trend_data).mark_line(
+        point=alt.OverlayMarkDef(
+            filled=True,
+            size=80,
+            stroke='white',
+            strokeWidth=2
+        ),
+        strokeWidth=3,
+        interpolate='monotone'
+    ).encode(
+        x=alt.X('Week Ending Date:T', 
+                title='Week Ending Date',
+                axis=alt.Axis(labelAngle=-45, labelFontSize=11, format='%m/%d')),
+        y=alt.Y('Bottles Total:Q', 
+                title='Bottles Sold',
+                scale=alt.Scale(nice=True, zero=False)),
+        color=alt.Color('Bottle:N', 
+                       title='Wine',
+                       scale=alt.Scale(range=['#2E86AB', '#A23B72', '#F18F01', '#C73E1D', '#592E83', '#048A81', '#F39C12', '#8E44AD']),
+                       legend=alt.Legend(
+                           orient='right',
+                           titleFontSize=12,
+                           labelFontSize=11,
+                           symbolSize=120,
+                           symbolType='circle',
+                           labelLimit=200
+                       )),
+        tooltip=['Week Ending Date:T', 'Bottle:N', 'Bottles Total:Q']
+    ).properties(
+        title=alt.TitleParams(
+            text='Weekly Wine Bottle Sales Trends',
+            fontSize=16,
+            anchor='start',
+            color='#2c3e50',
+            fontWeight='bold'
+        ),
+        height=400,
+        width=800
+    ).configure_axis(
+        labelFontSize=11,
+        titleFontSize=12,
+        grid=True,
+        gridColor='#f0f0f0',
+        gridOpacity=0.5,
+        domain=False
+    ).configure_view(
+        strokeWidth=0
     )
     
-    fig_line.update_layout(
-        xaxis_title="Week Ending Date",
-        yaxis_title="Bottles Consumed",
-        hovermode='x unified',
-        title=dict(y=0.95, x=0.5, xanchor='center'),
-        legend=dict(orientation="v", yanchor="top", y=1, xanchor="left", x=1.02),  # Move legend to right side
-        margin=dict(t=60, r=200)  # Reduce top margin, add right margin for legend
-    )
-    
-    st.plotly_chart(fig_line, use_container_width=True)
+    st.altair_chart(line_chart, use_container_width=True)
 
-    # 2. Bar Chart - Total Bottles by Wine
+    # 2. Bar Chart - Total Bottles by Wine (Altair)
     st.subheader("📊 Total Bottles by Wine")
     
-    total_bottles = df.groupby('Bottle')['Bottles Total'].sum().sort_values(ascending=True)
+    total_bottles = df.groupby('Bottle')['Bottles Total'].sum().sort_values(ascending=False)
     
-    fig_bar = px.bar(
-        x=total_bottles.values,
-        y=total_bottles.index,
-        orientation='h',
-        title='Total Wine Bottles Sold',
-        labels={'x': 'Total Bottles', 'y': 'Wine'},
-        color=total_bottles.values,
-        color_continuous_scale='Blues'
+    # Create DataFrame for Altair
+    chart_data = pd.DataFrame({
+        'Wine': total_bottles.index,
+        'Total Bottles': total_bottles.values
+    })
+    
+    # Create Altair horizontal bar chart
+    bar_chart = alt.Chart(chart_data).mark_bar(
+        color='#1f77b4',
+        cornerRadiusEnd=3
+    ).encode(
+        x=alt.X('Total Bottles:Q', 
+                title='Total Bottles Sold',
+                scale=alt.Scale(nice=True)),
+        y=alt.Y('Wine:N', 
+                title=None,
+                sort='-x'),
+        color=alt.Color('Total Bottles:Q',
+                       scale=alt.Scale(scheme='blues'),
+                       legend=None),
+        tooltip=['Wine:N', 'Total Bottles:Q']
+    ).properties(
+        title=alt.TitleParams(
+            text='Total Wine Bottles Sold',
+            fontSize=16,
+            anchor='start',
+            color='#333333'
+        ),
+        height=max(300, len(total_bottles) * 40),
+        width=600
+    ).configure_axis(
+        labelFontSize=11,
+        titleFontSize=12,
+        grid=False
+    ).configure_view(
+        strokeWidth=0
     )
     
-    fig_bar.update_layout(
-        height=max(400, len(total_bottles) * 30),
-        showlegend=False,
-        title=dict(y=0.95, x=0.5, xanchor='center'),  # Position title consistently
-        margin=dict(t=60)  # Add top margin for title
-    )
+    st.altair_chart(bar_chart, use_container_width=True)
     
-    st.plotly_chart(fig_bar, use_container_width=True)
-    
-    # 3. Weekly Comparison Bar Chart
+    # 3. Weekly Comparison Bar Chart (Altair)
     st.subheader("📅 Weekly Comparison")
     
-    fig_weekly = px.bar(
-        df.sort_values('Week Ending Date'),
-        x='Week Ending Date',
-        y='Bottles Total',
-        color='Bottle',
-        title='Weekly Wine Sales Comparison',
-        barmode='group'
+    # Prepare data for Altair
+    weekly_data = df.sort_values('Week Ending Date').copy()
+    weekly_data['Week Ending Date'] = pd.to_datetime(weekly_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
+    
+    # Create Altair grouped bar chart using facet approach
+    base = alt.Chart(weekly_data).add_selection(
+        alt.selection_single()
     )
     
-    fig_weekly.update_layout(
-        xaxis_title="Week Ending Date",
-        yaxis_title="Bottles Sold",
-        title=dict(y=0.95, x=0.5, xanchor='center'),
-        legend=dict(orientation="v", yanchor="top", y=1, xanchor="left", x=1.02),  # Move legend to right side
-        margin=dict(t=60, r=200),  # Reduce top margin, add right margin for legend
-        height=500,  # Set reasonable height
-        width=1200   # Make chart wider for better week spacing
+    weekly_chart = base.mark_bar(
+        cornerRadiusEnd=3,
+        stroke='white',
+        strokeWidth=0.5
+    ).encode(
+        x=alt.X('Bottle:N', 
+                title=None,
+                axis=alt.Axis(labelAngle=-45, labelFontSize=10)),
+        y=alt.Y('Bottles Total:Q', 
+                title='Bottles Sold',
+                scale=alt.Scale(nice=True)),
+        color=alt.Color('Bottle:N', 
+                       title='Wine',
+                       scale=alt.Scale(range=['#2E86AB', '#A23B72', '#F18F01', '#C73E1D', '#592E83', '#048A81', '#F39C12', '#8E44AD']),
+                       legend=alt.Legend(
+                           orient='right',
+                           titleFontSize=12,
+                           labelFontSize=11,
+                           symbolSize=120,
+                           symbolType='square',
+                           labelLimit=200
+                       )),
+        tooltip=['Week Ending Date:O', 'Bottle:N', 'Bottles Total:Q']
+    ).properties(
+        width=150,
+        height=400
+    ).facet(
+        column=alt.Column('Week Ending Date:O',
+                         title='Week Ending Date',
+                         header=alt.Header(titleFontSize=12, labelFontSize=11))
+    ).resolve_scale(
+        color='independent'
+    ).configure_axis(
+        labelFontSize=11,
+        titleFontSize=12,
+        grid=False,
+        domain=False
+    ).configure_view(
+        strokeWidth=0
+    ).configure_header(
+        titleFontSize=14,
+        titleColor='#2c3e50',
+        titleFontWeight='bold'
     )
     
-    st.plotly_chart(fig_weekly, use_container_width=False)
-    
-    # 4. Heatmap (if multiple weeks)
-    weeks = df['Week Ending Date'].nunique()
-    if weeks > 1:
-        st.subheader("🔥 Performance Heatmap")
-        
-        pivot_df = df.pivot(index='Bottle', columns='Week Ending Date', values='Bottles Total')
-        
-        fig_heatmap = px.imshow(
-            pivot_df,
-            title='Wine Performance Heatmap',
-            labels={'x': 'Week Ending Date', 'y': 'Wine', 'color': 'Bottles'},
-            color_continuous_scale='RdYlBu_r',
-            aspect='auto'
-        )
-        
-        fig_heatmap.update_layout(
-            title=dict(y=0.95, x=0.5, xanchor='center'),  # Position title consistently
-            margin=dict(t=60)  # Add top margin for title
-        )
-        
-        st.plotly_chart(fig_heatmap, use_container_width=True)
+    st.altair_chart(weekly_chart, use_container_width=True)
 
 def show_summary_statistics(df):
     """Display summary statistics and insights"""
