@@ -11,8 +11,10 @@ import altair as alt
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from modules.wine_bottles import WineDashboardData
+from utils.logging_config import app_logger, log_function_errors
 
 
+@log_function_errors("wine_analysis", "initialization")
 def wine_bottle_visualization():
     """BTG wine bottle visualization widget for Streamlit dashboard"""
 
@@ -32,17 +34,34 @@ def wine_bottle_visualization():
         
         if not available_dates:
             st.error("📅 No data available in Google Drive. Please check your data collection process.")
+            app_logger.log_warning("No data available in Google Drive", {
+                "module": "wine_analysis",
+                "action": "data_availability_check"
+            })
             return
         
         if not available_wines:
             st.error("🍾 No wines configured. Please check your config.yaml file.")
+            app_logger.log_warning("No wines configured", {
+                "module": "wine_analysis", 
+                "action": "wine_configuration_check"
+            })
             return
             
     except Exception as e:
-        error_str = str(e).lower()
-        if 'ssl' in error_str or 'record layer failure' in error_str:
-            st.warning("⚠️ Temporary network connectivity issue. Please refresh the page or try again in a moment.")
+        # Check if it's a Google Drive error for centralized handling
+        if app_logger.is_google_drive_error(e):
+            user_message = app_logger.handle_google_drive_error(e, {
+                "module": "wine_analysis",
+                "action": "initial_data_load",
+                "function": "wine_bottle_visualization"
+            })
+            st.error(user_message)
         else:
+            # Log as module-specific error
+            app_logger.log_module_error("wine_analysis", "initialization", e, {
+                "action": "initial_data_load"
+            })
             st.error(f"❌ Error connecting to data source: {e}")
         st.error("Please check your configuration and Google Drive connection.")
         return
@@ -110,6 +129,7 @@ def wine_bottle_visualization():
     if st.button("📊 Generate Analysis", type="primary"):
         generate_wine_analysis(start_date, end_date, selected_wines, selection_mode, num_top if selection_mode == "Top performers only" else None)
 
+@log_function_errors("wine_analysis", "data_processing")
 def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode, num_top=None):
     """Generate and display wine bottle analysis"""
     
@@ -125,6 +145,13 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
                 st.info("• No sales during the selected period")
                 st.info("• Network connectivity issues (try refreshing)")
                 st.info("• Missing data files for those dates")
+                app_logger.log_warning("No data found for selected range", {
+                    "module": "wine_analysis",
+                    "action": "data_loading",
+                    "start_date": str(start_date),
+                    "end_date": str(end_date),
+                    "selected_wines_count": len(selected_wines)
+                })
                 return
             
             # Filter for selected wines or get top performers
@@ -133,8 +160,21 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
                 top_wines = df.groupby('Bottle')['Bottles Total'].sum().sort_values(ascending=False).head(num_top)
                 df = df[df['Bottle'].isin(top_wines.index)]
                 st.info(f"🏆 Showing top {len(top_wines)} wines by total bottles sold")
+                app_logger.log_info("Showing top performers", {
+                    "module": "wine_analysis",
+                    "action": "wine_filtering",
+                    "num_top": num_top,
+                    "wines_found": len(top_wines)
+                })
             else:
                 df = df[df['Bottle'].isin(selected_wines)]
+                app_logger.log_info("Data filtered successfully", {
+                    "module": "wine_analysis", 
+                    "action": "wine_filtering",
+                    "selection_mode": selection_mode,
+                    "wines_selected": len(selected_wines),
+                    "data_rows": len(df)
+                })
             
             # Display visualizations
             create_visualizations(df)
@@ -143,14 +183,28 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
             show_summary_statistics(df)
             
         except Exception as e:
-            error_str = str(e).lower()
-            if 'ssl' in error_str or 'record layer failure' in error_str:
-                st.error("🌐 Network connectivity issue occurred while loading data.")
+            # Check if it's a Google Drive error for centralized handling
+            if app_logger.is_google_drive_error(e):
+                user_message = app_logger.handle_google_drive_error(e, {
+                    "module": "wine_analysis",
+                    "action": "analysis_data_load",
+                    "start_date": str(start_date),
+                    "end_date": str(end_date)
+                })
+                st.error(user_message)
                 st.info("💡 Please try again in a moment. Some data may have loaded successfully.")
             else:
+                # Log as module-specific error
+                app_logger.log_module_error("wine_analysis", "data_processing", e, {
+                    "action": "analysis_data_load",
+                    "start_date": str(start_date),
+                    "end_date": str(end_date),
+                    "selection_mode": selection_mode
+                })
                 st.error(f"❌ Error generating analysis: {e}")
                 st.info("💡 Please check your date range and wine selections.")
 
+@log_function_errors("wine_analysis", "visualization")
 def create_visualizations(df):
     """Create various visualizations for wine bottle data"""
     
@@ -158,80 +212,96 @@ def create_visualizations(df):
     st.subheader("📈 Weekly Trends")
     st.info("💡 **Interactive Chart**: Click on any wine name in the legend to highlight that wine's trend line.")
     
-    # Prepare data for Altair
-    trend_data = df.sort_values('Week Ending Date').copy()
-    # Create string version of date for tooltip to avoid temporal parsing issues
-    trend_data['Date_String'] = pd.to_datetime(trend_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
-    trend_data['Week Ending Date'] = pd.to_datetime(trend_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
-    
-    # Create selection for interactive legend
-    click_selection = alt.selection_point(fields=['Bottle'], bind='legend')
-    
-    # Create Altair line chart with interactive selection
-    line_chart = alt.Chart(trend_data).mark_line(
-        point=alt.OverlayMarkDef(
-            filled=True,
-            size=80,
-            stroke='white',
-            strokeWidth=2
-        ),
-        strokeWidth=3,
-        interpolate='monotone'
-    ).encode(
-        x=alt.X('Week Ending Date:T', 
-                title='Week Ending Date',
-                axis=alt.Axis(
-                    labelAngle=-45, 
-                    labelFontSize=11, 
-                    format='%m/%d',
-                    tickCount='week',
-                    grid=True
-                )),
-        y=alt.Y('Bottles Total:Q', 
-                title='Bottles Sold',
-                scale=alt.Scale(nice=True, zero=False)),
-        color=alt.Color('Bottle:N', 
-                       title='Wine',
-                       scale=alt.Scale(range=['#2E86AB', '#A23B72', '#F18F01', '#C73E1D', '#592E83', '#048A81', '#F39C12', '#8E44AD']),
-                       legend=alt.Legend(
-                           orient='right',
-                           titleFontSize=12,
-                           labelFontSize=11,
-                           symbolSize=120,
-                           symbolType='circle',
-                           labelLimit=200
-                       )),
-        opacity=alt.condition(click_selection, alt.value(1.0), alt.value(0.1)),
-        strokeWidth=alt.condition(click_selection, alt.value(4), alt.value(2)),
-        tooltip=[
-            alt.Tooltip('Date_String:N', title='Week Ending Date'),
-            alt.Tooltip('Bottle:N', title='Wine'),
-            alt.Tooltip('Bottles Total:Q', title='Bottles Sold')
-        ]
-    ).add_params(
-        click_selection
-    ).properties(
-        title=alt.TitleParams(
-            text='Weekly Wine Bottle Sales Trends - Click legend to highlight',
-            fontSize=16,
-            anchor='start',
-            color='#2c3e50',
-            fontWeight='bold'
-        ),
-        height=450,
-        width=1200
-    ).configure_axis(
-        labelFontSize=11,
-        titleFontSize=12,
-        grid=True,
-        gridColor='#f0f0f0',
-        gridOpacity=0.3,
-        domain=False
-    ).configure_view(
-        strokeWidth=0
-    )
-    
-    st.altair_chart(line_chart, use_container_width=False)
+    try:
+        # Prepare data for Altair
+        trend_data = df.sort_values('Week Ending Date').copy()
+        # Create string version of date for tooltip to avoid temporal parsing issues
+        trend_data['Date_String'] = pd.to_datetime(trend_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
+        trend_data['Week Ending Date'] = pd.to_datetime(trend_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
+        
+        app_logger.log_info("Creating line chart visualization", {
+            "module": "wine_analysis",
+            "chart_type": "line_chart",
+            "data_points": len(trend_data),
+            "unique_wines": trend_data['Bottle'].nunique()
+        })
+        
+        # Create selection for interactive legend
+        click_selection = alt.selection_point(fields=['Bottle'], bind='legend')
+        
+        # Create Altair line chart with interactive selection
+        line_chart = alt.Chart(trend_data).mark_line(
+            point=alt.OverlayMarkDef(
+                filled=True,
+                size=80,
+                stroke='white',
+                strokeWidth=2
+            ),
+            strokeWidth=3,
+            interpolate='monotone'
+        ).encode(
+            x=alt.X('Week Ending Date:T', 
+                    title='Week Ending Date',
+                    axis=alt.Axis(
+                        labelAngle=-45, 
+                        labelFontSize=11, 
+                        format='%m/%d',
+                        tickCount='week',
+                        grid=True
+                    )),
+            y=alt.Y('Bottles Total:Q', 
+                    title='Bottles Sold',
+                    scale=alt.Scale(nice=True, zero=False)),
+            color=alt.Color('Bottle:N', 
+                           title='Wine',
+                           scale=alt.Scale(range=['#2E86AB', '#A23B72', '#F18F01', '#C73E1D', '#592E83', '#048A81', '#F39C12', '#8E44AD']),
+                           legend=alt.Legend(
+                               orient='right',
+                               titleFontSize=12,
+                               labelFontSize=11,
+                               symbolSize=120,
+                               symbolType='circle',
+                               labelLimit=200
+                           )),
+            opacity=alt.condition(click_selection, alt.value(1.0), alt.value(0.1)),
+            strokeWidth=alt.condition(click_selection, alt.value(4), alt.value(2)),
+            tooltip=[
+                alt.Tooltip('Date_String:N', title='Week Ending Date'),
+                alt.Tooltip('Bottle:N', title='Wine'),
+                alt.Tooltip('Bottles Total:Q', title='Bottles Sold')
+            ]
+        ).add_params(
+            click_selection
+        ).properties(
+            title=alt.TitleParams(
+                text='Weekly Wine Bottle Sales Trends - Click legend to highlight',
+                fontSize=16,
+                anchor='start',
+                color='#2c3e50',
+                fontWeight='bold'
+            ),
+            height=450,
+            width=1200
+        ).configure_axis(
+            labelFontSize=11,
+            titleFontSize=12,
+            grid=True,
+            gridColor='#f0f0f0',
+            gridOpacity=0.3,
+            domain=False
+        ).configure_view(
+            strokeWidth=0
+        )
+        
+        st.altair_chart(line_chart, use_container_width=False)
+        
+    except Exception as e:
+        app_logger.log_module_error("wine_analysis", "chart_creation", e, {
+            "chart_type": "line_chart",
+            "data_shape": df.shape if df is not None else "None"
+        })
+        st.error("❌ Error creating line chart. Please try refreshing the page.")
+        return
 
     # 2. Bar Chart - Total Bottles by Wine (Altair)
     st.subheader("📊 Total Bottles by Wine")

@@ -1,5 +1,6 @@
 google-api-python-client
 google-auth
+google-cloud-logging
 pandas
 plotly
 protobuf
@@ -7,5 +8,6 @@ pysftp>=0.2.9
 paramiko>=3.0.0
 cryptography>=41.0.0
 streamlit>=1.46
+altair>=5.0.0
 PyYAML>=5.4
 python-dotenv
