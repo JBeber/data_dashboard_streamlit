@@ -155,7 +155,7 @@ def create_visualizations(df):
     
     # 1. Time Series Line Chart (Altair)
     st.subheader("📈 Weekly Trends")
-    st.info("💡 **Interactive Chart**: Click on any wine name in the legend to highlight that wine's trend line. Click again to deselect.")
+    st.info("💡 **Interactive Chart**: Click on any wine name in the legend to highlight that wine's trend line.")
     
     # Prepare data for Altair
     trend_data = df.sort_values('Week Ending Date').copy()
@@ -285,8 +285,8 @@ def create_visualizations(df):
     weekly_data['Week Ending Date'] = pd.to_datetime(weekly_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
     
     # Create Altair grouped bar chart using facet approach
-    base = alt.Chart(weekly_data).add_selection(
-        alt.selection_single()
+    base = alt.Chart(weekly_data).add_params(
+        alt.selection_point()
     )
     
     weekly_chart = base.mark_bar(
