@@ -155,6 +155,7 @@ def create_visualizations(df):
     
     # 1. Time Series Line Chart (Altair)
     st.subheader("📈 Weekly Trends")
+    st.info("💡 **Interactive Chart**: Click on any wine name in the legend to highlight that wine's trend line. Click again to deselect.")
     
     # Prepare data for Altair
     trend_data = df.sort_values('Week Ending Date').copy()
@@ -162,7 +163,10 @@ def create_visualizations(df):
     trend_data['Date_String'] = pd.to_datetime(trend_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
     trend_data['Week Ending Date'] = pd.to_datetime(trend_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
     
-    # Create Altair line chart
+    # Create selection for interactive legend
+    click_selection = alt.selection_point(fields=['Bottle'], bind='legend')
+    
+    # Create Altair line chart with interactive selection
     line_chart = alt.Chart(trend_data).mark_line(
         point=alt.OverlayMarkDef(
             filled=True,
@@ -196,14 +200,18 @@ def create_visualizations(df):
                            symbolType='circle',
                            labelLimit=200
                        )),
+        opacity=alt.condition(click_selection, alt.value(1.0), alt.value(0.1)),
+        strokeWidth=alt.condition(click_selection, alt.value(4), alt.value(2)),
         tooltip=[
             alt.Tooltip('Date_String:N', title='Week Ending Date'),
             alt.Tooltip('Bottle:N', title='Wine'),
             alt.Tooltip('Bottles Total:Q', title='Bottles Sold')
         ]
+    ).add_params(
+        click_selection
     ).properties(
         title=alt.TitleParams(
-            text='Weekly Wine Bottle Sales Trends',
+            text='Weekly Wine Bottle Sales Trends - Click legend to highlight',
             fontSize=16,
             anchor='start',
             color='#2c3e50',
