@@ -12,6 +12,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from modules.wine_bottles import WineDashboardData
 
+
 def wine_bottle_visualization():
     """BTG wine bottle visualization widget for Streamlit dashboard"""
 
@@ -410,8 +411,10 @@ def show_summary_statistics(df):
 
 def main():
     """Main entry point for the wine visualization module"""
+    st.set_page_config(layout="wide")
     wine_bottle_visualization()
 
 if __name__ == "__main__":
     # For testing
+    st.set_page_config(layout="wide")
     wine_bottle_visualization()
