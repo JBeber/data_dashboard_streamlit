@@ -53,8 +53,5 @@ else:
         if st.sidebar.button(page_name, disabled=st.session_state["page"] == page_name):
             st.session_state["page"] = page_name
 
-    st.sidebar.markdown("---")
-    st.sidebar.info("Custom sidebar content here if needed.")
-
     # Render selected page
     PAGES[st.session_state["page"]].main()
