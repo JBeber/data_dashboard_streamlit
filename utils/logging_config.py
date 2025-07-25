@@ -57,7 +57,8 @@ class AppLogger:
     """
     
     def __init__(self):
-        self.session_id = str(uuid.uuid4())  # Application-level session ID for logging; distinct from Streamlit session ID
+        self.session_id = str(uuid.uuid4())  # Application-level session ID for logging; created per AppLogger instance.
+                                            # This is distinct from the Streamlit session ID, which is tied to browser sessions.
         self.setup_logger()
     
     def setup_logger(self):
