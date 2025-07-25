@@ -106,9 +106,9 @@ class AppLogger:
         try:
             if hasattr(st, 'session_state'):
                 # Create a stable session identifier that persists across the session
-                if 'session_id' not in st.session_state:
-                    st.session_state['session_id'] = str(uuid.uuid4())
-                context['streamlit_session'] = st.session_state['session_id']
+                if 'streamlit_session_id' not in st.session_state:
+                    st.session_state['streamlit_session_id'] = str(uuid.uuid4())
+                context['streamlit_session'] = st.session_state['streamlit_session_id']
         except Exception:
             pass
         
