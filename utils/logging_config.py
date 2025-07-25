@@ -263,19 +263,6 @@ def log_function_errors(module: str, error_type: str = "function_error"):
     return decorator
 
 
-def get_module_logger(module: str):
-    """
-    Get a logger instance configured for a specific module.
-    
-    Args:
-        module: Module name
-        
-    Returns:
-        A logger instance with module context
-    """
-    return app_logger
-
-
 # Helper function for quick error categorization
 def categorize_error(error: Exception) -> str:
     """Categorize an error based on its type and message."""
