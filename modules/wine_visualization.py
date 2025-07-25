@@ -35,7 +35,7 @@ def wine_bottle_visualization():
         if not available_dates:
             st.error("📅 No data available in Google Drive. Please check your data collection process.")
             app_logger.log_warning("No data available in Google Drive", {
-                "module": "wine_analysis",
+                "app_module": "wine_analysis",
                 "action": "data_availability_check"
             })
             return
@@ -43,7 +43,7 @@ def wine_bottle_visualization():
         if not available_wines:
             st.error("🍾 No wines configured. Please check your config.yaml file.")
             app_logger.log_warning("No wines configured", {
-                "module": "wine_analysis", 
+                "app_module": "wine_analysis", 
                 "action": "wine_configuration_check"
             })
             return
@@ -52,7 +52,7 @@ def wine_bottle_visualization():
         # Check if it's a Google Drive error for centralized handling
         if app_logger.is_google_drive_error(e):
             user_message = app_logger.handle_google_drive_error(e, {
-                "module": "wine_analysis",
+                "app_module": "wine_analysis",
                 "action": "initial_data_load",
                 "function": "wine_bottle_visualization"
             })
@@ -146,7 +146,7 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
                 st.info("• Network connectivity issues (try refreshing)")
                 st.info("• Missing data files for those dates")
                 app_logger.log_warning("No data found for selected range", {
-                    "module": "wine_analysis",
+                    "app_module": "wine_analysis",
                     "action": "data_loading",
                     "start_date": str(start_date),
                     "end_date": str(end_date),
@@ -161,7 +161,7 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
                 df = df[df['Bottle'].isin(top_wines.index)]
                 st.info(f"🏆 Showing top {len(top_wines)} wines by total bottles sold")
                 app_logger.log_info("Showing top performers", {
-                    "module": "wine_analysis",
+                    "app_module": "wine_analysis",
                     "action": "wine_filtering",
                     "num_top": num_top,
                     "wines_found": len(top_wines)
@@ -169,7 +169,7 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
             else:
                 df = df[df['Bottle'].isin(selected_wines)]
                 app_logger.log_info("Data filtered successfully", {
-                    "module": "wine_analysis", 
+                    "app_module": "wine_analysis", 
                     "action": "wine_filtering",
                     "selection_mode": selection_mode,
                     "wines_selected": len(selected_wines),
@@ -186,7 +186,7 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
             # Check if it's a Google Drive error for centralized handling
             if app_logger.is_google_drive_error(e):
                 user_message = app_logger.handle_google_drive_error(e, {
-                    "module": "wine_analysis",
+                    "app_module": "wine_analysis",
                     "action": "analysis_data_load",
                     "start_date": str(start_date),
                     "end_date": str(end_date)
@@ -220,7 +220,7 @@ def create_visualizations(df):
         trend_data['Week Ending Date'] = pd.to_datetime(trend_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
         
         app_logger.log_info("Creating line chart visualization", {
-            "module": "wine_analysis",
+            "app_module": "wine_analysis",
             "chart_type": "line_chart",
             "data_points": len(trend_data),
             "unique_wines": trend_data['Bottle'].nunique()

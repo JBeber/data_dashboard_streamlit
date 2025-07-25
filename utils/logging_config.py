@@ -83,7 +83,7 @@ class AppLogger:
         }
         
         if module:
-            context['module'] = module
+            context['app_module'] = module  # Renamed to avoid conflict with logging's 'module' field
         
         if error_type:
             context['error_type'] = error_type
@@ -184,7 +184,7 @@ class AppLogger:
         )
         log_context.update({
             'scope': 'module',
-            'module': module
+            'app_module': module  # Renamed to avoid conflict
         })
         
         self.log_error(f"{module}_{error_type}", error, log_context)
