@@ -32,7 +32,7 @@ class UserFriendlyError(Exception):
     This exception maintains the original exception for debugging while exposing
     a user-friendly message for display in the UI.
     """
-    def __init__(self, user_message: str, original_error: Exception = None):
+    def __init__(self, user_message: str, original_error: Optional[Exception] = None):
         super().__init__(user_message)
         self.user_message = user_message
         self.original_error = original_error
