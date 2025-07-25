@@ -25,7 +25,7 @@ def wine_bottle_visualization():
     st.info("📊 **Data Availability**: Restaurant data becomes available the day after service. The latest available data is from yesterday.")
     
     # Get available data range
-    try:
+    with handle_decorator_errors("Unable to connect to data source. Please check your configuration and Google Drive connection."):
         # Use a single day to quickly get available dates without processing all data
         yesterday = date.today() - timedelta(days=1)
         temp_data = WineDashboardData(yesterday, yesterday)
@@ -47,29 +47,6 @@ def wine_bottle_visualization():
                 "action": "wine_configuration_check"
             })
             return
-            
-    except DecoratorError as de:
-        # Handle decorator errors (already logged)
-        st.error(de.user_message)
-        st.error("Please check your configuration and Google Drive connection.")
-        return
-    except Exception as e:
-        # Check if it's a Google Drive error for centralized handling
-        if app_logger.is_google_drive_error(e):
-            user_message = app_logger.handle_google_drive_error(e, {
-                "app_module": "wine_analysis",
-                "action": "initial_data_load",
-                "function": "wine_bottle_visualization"
-            })
-            st.error(user_message)
-        else:
-            # Log as module-specific error
-            app_logger.log_module_error("wine_analysis", "initialization", e, {
-                "action": "initial_data_load"
-            })
-            st.error(f"❌ Error connecting to data source: {e}")
-        st.error("Please check your configuration and Google Drive connection.")
-        return
     
     # Date range selection
     col1, col2 = st.columns(2)
@@ -139,7 +116,7 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
     """Generate and display wine bottle analysis"""
     
     with st.spinner("🔄 Loading wine data from Google Drive..."):
-        try:
+        with handle_decorator_errors("Unable to generate analysis. Please try again in a moment."):
             # Load data
             wine_data = WineDashboardData(start_date, end_date)
             df = wine_data.get_weekly_bottle_counts()
@@ -187,32 +164,6 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
             # Display summary statistics
             with handle_decorator_errors("Unable to display summary statistics."):
                 show_summary_statistics(df)
-            
-        except DecoratorError as de:
-            # Handle decorator errors (already logged)
-            st.error(de.user_message)
-            st.info("💡 Please try again in a moment. Some data may have loaded successfully.")
-        except Exception as e:
-            # Check if it's a Google Drive error for centralized handling
-            if app_logger.is_google_drive_error(e):
-                user_message = app_logger.handle_google_drive_error(e, {
-                    "app_module": "wine_analysis",
-                    "action": "analysis_data_load",
-                    "start_date": str(start_date),
-                    "end_date": str(end_date)
-                })
-                st.error(user_message)
-                st.info("💡 Please try again in a moment. Some data may have loaded successfully.")
-            else:
-                # Log as module-specific error
-                app_logger.log_module_error("wine_analysis", "data_processing", e, {
-                    "action": "analysis_data_load",
-                    "start_date": str(start_date),
-                    "end_date": str(end_date),
-                    "selection_mode": selection_mode
-                })
-                st.error(f"❌ Error generating analysis: {e}")
-                st.info("💡 Please check your date range and wine selections.")
 
 @log_function_errors("wine_analysis", "visualization")
 def create_visualizations(df):
