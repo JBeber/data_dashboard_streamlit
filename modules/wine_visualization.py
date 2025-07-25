@@ -185,7 +185,17 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
             create_visualizations(df)
             
             # Display summary statistics
-            show_summary_statistics(df)
+            try:
+                show_summary_statistics(df)
+            except UserFriendlyError as ufe:
+                # Handle user-friendly errors from decorators
+                st.error(ufe.user_message)
+                st.info("💡 Unable to display summary statistics.")
+            except Exception as e:
+                app_logger.log_module_error("wine_analysis", "summary_statistics", e, {
+                    "data_shape": df.shape if df is not None else "None"
+                })
+                st.error("❌ Error generating summary statistics. The main analysis completed successfully.")
             
         except UserFriendlyError as ufe:
             # Handle user-friendly errors from decorators
@@ -319,106 +329,144 @@ def create_visualizations(df):
     # 2. Bar Chart - Total Bottles by Wine (Altair)
     st.subheader("📊 Total Bottles by Wine")
     
-    total_bottles = df.groupby('Bottle')['Bottles Total'].sum().sort_values(ascending=False)
-    
-    # Create DataFrame for Altair
-    chart_data = pd.DataFrame({
-        'Wine': total_bottles.index,
-        'Total Bottles': total_bottles.values
-    })
-    
-    # Create Altair horizontal bar chart
-    bar_chart = alt.Chart(chart_data).mark_bar(
-        color='#1f77b4',
-        cornerRadiusEnd=3
-    ).encode(
-        x=alt.X('Total Bottles:Q', 
-                title='Total Bottles Sold',
-                scale=alt.Scale(nice=True)),
-        y=alt.Y('Wine:N', 
-                title=None,
-                sort='-x'),
-        color=alt.Color('Total Bottles:Q',
-                       scale=alt.Scale(scheme='blues'),
-                       legend=None),
-        tooltip=['Wine:N', 'Total Bottles:Q']
-    ).properties(
-        title=alt.TitleParams(
-            text='Total Wine Bottles Sold',
-            fontSize=16,
-            anchor='start',
-            color='#333333'
-        ),
-        height=max(300, len(total_bottles) * 40),
-        width=600
-    ).configure_axis(
-        labelFontSize=11,
-        titleFontSize=12,
-        grid=False
-    ).configure_view(
-        strokeWidth=0
-    )
-    
-    st.altair_chart(bar_chart, use_container_width=True)
+    try:
+        total_bottles = df.groupby('Bottle')['Bottles Total'].sum().sort_values(ascending=False)
+        
+        # Create DataFrame for Altair
+        chart_data = pd.DataFrame({
+            'Wine': total_bottles.index,
+            'Total Bottles': total_bottles.values
+        })
+        
+        app_logger.log_info("Creating bar chart visualization", {
+            "app_module": "wine_analysis",
+            "chart_type": "bar_chart",
+            "data_points": len(chart_data),
+            "unique_wines": len(total_bottles)
+        })
+        
+        # Create Altair horizontal bar chart
+        bar_chart = alt.Chart(chart_data).mark_bar(
+            color='#1f77b4',
+            cornerRadiusEnd=3
+        ).encode(
+            x=alt.X('Total Bottles:Q', 
+                    title='Total Bottles Sold',
+                    scale=alt.Scale(nice=True)),
+            y=alt.Y('Wine:N', 
+                    title=None,
+                    sort='-x'),
+            color=alt.Color('Total Bottles:Q',
+                           scale=alt.Scale(scheme='blues'),
+                           legend=None),
+            tooltip=['Wine:N', 'Total Bottles:Q']
+        ).properties(
+            title=alt.TitleParams(
+                text='Total Wine Bottles Sold',
+                fontSize=16,
+                anchor='start',
+                color='#333333'
+            ),
+            height=max(300, len(total_bottles) * 40),
+            width=600
+        ).configure_axis(
+            labelFontSize=11,
+            titleFontSize=12,
+            grid=False
+        ).configure_view(
+            strokeWidth=0
+        )
+        
+        st.altair_chart(bar_chart, use_container_width=True)
+        
+    except UserFriendlyError as ufe:
+        # Handle user-friendly errors from decorators
+        st.error(ufe.user_message)
+        st.info("💡 Continuing with remaining visualizations...")
+    except Exception as e:
+        app_logger.log_module_error("wine_analysis", "chart_creation", e, {
+            "chart_type": "bar_chart",
+            "data_shape": df.shape if df is not None else "None"
+        })
+        st.error("❌ Error creating bar chart. Continuing with remaining visualizations...")
     
     # 3. Weekly Comparison Bar Chart (Altair)
     st.subheader("📅 Weekly Comparison")
     
-    # Prepare data for Altair
-    weekly_data = df.sort_values('Week Ending Date').copy()
-    weekly_data['Week Ending Date'] = pd.to_datetime(weekly_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
-    
-    # Create Altair grouped bar chart using facet approach
-    base = alt.Chart(weekly_data).add_params(
-        alt.selection_point()
-    )
-    
-    weekly_chart = base.mark_bar(
-        cornerRadiusEnd=3,
-        stroke='white',
-        strokeWidth=0.5
-    ).encode(
-        x=alt.X('Bottle:N', 
-                title=None,
-                axis=alt.Axis(labelAngle=-45, labelFontSize=10)),
-        y=alt.Y('Bottles Total:Q', 
-                title='Bottles Sold',
-                scale=alt.Scale(nice=True)),
-        color=alt.Color('Bottle:N', 
-                       title='Wine',
-                       scale=alt.Scale(range=['#2E86AB', '#A23B72', '#F18F01', '#C73E1D', '#592E83', '#048A81', '#F39C12', '#8E44AD']),
-                       legend=alt.Legend(
-                           orient='right',
-                           titleFontSize=12,
-                           labelFontSize=11,
-                           symbolSize=120,
-                           symbolType='square',
-                           labelLimit=200
-                       )),
-        tooltip=['Week Ending Date:O', 'Bottle:N', 'Bottles Total:Q']
-    ).properties(
-        width=150,
-        height=400
-    ).facet(
-        column=alt.Column('Week Ending Date:O',
-                         title='Week Ending Date',
-                         header=alt.Header(titleFontSize=12, labelFontSize=11))
-    ).resolve_scale(
-        color='independent'
-    ).configure_axis(
-        labelFontSize=11,
-        titleFontSize=12,
-        grid=False,
-        domain=False
-    ).configure_view(
-        strokeWidth=0
-    ).configure_header(
-        titleFontSize=14,
-        titleColor='#2c3e50',
-        titleFontWeight='bold'
-    )
-    
-    st.altair_chart(weekly_chart, use_container_width=True)
+    try:
+        # Prepare data for Altair
+        weekly_data = df.sort_values('Week Ending Date').copy()
+        weekly_data['Week Ending Date'] = pd.to_datetime(weekly_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
+        
+        app_logger.log_info("Creating weekly comparison chart", {
+            "app_module": "wine_analysis",
+            "chart_type": "weekly_comparison",
+            "data_points": len(weekly_data),
+            "unique_weeks": weekly_data['Week Ending Date'].nunique()
+        })
+        
+        # Create Altair grouped bar chart using facet approach
+        base = alt.Chart(weekly_data).add_params(
+            alt.selection_point()
+        )
+        
+        weekly_chart = base.mark_bar(
+            cornerRadiusEnd=3,
+            stroke='white',
+            strokeWidth=0.5
+        ).encode(
+            x=alt.X('Bottle:N', 
+                    title=None,
+                    axis=alt.Axis(labelAngle=-45, labelFontSize=10)),
+            y=alt.Y('Bottles Total:Q', 
+                    title='Bottles Sold',
+                    scale=alt.Scale(nice=True)),
+            color=alt.Color('Bottle:N', 
+                           title='Wine',
+                           scale=alt.Scale(range=['#2E86AB', '#A23B72', '#F18F01', '#C73E1D', '#592E83', '#048A81', '#F39C12', '#8E44AD']),
+                           legend=alt.Legend(
+                               orient='right',
+                               titleFontSize=12,
+                               labelFontSize=11,
+                               symbolSize=120,
+                               symbolType='square',
+                               labelLimit=200
+                           )),
+            tooltip=['Week Ending Date:O', 'Bottle:N', 'Bottles Total:Q']
+        ).properties(
+            width=150,
+            height=400
+        ).facet(
+            column=alt.Column('Week Ending Date:O',
+                             title='Week Ending Date',
+                             header=alt.Header(titleFontSize=12, labelFontSize=11))
+        ).resolve_scale(
+            color='independent'
+        ).configure_axis(
+            labelFontSize=11,
+            titleFontSize=12,
+            grid=False,
+            domain=False
+        ).configure_view(
+            strokeWidth=0
+        ).configure_header(
+            titleFontSize=14,
+            titleColor='#2c3e50',
+            titleFontWeight='bold'
+        )
+        
+        st.altair_chart(weekly_chart, use_container_width=True)
+        
+    except UserFriendlyError as ufe:
+        # Handle user-friendly errors from decorators
+        st.error(ufe.user_message)
+        st.info("💡 Continuing with remaining content...")
+    except Exception as e:
+        app_logger.log_module_error("wine_analysis", "chart_creation", e, {
+            "chart_type": "weekly_comparison",
+            "data_shape": df.shape if df is not None else "None"
+        })
+        st.error("❌ Error creating weekly comparison chart. Continuing with remaining content...")
 
 def show_summary_statistics(df):
     """Display summary statistics and insights"""
