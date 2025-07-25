@@ -11,7 +11,7 @@ import altair as alt
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from modules.wine_bottles import WineDashboardData
-from utils.logging_config import app_logger, log_function_errors, UserFriendlyError, handle_user_friendly_errors, handle_chart_errors
+from utils.logging_config import app_logger, log_function_errors, DecoratorError, handle_decorator_errors, handle_chart_errors
 
 
 @log_function_errors("wine_analysis", "initialization")
@@ -48,9 +48,9 @@ def wine_bottle_visualization():
             })
             return
             
-    except UserFriendlyError as ufe:
-        # Handle user-friendly errors from decorators
-        st.error(ufe.user_message)
+    except DecoratorError as de:
+        # Handle decorator errors (already logged)
+        st.error(de.user_message)
         st.error("Please check your configuration and Google Drive connection.")
         return
     except Exception as e:
@@ -185,12 +185,12 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
             create_visualizations(df)
             
             # Display summary statistics
-            with handle_user_friendly_errors("Unable to display summary statistics."):
+            with handle_decorator_errors("Unable to display summary statistics."):
                 show_summary_statistics(df)
             
-        except UserFriendlyError as ufe:
-            # Handle user-friendly errors from decorators
-            st.error(ufe.user_message)
+        except DecoratorError as de:
+            # Handle decorator errors (already logged)
+            st.error(de.user_message)
             st.info("💡 Please try again in a moment. Some data may have loaded successfully.")
         except Exception as e:
             # Check if it's a Google Drive error for centralized handling

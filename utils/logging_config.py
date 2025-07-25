@@ -26,12 +26,18 @@ except ImportError:
     GOOGLE_CLOUD_AVAILABLE = False
 
 
-class UserFriendlyError(Exception):
+class DecoratorError(Exception):
     """
-    Custom exception that preserves original error context while providing user-friendly messages.
+    Exception raised by @log_function_errors decorator after processing and logging original errors.
     
-    This exception maintains the original exception for debugging while exposing
-    a user-friendly message for display in the UI.
+    This exception indicates that:
+    1. The original error has been logged with full context and stack trace
+    2. A user-friendly message has been prepared for display
+    3. No additional logging is needed - just display the user message
+    4. The original exception is preserved for debugging purposes
+    
+    This allows clean separation between logged errors (from decorators) and 
+    raw errors (handled by context managers with their own logging).
     """
     def __init__(self, user_message: str, original_error: Optional[Exception] = None):
         super().__init__(user_message)
@@ -254,7 +260,7 @@ def log_function_errors(module: str, error_type: str = "function_error"):
                         'function': func.__name__,
                         'module': module
                     })
-                    raise UserFriendlyError(user_message, e) from e
+                    raise DecoratorError(user_message, e) from e
                 else:
                     # Log as module-specific error
                     app_logger.log_module_error(module, error_type, e, {
@@ -283,22 +289,25 @@ def categorize_error(error: Exception) -> str:
 
 
 @contextmanager
-def handle_user_friendly_errors(continue_message: str = "Continuing with remaining content..."):
+def handle_decorator_errors(continue_message: str = "Continuing with remaining content..."):
     """
-    Context manager to handle UserFriendlyError exceptions with consistent UI feedback.
+    Context manager to handle DecoratorError exceptions with consistent UI feedback.
+    
+    DecoratorError exceptions are raised by @log_function_errors decorator after 
+    the original error has already been logged. This context manager only needs 
+    to display the user-friendly message without additional logging.
     
     Args:
         continue_message: Optional message to display when continuing after error
         
     Usage:
-        with handle_user_friendly_errors("Continuing with charts..."):
-            # Code that might raise UserFriendlyError
-            create_chart()
+        with handle_decorator_errors("Unable to display summary statistics."):
+            show_summary_statistics(df)  # Function with @log_function_errors decorator
     """
     try:
         yield
-    except UserFriendlyError as ufe:
-        st.error(ufe.user_message)
+    except DecoratorError as de:
+        st.error(de.user_message)
         if continue_message:
             st.info(f"💡 {continue_message}")
     except Exception:
