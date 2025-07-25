@@ -50,7 +50,7 @@ class AppLogger:
     """
     
     def __init__(self):
-        self.session_id = str(uuid.uuid4())[:8]  # Short session ID
+        self.session_id = str(uuid.uuid4())  # Full session ID for uniqueness
         self.setup_logger()
     
     def setup_logger(self):
