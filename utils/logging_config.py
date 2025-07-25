@@ -304,3 +304,42 @@ def handle_user_friendly_errors(continue_message: str = "Continuing with remaini
     except Exception:
         # Re-raise other exceptions to be handled by decorators
         raise
+
+
+@contextmanager
+def handle_chart_errors(chart_type: str, df, continue_on_error: bool = False, 
+                       continue_message: str = "Continuing with remaining content..."):
+    """
+    Context manager to handle chart creation errors with consistent logging and UI feedback.
+    
+    Args:
+        chart_type: Type of chart being created (e.g., "line_chart", "bar_chart")
+        df: DataFrame being used (for shape logging)
+        continue_on_error: If True, continues execution after error; if False, raises exception
+        continue_message: Message to show when continuing after error
+        
+    Usage:
+        with handle_chart_errors("line_chart", df):
+            # Code that might fail during chart creation
+            create_line_chart()
+            
+        with handle_chart_errors("bar_chart", df, continue_on_error=True):
+            # Code that should continue even if chart fails
+            create_bar_chart()
+    """
+    try:
+        yield
+    except Exception as e:
+        # Log the error
+        app_logger.log_module_error("wine_analysis", "chart_creation", e, {
+            "chart_type": chart_type,
+            "data_shape": df.shape if df is not None else "None"
+        })
+        
+        # Display user message
+        chart_type_display = chart_type.replace("_", " ")
+        if continue_on_error:
+            st.error(f"❌ Error creating {chart_type_display}. {continue_message}")
+        else:
+            st.error(f"❌ Error creating {chart_type_display}. Please try refreshing the page.")
+            raise  # Re-raise the exception to stop execution

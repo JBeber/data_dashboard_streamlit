@@ -11,7 +11,7 @@ import altair as alt
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from modules.wine_bottles import WineDashboardData
-from utils.logging_config import app_logger, log_function_errors, UserFriendlyError, handle_user_friendly_errors
+from utils.logging_config import app_logger, log_function_errors, UserFriendlyError, handle_user_friendly_errors, handle_chart_errors
 
 
 @log_function_errors("wine_analysis", "initialization")
@@ -222,7 +222,7 @@ def create_visualizations(df):
     st.subheader("📈 Weekly Trends")
     st.info("💡 **Interactive Chart**: Click on any wine name in the legend to highlight that wine's trend line.")
     
-    try:
+    with handle_chart_errors("line_chart", df):
         # Prepare data for Altair
         trend_data = df.sort_values('Week Ending Date').copy()
         # Create string version of date for tooltip to avoid temporal parsing issues
@@ -304,19 +304,12 @@ def create_visualizations(df):
         )
         
         st.altair_chart(line_chart, use_container_width=False)
-        
-    except Exception as e:
-        app_logger.log_module_error("wine_analysis", "chart_creation", e, {
-            "chart_type": "line_chart",
-            "data_shape": df.shape if df is not None else "None"
-        })
-        st.error("❌ Error creating line chart. Please try refreshing the page.")
-        return
 
     # 2. Bar Chart - Total Bottles by Wine (Altair)
     st.subheader("📊 Total Bottles by Wine")
     
-    with handle_user_friendly_errors("Continuing with remaining visualizations..."):
+    with handle_chart_errors("bar_chart", df, continue_on_error=True, 
+                            continue_message="Continuing with remaining visualizations..."):
         total_bottles = df.groupby('Bottle')['Bottles Total'].sum().sort_values(ascending=False)
         
         # Create DataFrame for Altair
@@ -367,9 +360,10 @@ def create_visualizations(df):
         st.altair_chart(bar_chart, use_container_width=True)
     
     # 3. Weekly Comparison Bar Chart (Altair)
-    st.subheader("� Weekly Comparison")
+    st.subheader("📅 Weekly Comparison")
     
-    with handle_user_friendly_errors("Continuing with remaining content..."):
+    with handle_chart_errors("weekly_comparison", df, continue_on_error=True,
+                            continue_message="Continuing with remaining content..."):
         # Prepare data for Altair
         weekly_data = df.sort_values('Week Ending Date').copy()
         weekly_data['Week Ending Date'] = pd.to_datetime(weekly_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
