@@ -50,7 +50,7 @@ class AppLogger:
     """
     
     def __init__(self):
-        self.session_id = str(uuid.uuid4())  # Full session ID for uniqueness
+        self.session_id = str(uuid.uuid4())  # Application-level session ID for logging; distinct from Streamlit session ID
         self.setup_logger()
     
     def setup_logger(self):
