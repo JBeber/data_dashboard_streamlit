@@ -13,6 +13,7 @@ import logging
 import sys
 import traceback
 import uuid
+from contextlib import contextmanager
 from datetime import datetime
 from functools import wraps
 from typing import Dict, Any, Optional
@@ -279,3 +280,27 @@ def categorize_error(error: Exception) -> str:
         return "date_parsing"
     else:
         return "unknown"
+
+
+@contextmanager
+def handle_user_friendly_errors(continue_message: str = "Continuing with remaining content..."):
+    """
+    Context manager to handle UserFriendlyError exceptions with consistent UI feedback.
+    
+    Args:
+        continue_message: Optional message to display when continuing after error
+        
+    Usage:
+        with handle_user_friendly_errors("Continuing with charts..."):
+            # Code that might raise UserFriendlyError
+            create_chart()
+    """
+    try:
+        yield
+    except UserFriendlyError as ufe:
+        st.error(ufe.user_message)
+        if continue_message:
+            st.info(f"💡 {continue_message}")
+    except Exception:
+        # Re-raise other exceptions to be handled by decorators
+        raise

@@ -11,7 +11,7 @@ import altair as alt
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from modules.wine_bottles import WineDashboardData
-from utils.logging_config import app_logger, log_function_errors, UserFriendlyError
+from utils.logging_config import app_logger, log_function_errors, UserFriendlyError, handle_user_friendly_errors
 
 
 @log_function_errors("wine_analysis", "initialization")
@@ -185,15 +185,8 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
             create_visualizations(df)
             
             # Display summary statistics
-            try:
+            with handle_user_friendly_errors("Unable to display summary statistics."):
                 show_summary_statistics(df)
-            except UserFriendlyError as ufe:
-                # Handle user-friendly errors from decorator
-                st.error(ufe.user_message)
-                st.info("💡 Unable to display summary statistics.")
-            except Exception as e:
-                # Should rarely reach here since decorator handles most cases
-                st.error("❌ Error generating summary statistics. The main analysis completed successfully.")
             
         except UserFriendlyError as ufe:
             # Handle user-friendly errors from decorators
@@ -312,10 +305,6 @@ def create_visualizations(df):
         
         st.altair_chart(line_chart, use_container_width=False)
         
-    except UserFriendlyError as ufe:
-        # Handle user-friendly errors from decorators
-        st.error(ufe.user_message)
-        return
     except Exception as e:
         app_logger.log_module_error("wine_analysis", "chart_creation", e, {
             "chart_type": "line_chart",
@@ -327,7 +316,7 @@ def create_visualizations(df):
     # 2. Bar Chart - Total Bottles by Wine (Altair)
     st.subheader("📊 Total Bottles by Wine")
     
-    try:
+    with handle_user_friendly_errors("Continuing with remaining visualizations..."):
         total_bottles = df.groupby('Bottle')['Bottles Total'].sum().sort_values(ascending=False)
         
         # Create DataFrame for Altair
@@ -376,22 +365,11 @@ def create_visualizations(df):
         )
         
         st.altair_chart(bar_chart, use_container_width=True)
-        
-    except UserFriendlyError as ufe:
-        # Handle user-friendly errors from decorators
-        st.error(ufe.user_message)
-        st.info("💡 Continuing with remaining visualizations...")
-    except Exception as e:
-        app_logger.log_module_error("wine_analysis", "chart_creation", e, {
-            "chart_type": "bar_chart",
-            "data_shape": df.shape if df is not None else "None"
-        })
-        st.error("❌ Error creating bar chart. Continuing with remaining visualizations...")
     
     # 3. Weekly Comparison Bar Chart (Altair)
-    st.subheader("📅 Weekly Comparison")
+    st.subheader("� Weekly Comparison")
     
-    try:
+    with handle_user_friendly_errors("Continuing with remaining content..."):
         # Prepare data for Altair
         weekly_data = df.sort_values('Week Ending Date').copy()
         weekly_data['Week Ending Date'] = pd.to_datetime(weekly_data['Week Ending Date']).dt.strftime('%Y-%m-%d')
@@ -454,17 +432,6 @@ def create_visualizations(df):
         )
         
         st.altair_chart(weekly_chart, use_container_width=True)
-        
-    except UserFriendlyError as ufe:
-        # Handle user-friendly errors from decorators
-        st.error(ufe.user_message)
-        st.info("💡 Continuing with remaining content...")
-    except Exception as e:
-        app_logger.log_module_error("wine_analysis", "chart_creation", e, {
-            "chart_type": "weekly_comparison",
-            "data_shape": df.shape if df is not None else "None"
-        })
-        st.error("❌ Error creating weekly comparison chart. Continuing with remaining content...")
 
 @log_function_errors("wine_analysis", "summary_statistics")
 def show_summary_statistics(df):
