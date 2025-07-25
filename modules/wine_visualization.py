@@ -188,13 +188,11 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
             try:
                 show_summary_statistics(df)
             except UserFriendlyError as ufe:
-                # Handle user-friendly errors from decorators
+                # Handle user-friendly errors from decorator
                 st.error(ufe.user_message)
                 st.info("💡 Unable to display summary statistics.")
             except Exception as e:
-                app_logger.log_module_error("wine_analysis", "summary_statistics", e, {
-                    "data_shape": df.shape if df is not None else "None"
-                })
+                # Should rarely reach here since decorator handles most cases
                 st.error("❌ Error generating summary statistics. The main analysis completed successfully.")
             
         except UserFriendlyError as ufe:
@@ -468,6 +466,7 @@ def create_visualizations(df):
         })
         st.error("❌ Error creating weekly comparison chart. Continuing with remaining content...")
 
+@log_function_errors("wine_analysis", "summary_statistics")
 def show_summary_statistics(df):
     """Display summary statistics and insights"""
     

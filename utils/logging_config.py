@@ -253,8 +253,6 @@ def log_function_errors(module: str, error_type: str = "function_error"):
                         'function': func.__name__,
                         'module': module
                     })
-                    # Preserve the original exception chain while providing user-friendly message
-                    # Using custom exception class maintains debugging information and user context
                     raise UserFriendlyError(user_message, e) from e
                 else:
                     # Log as module-specific error
