@@ -11,7 +11,7 @@ import altair as alt
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from modules.wine_bottles import WineDashboardData
-from utils.logging_config import app_logger, log_function_errors
+from utils.logging_config import app_logger, log_function_errors, UserFriendlyError
 
 
 @log_function_errors("wine_analysis", "initialization")
@@ -48,6 +48,11 @@ def wine_bottle_visualization():
             })
             return
             
+    except UserFriendlyError as ufe:
+        # Handle user-friendly errors from decorators
+        st.error(ufe.user_message)
+        st.error("Please check your configuration and Google Drive connection.")
+        return
     except Exception as e:
         # Check if it's a Google Drive error for centralized handling
         if app_logger.is_google_drive_error(e):
@@ -182,6 +187,10 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
             # Display summary statistics
             show_summary_statistics(df)
             
+        except UserFriendlyError as ufe:
+            # Handle user-friendly errors from decorators
+            st.error(ufe.user_message)
+            st.info("💡 Please try again in a moment. Some data may have loaded successfully.")
         except Exception as e:
             # Check if it's a Google Drive error for centralized handling
             if app_logger.is_google_drive_error(e):
@@ -295,6 +304,10 @@ def create_visualizations(df):
         
         st.altair_chart(line_chart, use_container_width=False)
         
+    except UserFriendlyError as ufe:
+        # Handle user-friendly errors from decorators
+        st.error(ufe.user_message)
+        return
     except Exception as e:
         app_logger.log_module_error("wine_analysis", "chart_creation", e, {
             "chart_type": "line_chart",

@@ -25,6 +25,19 @@ except ImportError:
     GOOGLE_CLOUD_AVAILABLE = False
 
 
+class UserFriendlyError(Exception):
+    """
+    Custom exception that preserves original error context while providing user-friendly messages.
+    
+    This exception maintains the original exception for debugging while exposing
+    a user-friendly message for display in the UI.
+    """
+    def __init__(self, user_message: str, original_error: Exception = None):
+        super().__init__(user_message)
+        self.user_message = user_message
+        self.original_error = original_error
+
+
 class AppLogger:
     """
     Centralized logger for the VV Data Dashboard application.
@@ -83,7 +96,7 @@ class AppLogger:
         }
         
         if module:
-            context['app_module'] = module  # Renamed to avoid conflict with logging's 'module' field
+            context['app_module'] = module
         
         if error_type:
             context['error_type'] = error_type
@@ -184,7 +197,7 @@ class AppLogger:
         )
         log_context.update({
             'scope': 'module',
-            'app_module': module  # Renamed to avoid conflict
+            'app_module': module
         })
         
         self.log_error(f"{module}_{error_type}", error, log_context)
@@ -237,8 +250,9 @@ def log_function_errors(module: str, error_type: str = "function_error"):
                         'function': func.__name__,
                         'module': module
                     })
-                    # Re-raise with user-friendly message
-                    raise Exception(user_message) from e
+                    # Preserve the original exception chain while providing user-friendly message
+                    # Using custom exception class maintains debugging information and user context
+                    raise UserFriendlyError(user_message, e) from e
                 else:
                     # Log as module-specific error
                     app_logger.log_module_error(module, error_type, e, {
