@@ -317,7 +317,8 @@ def handle_decorator_errors(continue_message: str = "Continuing with remaining c
 
 
 @contextmanager
-def handle_chart_errors(chart_type: str, df, continue_on_error: bool = False, 
+def handle_chart_errors(chart_type: str, df, module_name: str = "wine_analysis", 
+                       continue_on_error: bool = False, 
                        continue_message: str = "Continuing with remaining content..."):
     """
     Context manager to handle chart creation errors with consistent logging and UI feedback.
@@ -325,6 +326,7 @@ def handle_chart_errors(chart_type: str, df, continue_on_error: bool = False,
     Args:
         chart_type: Type of chart being created (e.g., "line_chart", "bar_chart")
         df: DataFrame being used (for shape logging)
+        module_name: Name of the module for logging purposes (default: "wine_analysis")
         continue_on_error: If True, continues execution after error; if False, raises exception
         continue_message: Message to show when continuing after error
         
@@ -333,7 +335,7 @@ def handle_chart_errors(chart_type: str, df, continue_on_error: bool = False,
             # Code that might fail during chart creation
             create_line_chart()
             
-        with handle_chart_errors("bar_chart", df, continue_on_error=True):
+        with handle_chart_errors("bar_chart", df, module_name="sales_analysis", continue_on_error=True):
             # Code that should continue even if chart fails
             create_bar_chart()
     """
@@ -341,7 +343,7 @@ def handle_chart_errors(chart_type: str, df, continue_on_error: bool = False,
         yield
     except Exception as e:
         # Log the error
-        app_logger.log_module_error("wine_analysis", "chart_creation", e, {
+        app_logger.log_module_error(module_name, "chart_creation", e, {
             "chart_type": chart_type,
             "data_shape": df.shape if df is not None else "None"
         })
