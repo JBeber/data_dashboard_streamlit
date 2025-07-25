@@ -105,7 +105,7 @@ class AppLogger:
         try:
             if hasattr(st, 'session_state'):
                 context['streamlit_session'] = str(id(st.session_state))
-        except:
+        except Exception:
             pass
         
         # Merge custom context
