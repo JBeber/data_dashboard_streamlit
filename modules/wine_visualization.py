@@ -25,28 +25,36 @@ def wine_bottle_visualization():
     st.info("📊 **Data Availability**: Restaurant data becomes available the day after service. The latest available data is from yesterday.")
     
     # Get available data range
+    available_dates = None
+    available_wines = None
+    
     with handle_decorator_errors("Unable to connect to data source. Please check your configuration and Google Drive connection."):
         # Use a single day to quickly get available dates without processing all data
         yesterday = date.today() - timedelta(days=1)
         temp_data = WineDashboardData(yesterday, yesterday)
         available_dates = temp_data.get_available_dates()
         available_wines = temp_data.get_available_wines()
-        
-        if not available_dates:
-            st.error("📅 No data available in Google Drive. Please check your data collection process.")
-            app_logger.log_warning("No data available in Google Drive", {
-                "app_module": "wine_analysis",
-                "action": "data_availability_check"
-            })
-            return
-        
-        if not available_wines:
-            st.error("🍾 No wines configured. Please check your config.yaml file.")
-            app_logger.log_warning("No wines configured", {
-                "app_module": "wine_analysis", 
-                "action": "wine_configuration_check"
-            })
-            return
+    
+    # If we couldn't get data due to connection issues, stop here
+    if available_dates is None or available_wines is None:
+        return
+    
+    # Validate data availability
+    if not available_dates:
+        st.error("📅 No data available in Google Drive. Please check your data collection process.")
+        app_logger.log_warning("No data available in Google Drive", {
+            "app_module": "wine_analysis",
+            "action": "data_availability_check"
+        })
+        return
+    
+    if not available_wines:
+        st.error("🍾 No wines configured. Please check your config.yaml file.")
+        app_logger.log_warning("No wines configured", {
+            "app_module": "wine_analysis", 
+            "action": "wine_configuration_check"
+        })
+        return
     
     # Date range selection
     col1, col2 = st.columns(2)
@@ -116,54 +124,61 @@ def generate_wine_analysis(start_date, end_date, selected_wines, selection_mode,
     """Generate and display wine bottle analysis"""
     
     with st.spinner("🔄 Loading wine data from Google Drive..."):
+        # Load data with error handling for decorated function
+        wine_data = None
+        df = None
+        
         with handle_decorator_errors("Unable to generate analysis. Please try again in a moment."):
-            # Load data
             wine_data = WineDashboardData(start_date, end_date)
             df = wine_data.get_weekly_bottle_counts()
+        
+        # If we couldn't load data due to connection issues, stop here
+        if df is None:
+            return
             
-            if df.empty:
-                st.warning("📊 No data found for the selected date range and wines.")
-                st.info("💡 This could be due to:")
-                st.info("• No sales during the selected period")
-                st.info("• Network connectivity issues (try refreshing)")
-                st.info("• Missing data files for those dates")
-                app_logger.log_warning("No data found for selected range", {
-                    "app_module": "wine_analysis",
-                    "action": "data_loading",
-                    "start_date": str(start_date),
-                    "end_date": str(end_date),
-                    "selected_wines_count": len(selected_wines)
-                })
-                return
-            
-            # Filter for selected wines or get top performers
-            if selection_mode == "Top performers only":
-                # Get top performers by total bottles
-                top_wines = df.groupby('Bottle')['Bottles Total'].sum().sort_values(ascending=False).head(num_top)
-                df = df[df['Bottle'].isin(top_wines.index)]
-                st.info(f"🏆 Showing top {len(top_wines)} wines by total bottles sold")
-                app_logger.log_info("Showing top performers", {
-                    "app_module": "wine_analysis",
-                    "action": "wine_filtering",
-                    "num_top": num_top,
-                    "wines_found": len(top_wines)
-                })
-            else:
-                df = df[df['Bottle'].isin(selected_wines)]
-                app_logger.log_info("Data filtered successfully", {
-                    "app_module": "wine_analysis", 
-                    "action": "wine_filtering",
-                    "selection_mode": selection_mode,
-                    "wines_selected": len(selected_wines),
-                    "data_rows": len(df)
-                })
-            
-            # Display visualizations
-            create_visualizations(df)
-            
-            # Display summary statistics
-            with handle_decorator_errors("Unable to display summary statistics."):
-                show_summary_statistics(df)
+        if df.empty:
+            st.warning("📊 No data found for the selected date range and wines.")
+            st.info("💡 This could be due to:")
+            st.info("• No sales during the selected period")
+            st.info("• Network connectivity issues (try refreshing)")
+            st.info("• Missing data files for those dates")
+            app_logger.log_warning("No data found for selected range", {
+                "app_module": "wine_analysis",
+                "action": "data_loading",
+                "start_date": str(start_date),
+                "end_date": str(end_date),
+                "selected_wines_count": len(selected_wines)
+            })
+            return
+        
+        # Filter for selected wines or get top performers
+        if selection_mode == "Top performers only":
+            # Get top performers by total bottles
+            top_wines = df.groupby('Bottle')['Bottles Total'].sum().sort_values(ascending=False).head(num_top)
+            df = df[df['Bottle'].isin(top_wines.index)]
+            st.info(f"🏆 Showing top {len(top_wines)} wines by total bottles sold")
+            app_logger.log_info("Showing top performers", {
+                "app_module": "wine_analysis",
+                "action": "wine_filtering",
+                "num_top": num_top,
+                "wines_found": len(top_wines)
+            })
+        else:
+            df = df[df['Bottle'].isin(selected_wines)]
+            app_logger.log_info("Data filtered successfully", {
+                "app_module": "wine_analysis", 
+                "action": "wine_filtering",
+                "selection_mode": selection_mode,
+                "wines_selected": len(selected_wines),
+                "data_rows": len(df)
+            })
+        
+        # Display visualizations
+        create_visualizations(df)
+        
+        # Display summary statistics
+        with handle_decorator_errors("Unable to display summary statistics."):
+            show_summary_statistics(df)
 
 @log_function_errors("wine_analysis", "visualization")
 def create_visualizations(df):
