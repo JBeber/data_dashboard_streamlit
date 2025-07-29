@@ -57,8 +57,13 @@ class AppLogger:
     """
     
     def __init__(self):
-        self.session_id = str(uuid.uuid4())  # Application-level session ID for logging; created per AppLogger instance.
-                                            # This is distinct from the Streamlit session ID, which is tied to browser sessions.
+        self.session_id = str(uuid.uuid4())
+        '''
+        This session ID is used to uniquely identify application-level sessions for logging purposes.
+        It persists across different Streamlit sessions for the same application instance.
+        In contrast, the Streamlit session ID is tied to browser sessions and user interactions,
+        and resets when a browser session is restarted.
+        '''
         self.setup_logger()
     
     def setup_logger(self):
