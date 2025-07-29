@@ -61,6 +61,8 @@ class WineDashboardData:
             'date_str': str_dt_lst,
             'date': [datetime.strptime(ds, '%Y%m%d') for ds in str_dt_lst]
         })
+        # Ensure the date column is properly recognized as datetime
+        date_info['date'] = pd.to_datetime(date_info['date'])
         date_info['week'] = date_info['date'].dt.isocalendar().week
         date_info['file'] = date_info['date_str'].apply(lambda ds: f'AllItemsReport_{ds}.csv')
         return date_info
