@@ -267,7 +267,8 @@ def log_function_errors(module: str, error_type: str = "function_error"):
                     app_logger.log_module_error(module, error_type, e, {
                         'function': func.__name__
                     })
-                    raise
+                    user_message = f"An error occurred in function '{func.__name__}' of module '{module}'. Please check the logs for more details."
+                    raise DecoratorError(user_message, e) from e
         return wrapper
     return decorator
 
