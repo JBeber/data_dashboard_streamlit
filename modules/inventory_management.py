@@ -50,19 +50,22 @@ def inventory_management_page():
             "🔧 Settings"
         ]
         
-        # Check if button navigation was triggered
+        # Handle button navigation by directly setting the selectbox value
         if 'nav_target' in st.session_state:
-            nav_target = st.session_state.nav_target
-            try:
-                target_index = page_options.index(nav_target)
-            except ValueError:
-                target_index = 0
+            # Set the selectbox to the target page
+            st.session_state.inventory_nav = st.session_state.nav_target
             # Clear the navigation target
             del st.session_state.nav_target
-        else:
-            target_index = 0
         
-        page = st.selectbox("Choose a section:", page_options, index=target_index, key="inventory_nav")
+        # Initialize selectbox value if not set
+        if 'inventory_nav' not in st.session_state:
+            st.session_state.inventory_nav = "📊 Dashboard Overview"
+        
+        page = st.selectbox(
+            "Choose a section:", 
+            page_options, 
+            key="inventory_nav"
+        )
     
     # Route to appropriate page
     if page == "📊 Dashboard Overview":
@@ -798,6 +801,7 @@ def show_inventory_analytics(data_manager: InventoryDataManager):
     
     if items:
         # Simple category breakdown
+        st.write(items.values())
         category_counts = {}
         for item in items.values():
             category_counts[item.category] = category_counts.get(item.category, 0) + 1
