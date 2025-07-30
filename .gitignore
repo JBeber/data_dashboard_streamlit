@@ -11,11 +11,12 @@ test*.py
 /.vscode
 /test_data
 
-# Inventory runtime data (exclude actual inventory/transaction data)
-/data/inventory_items.json
+# Inventory runtime data (exclude actual transaction/snapshot data)
 /data/inventory_transactions.json
+/data/inventory_snapshots.json
 /data/backups/
 
-# Keep configuration templates
+# Keep configuration templates and business data
 !/data/inventory_categories.json
+!/data/inventory_items.json
 !/data/inventory_suppliers.json
