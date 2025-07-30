@@ -620,8 +620,8 @@ def show_categories_suppliers(data_manager: InventoryDataManager):
         categories = data_manager.load_categories()
         
         if categories:
-            for cat_id, category in categories.items():
-                with st.expander(f"{category.name} ({cat_id})"):
+            for category in categories.values():
+                with st.expander(f"{category.name}"):
                     st.write(f"**Default Unit:** {category.default_unit}")
                     st.write(f"**Temperature Control:** {'Yes' if category.requires_temperature_control else 'No'}")
                     st.write(f"**Shelf Life:** {category.default_shelf_life_days} days")
@@ -633,8 +633,8 @@ def show_categories_suppliers(data_manager: InventoryDataManager):
         suppliers = data_manager.load_suppliers()
         
         if suppliers:
-            for sup_id, supplier in suppliers.items():
-                with st.expander(f"{supplier.name} ({sup_id})"):
+            for supplier in suppliers.values():
+                with st.expander(f"{supplier.name}"):
                     st.write(f"**Email:** {supplier.contact_email}")
                     st.write(f"**Phone:** {supplier.phone}")
                     st.write(f"**Delivery Days:** {', '.join(supplier.delivery_days)}")

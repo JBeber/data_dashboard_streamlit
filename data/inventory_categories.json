@@ -32,8 +32,8 @@
     "display_order": 4
   },
   "supplies": {
-    "category_id": "supplies",
-    "name": "Supplies",
+    "category_id": "bev_supplies",
+    "name": "Beverage Supplies",
     "default_unit": "units",
     "requires_temperature_control": false,
     "default_shelf_life_days": 365,
