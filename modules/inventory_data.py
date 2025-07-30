@@ -161,7 +161,10 @@ class InventoryDataManager:
                 Supplier("supplier_001", "Wine Distributor", "orders@winedist.com", 
                         "(555) 123-4567", ["Tuesday", "Friday"], "Primary wine supplier"),
                 Supplier("supplier_002", "Food Service Co", "orders@foodservice.com",
-                        "(555) 234-5678", ["Monday", "Wednesday", "Friday"], "Food and supplies")
+                        "(555) 234-5678", ["Monday", "Wednesday", "Friday"], "Food and supplies"),
+                Supplier("supplier_internal_001", "Main Warehouse", "", "", 
+                        ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], 
+                        "Internal warehouse inventory")
             ]
             self.save_suppliers({sup.supplier_id: sup for sup in default_suppliers})
     

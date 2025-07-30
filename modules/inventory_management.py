@@ -608,6 +608,20 @@ def show_categories_suppliers(data_manager: InventoryDataManager):
     
     st.markdown("### Categories & Suppliers")
     
+    # Tabs for viewing and adding
+    tab1, tab2 = st.tabs(["📋 View Existing", "➕ Add New Supplier"])
+    
+    with tab1:
+        show_existing_categories_suppliers(data_manager)
+    
+    with tab2:
+        show_add_supplier_form(data_manager)
+
+
+@log_function_errors("inventory", "existing_categories_suppliers")
+def show_existing_categories_suppliers(data_manager: InventoryDataManager):
+    """Display existing categories and suppliers"""
+    
     cat_col, sup_col = st.columns(2)
     
     with cat_col:
@@ -630,13 +644,148 @@ def show_categories_suppliers(data_manager: InventoryDataManager):
         if suppliers:
             for supplier in suppliers.values():
                 with st.expander(f"{supplier.name}"):
-                    st.write(f"**Email:** {supplier.contact_email}")
-                    st.write(f"**Phone:** {supplier.phone}")
-                    st.write(f"**Delivery Days:** {', '.join(supplier.delivery_days)}")
+                    if supplier.contact_email and supplier.phone:
+                        # External supplier with contact info
+                        st.write(f"**Type:** External Supplier")
+                        st.write(f"**Email:** {supplier.contact_email}")
+                        st.write(f"**Phone:** {supplier.phone}")
+                        st.write(f"**Delivery Days:** {', '.join(supplier.delivery_days)}")
+                    else:
+                        # Internal supplier (like Main Warehouse)
+                        st.write(f"**Type:** Internal Supplier")
+                        st.write(f"**Delivery Days:** {', '.join(supplier.delivery_days) if supplier.delivery_days else 'N/A'}")
+                    
                     if supplier.notes:
                         st.write(f"**Notes:** {supplier.notes}")
         else:
             st.info("No suppliers found")
+
+
+@log_function_errors("inventory", "add_supplier_form")
+def show_add_supplier_form(data_manager: InventoryDataManager):
+    """Form for adding new suppliers"""
+    
+    st.markdown("### Add New Supplier")
+    
+    with st.form("add_supplier_form", clear_on_submit=True):
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            supplier_name = st.text_input(
+                "🏢 Supplier Name *", 
+                placeholder="e.g., Wine Distributors Inc, Main Warehouse"
+            )
+            
+            supplier_type = st.selectbox(
+                "📋 Supplier Type *",
+                options=["external", "internal"],
+                format_func=lambda x: {
+                    "external": "🚚 External Supplier (with contact info)",
+                    "internal": "🏠 Internal Supplier (warehouse/in-house)"
+                }[x],
+                help="Choose whether this is an external supplier or internal warehouse"
+            )
+            
+            # Delivery days (always required)
+            st.markdown("**📅 Delivery Days:**")
+            delivery_days = []
+            days_cols = st.columns(7)
+            day_names = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            day_abbrev = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+            
+            for i, (day, abbrev) in enumerate(zip(day_names, day_abbrev)):
+                with days_cols[i]:
+                    if st.checkbox(abbrev, key=f"delivery_day_{i}"):
+                        delivery_days.append(day)
+        
+        with col2:
+            # Contact info (only for external suppliers)
+            if supplier_type == "external":
+                st.markdown("**📞 Contact Information:**")
+                contact_email = st.text_input(
+                    "📧 Email *", 
+                    placeholder="supplier@example.com"
+                )
+                
+                phone = st.text_input(
+                    "📱 Phone *", 
+                    placeholder="(555) 123-4567"
+                )
+            else:
+                st.info("💡 Internal suppliers don't require contact information")
+                contact_email = ""
+                phone = ""
+            
+            # Notes (always optional)
+            notes = st.text_area(
+                "📝 Notes", 
+                placeholder="Optional notes about this supplier..."
+            )
+        
+        submitted = st.form_submit_button("➕ Add Supplier", type="primary")
+        
+        if submitted:
+            # Validation
+            if not supplier_name.strip():
+                st.error("Supplier name is required")
+                return
+            
+            # Check for duplicate supplier names
+            existing_suppliers = data_manager.load_suppliers()
+            if any(sup.name.lower() == supplier_name.strip().lower() for sup in existing_suppliers.values()):
+                st.error("A supplier with this name already exists")
+                return
+            
+            # Validate external supplier requirements
+            if supplier_type == "external":
+                if not contact_email.strip():
+                    st.error("Email is required for external suppliers")
+                    return
+                
+                if not phone.strip():
+                    st.error("Phone is required for external suppliers")
+                    return
+                
+                # Basic email validation
+                if "@" not in contact_email or "." not in contact_email:
+                    st.error("Please enter a valid email address")
+                    return
+            
+            # At least one delivery day should be selected for external suppliers
+            if supplier_type == "external" and not delivery_days:
+                st.error("Please select at least one delivery day")
+                return
+            
+            with handle_decorator_errors("Unable to add supplier. Please try again."):
+                # Generate unique ID
+                supplier_id = f"supplier_{uuid.uuid4().hex[:8]}"
+                
+                # Create new supplier
+                new_supplier = Supplier(
+                    supplier_id=supplier_id,
+                    name=supplier_name.strip(),
+                    contact_email=contact_email.strip() if supplier_type == "external" else "",
+                    phone=phone.strip() if supplier_type == "external" else "",
+                    delivery_days=delivery_days if delivery_days else [],
+                    notes=notes.strip() if notes.strip() else None
+                )
+                
+                # Load existing suppliers and add new one
+                suppliers = data_manager.load_suppliers()
+                suppliers[supplier_id] = new_supplier
+                data_manager.save_suppliers(suppliers)
+                
+                st.success(f"✅ Successfully added '{supplier_name}' as {'an external' if supplier_type == 'external' else 'an internal'} supplier!")
+                
+                app_logger.log_info("New supplier added", {
+                    "app_module": "inventory",
+                    "action": "add_supplier",
+                    "supplier_id": supplier_id,
+                    "supplier_name": supplier_name,
+                    "supplier_type": supplier_type
+                })
+                
+                st.rerun()
 
 
 @log_function_errors("inventory", "analytics")
