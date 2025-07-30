@@ -39,14 +39,37 @@ def inventory_management_page():
     # Sidebar navigation
     with st.sidebar:
         st.subheader("📋 Navigation")
-        page = st.selectbox("Choose a section:", [
-            "📊 Dashboard Overview",
-            "📝 Log Transaction", 
-            "⚙️ Manage Items",
-            "📈 Analytics",
-            "📋 Reports",
-            "🔧 Settings"
-        ])
+        
+        # Check if button navigation was triggered
+        if 'nav_target' in st.session_state:
+            nav_target = st.session_state.nav_target
+            # Find the index of the target page
+            page_options = [
+                "📊 Dashboard Overview",
+                "📝 Log Transaction", 
+                "⚙️ Manage Items",
+                "📈 Analytics",
+                "📋 Reports",
+                "🔧 Settings"
+            ]
+            try:
+                target_index = page_options.index(nav_target)
+            except ValueError:
+                target_index = 0
+            # Clear the navigation target
+            del st.session_state.nav_target
+        else:
+            target_index = 0
+            page_options = [
+                "📊 Dashboard Overview",
+                "📝 Log Transaction", 
+                "⚙️ Manage Items",
+                "📈 Analytics",
+                "📋 Reports",
+                "🔧 Settings"
+            ]
+        
+        page = st.selectbox("Choose a section:", page_options, index=target_index, key="inventory_nav")
     
     # Route to appropriate page
     if page == "📊 Dashboard Overview":
@@ -61,7 +84,7 @@ def inventory_management_page():
         show_inventory_reports(data_manager)
     elif page == "🔧 Settings":
         show_settings(data_manager)
-
+    
 
 @log_function_errors("inventory", "dashboard")
 def show_dashboard_overview(data_manager: InventoryDataManager):
@@ -82,7 +105,7 @@ def show_dashboard_overview(data_manager: InventoryDataManager):
             st.markdown("- **View Analytics**: Track trends and performance")
             
             if st.button("🚀 Add Your First Item", type="primary"):
-                st.session_state.inventory_page = "⚙️ Manage Items"
+                st.session_state.nav_target = "⚙️ Manage Items"
                 st.rerun()
             return
         
@@ -145,17 +168,17 @@ def show_dashboard_overview(data_manager: InventoryDataManager):
         
         with quick_col1:
             if st.button("📝 Log New Transaction", type="primary"):
-                st.session_state.inventory_page = "📝 Log Transaction"
+                st.session_state.nav_target = "📝 Log Transaction"
                 st.rerun()
         
         with quick_col2:
             if st.button("📦 Add New Item"):
-                st.session_state.inventory_page = "⚙️ Manage Items"
+                st.session_state.nav_target = "⚙️ Manage Items"
                 st.rerun()
         
         with quick_col3:
             if st.button("📊 View Analytics"):
-                st.session_state.inventory_page = "📈 Analytics"
+                st.session_state.nav_target = "📈 Analytics"
                 st.rerun()
 
 
