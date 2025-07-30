@@ -21,5 +21,13 @@
       "Friday"
     ],
     "notes": "Food and supplies"
+  },
+  "supplier_f60a4d27": {
+    "supplier_id": "supplier_f60a4d27",
+    "name": "Main Warehouse",
+    "contact_email": "",
+    "phone": "",
+    "delivery_days": [],
+    "notes": null
   }
 }

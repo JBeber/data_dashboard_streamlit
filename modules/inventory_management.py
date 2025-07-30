@@ -828,11 +828,17 @@ def show_settings(data_manager: InventoryDataManager):
 
 def main():
     """Main entry point for inventory management"""
-    st.set_page_config(
-        page_title="Inventory Management",
-        page_icon="📦",
-        layout="wide"
-    )
+    # Only set page config if running standalone
+    try:
+        st.set_page_config(
+            page_title="Inventory Management",
+            page_icon="📦",
+            layout="wide"
+        )
+    except st.errors.StreamlitAPIException:
+        # Page config already set by parent app
+        pass
+    
     inventory_management_page()
 
 
