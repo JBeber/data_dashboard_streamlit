@@ -40,18 +40,19 @@ def inventory_management_page():
     with st.sidebar:
         st.subheader("📋 Navigation")
         
+        # Define page options
+        page_options = [
+            "📊 Dashboard Overview",
+            "📝 Log Transaction", 
+            "⚙️ Manage Items",
+            "📈 Analytics",
+            "📋 Reports",
+            "🔧 Settings"
+        ]
+        
         # Check if button navigation was triggered
         if 'nav_target' in st.session_state:
             nav_target = st.session_state.nav_target
-            # Find the index of the target page
-            page_options = [
-                "📊 Dashboard Overview",
-                "📝 Log Transaction", 
-                "⚙️ Manage Items",
-                "📈 Analytics",
-                "📋 Reports",
-                "🔧 Settings"
-            ]
             try:
                 target_index = page_options.index(nav_target)
             except ValueError:
@@ -60,14 +61,6 @@ def inventory_management_page():
             del st.session_state.nav_target
         else:
             target_index = 0
-            page_options = [
-                "📊 Dashboard Overview",
-                "📝 Log Transaction", 
-                "⚙️ Manage Items",
-                "📈 Analytics",
-                "📋 Reports",
-                "🔧 Settings"
-            ]
         
         page = st.selectbox("Choose a section:", page_options, index=target_index, key="inventory_nav")
     
@@ -95,6 +88,7 @@ def show_dashboard_overview(data_manager: InventoryDataManager):
     with handle_decorator_errors("Unable to load dashboard data"):
         # Load current data
         items = data_manager.load_items()
+        categories = data_manager.load_categories()
         current_levels = data_manager.calculate_current_levels(items)
         
         if not items:
@@ -148,7 +142,8 @@ def show_dashboard_overview(data_manager: InventoryDataManager):
                     for item_id, level in current_levels.items():
                         if level == 0:
                             item = items[item_id]
-                            st.write(f"• **{item.name}** ({item.category})")
+                            category_name = categories.get(item.category).name if item.category in categories else item.category
+                            st.write(f"• **{item.name}** ({category_name})")
             
             with alert_col2:
                 if low_stock_items > 0:
@@ -190,6 +185,7 @@ def show_transaction_entry(data_manager: InventoryDataManager):
     
     # Load available items
     items = data_manager.load_items()
+    categories = data_manager.load_categories()
     current_levels = data_manager.calculate_current_levels(items)
     
     if not items:
@@ -202,8 +198,8 @@ def show_transaction_entry(data_manager: InventoryDataManager):
         col1, col2 = st.columns(2)
         
         with col1:
-            # Item selection
-            item_options = {item_id: f"{item.name} ({item.category})" 
+            # Item selection - use category name instead of ID
+            item_options = {item_id: f"{item.name} ({categories.get(item.category).name if item.category in categories else item.category})" 
                           for item_id, item in items.items()}
             selected_item_id = st.selectbox(
                 "📦 Item",
@@ -423,6 +419,7 @@ def show_current_items(data_manager: InventoryDataManager):
     """Display and manage current inventory items"""
     
     items = data_manager.load_items()
+    categories = data_manager.load_categories()
     current_levels = data_manager.calculate_current_levels(items)
     
     if not items:
@@ -439,7 +436,7 @@ def show_current_items(data_manager: InventoryDataManager):
         
         display_data.append({
             "Item": item.name,
-            "Category": item.category,
+            "Category": categories.get(item.category).name if item.category in categories else item.category,
             "Current": f"{current_level:.1f} {item.unit}",
             "Reorder": f"{item.reorder_point:.1f}",
             "Par": f"{item.par_level:.1f}",
