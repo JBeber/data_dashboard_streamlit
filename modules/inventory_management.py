@@ -445,7 +445,6 @@ def show_current_items(data_manager: InventoryDataManager):
             "Par": f"{item.par_level:.1f}",
             "Cost": f"${item.cost_per_unit:.2f}",
             "Status": status,
-            "Location": item.location,
             "ID": item_id  # Hidden column for actions
         })
     
@@ -488,8 +487,7 @@ def show_current_items(data_manager: InventoryDataManager):
                 "Reorder": st.column_config.TextColumn("Reorder Point", width="small"), 
                 "Par": st.column_config.TextColumn("Par Level", width="small"),
                 "Cost": st.column_config.TextColumn("Unit Cost", width="small"),
-                "Status": st.column_config.TextColumn("Status", width="medium"),
-                "Location": st.column_config.TextColumn("Location", width="medium")
+                "Status": st.column_config.TextColumn("Status", width="medium")
             }
         )
         
@@ -525,8 +523,6 @@ def show_add_item_form(data_manager: InventoryDataManager):
                 value=categories[category].default_unit if category and category in categories else "units",
                 placeholder="e.g., bottles, cases, lbs"
             )
-            
-            location = st.text_input("📍 Location", placeholder="e.g., Wine Cellar, Dry Storage")
         
         with col2:
             par_level = st.number_input("📊 Par Level *", min_value=0.0, value=20.0, step=0.1)
@@ -585,7 +581,6 @@ def show_add_item_form(data_manager: InventoryDataManager):
                     reorder_point=reorder_point,
                     supplier_id=supplier,
                     cost_per_unit=cost_per_unit,
-                    location=location.strip(),
                     notes=notes.strip() if notes.strip() else None
                 )
                 
