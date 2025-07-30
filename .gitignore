@@ -10,3 +10,12 @@ __pycache__/
 test*.py
 /.vscode
 /test_data
+
+# Inventory runtime data (exclude actual inventory/transaction data)
+/data/inventory_items.json
+/data/inventory_transactions.json
+/data/backups/
+
+# Keep configuration templates
+!/data/inventory_categories.json
+!/data/inventory_suppliers.json

@@ -1,0 +1,25 @@
+{
+  "supplier_001": {
+    "supplier_id": "supplier_001",
+    "name": "Wine Distributor",
+    "contact_email": "orders@winedist.com",
+    "phone": "(555) 123-4567",
+    "delivery_days": [
+      "Tuesday",
+      "Friday"
+    ],
+    "notes": "Primary wine supplier"
+  },
+  "supplier_002": {
+    "supplier_id": "supplier_002",
+    "name": "Food Service Co",
+    "contact_email": "orders@foodservice.com",
+    "phone": "(555) 234-5678",
+    "delivery_days": [
+      "Monday",
+      "Wednesday",
+      "Friday"
+    ],
+    "notes": "Food and supplies"
+  }
+}
