@@ -520,7 +520,6 @@ def show_add_item_form(data_manager: InventoryDataManager):
             
             unit = st.text_input(
                 "📏 Unit *", 
-                value=categories[category].default_unit if category and category in categories else "units",
                 placeholder="e.g., bottles, cases, lbs"
             )
         
@@ -801,7 +800,6 @@ def show_inventory_analytics(data_manager: InventoryDataManager):
     
     if items:
         # Simple category breakdown
-        st.write(items.values())
         category_counts = {}
         for item in items.values():
             category_counts[item.category] = category_counts.get(item.category, 0) + 1
