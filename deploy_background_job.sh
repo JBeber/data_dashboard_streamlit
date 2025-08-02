@@ -52,7 +52,8 @@ gcloud services enable \
     run.googleapis.com \
     cloudscheduler.googleapis.com \
     secretmanager.googleapis.com \
-    logging.googleapis.com
+    logging.googleapis.com \
+    appengine.googleapis.com
 
 # Build and push Docker image
 echo -e "${YELLOW}🐳 Building Docker image...${NC}"
@@ -83,6 +84,12 @@ echo -e "${GREEN}✅ Cloud Run Job deployed successfully${NC}"
 # Create or update Cloud Scheduler job
 echo -e "${YELLOW}⏰ Setting up Cloud Scheduler...${NC}"
 
+# First, check if App Engine application exists (required for Cloud Scheduler)
+if ! gcloud app describe &> /dev/null; then
+    echo -e "${YELLOW}📱 Creating App Engine application (required for Cloud Scheduler)...${NC}"
+    gcloud app create --region=${SCHEDULER_REGION} --quiet
+fi
+
 # Check if scheduler job exists
 if gcloud scheduler jobs describe ${SCHEDULER_JOB_NAME} --location=${SCHEDULER_REGION} &> /dev/null; then
     echo -e "${YELLOW}📝 Updating existing scheduler job...${NC}"
@@ -92,7 +99,7 @@ if gcloud scheduler jobs describe ${SCHEDULER_JOB_NAME} --location=${SCHEDULER_R
         --time-zone="America/New_York" \
         --uri="https://${REGION}-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/${PROJECT_ID}/jobs/${JOB_NAME}:run" \
         --http-method=POST \
-        --oauth-service-account-email="${PROJECT_ID}@appspot.gserviceaccount.com"
+        --oidc-service-account-email="${PROJECT_ID}@appspot.gserviceaccount.com"
 else
     echo -e "${YELLOW}➕ Creating new scheduler job...${NC}"
     gcloud scheduler jobs create http ${SCHEDULER_JOB_NAME} \
@@ -101,7 +108,7 @@ else
         --time-zone="America/New_York" \
         --uri="https://${REGION}-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/${PROJECT_ID}/jobs/${JOB_NAME}:run" \
         --http-method=POST \
-        --oauth-service-account-email="${PROJECT_ID}@appspot.gserviceaccount.com"
+        --oidc-service-account-email="${PROJECT_ID}@appspot.gserviceaccount.com"
 fi
 
 echo -e "${GREEN}✅ Cloud Scheduler configured successfully${NC}"
