@@ -43,12 +43,21 @@ try:
 except ImportError:
     print("Cloud Logging not available, using standard logging")
 
-# Configure logging
+# Configure logging - add explicit flushing
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    force=True
 )
 logger = logging.getLogger(__name__)
+
+# Add console handler to ensure logs are visible
+console_handler = logging.StreamHandler(sys.stdout)
+console_handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
+logger.propagate = True
 
 
 class EnhancedOAuthManager:
@@ -407,6 +416,11 @@ class DataCollector:
 def main():
     """Main entry point for the background data collector."""
     
+    # Explicit logging to ensure we see startup
+    print("=" * 60)
+    print("Enhanced OAuth Background Data Collector Starting")
+    print("=" * 60)
+    
     logger.info("=" * 60)
     logger.info("Enhanced OAuth Background Data Collector Starting")
     logger.info("=" * 60)
@@ -426,15 +440,34 @@ def main():
     
     missing_vars = [var for var in required_env_vars if not os.environ.get(var)]
     if missing_vars:
-        logger.error(f"Missing required environment variables: {missing_vars}")
+        error_msg = f"Missing required environment variables: {missing_vars}"
+        print(f"ERROR: {error_msg}")
+        logger.error(error_msg)
         sys.exit(1)
+    
+    print("All required environment variables are present")
+    logger.info("All required environment variables are present")
     
     try:
         # Initialize and run data collector
+        print("Initializing data collector...")
+        logger.info("Initializing data collector...")
+        
         collector = DataCollector()
+        
+        print("Starting data collection...")
+        logger.info("Starting data collection...")
+        
         results = collector.collect_and_upload_data()
         
         # Log final results
+        print("=" * 60)
+        print("Data Collection Results:")
+        print(f"Success: {results['success']}")
+        print(f"Files processed: {results['files_processed']}")
+        print(f"Files uploaded: {results['files_uploaded']}")
+        print(f"Missing dates found: {results['missing_dates_found']}")
+        
         logger.info("=" * 60)
         logger.info("Data Collection Results:")
         logger.info(f"Success: {results['success']}")
@@ -443,20 +476,38 @@ def main():
         logger.info(f"Missing dates found: {results['missing_dates_found']}")
         
         if results['errors']:
+            print(f"Errors encountered: {len(results['errors'])}")
             logger.warning(f"Errors encountered: {len(results['errors'])}")
             for error in results['errors']:
+                print(f"  - {error}")
                 logger.warning(f"  - {error}")
         
         if 'duration_seconds' in results:
+            print(f"Duration: {results['duration_seconds']:.2f} seconds")
             logger.info(f"Duration: {results['duration_seconds']:.2f} seconds")
         
+        print("=" * 60)
         logger.info("=" * 60)
+        
+        # Flush logs before exit
+        logging.shutdown()
         
         # Exit with appropriate code
         sys.exit(0 if results['success'] else 1)
         
     except Exception as e:
-        logger.error(f"Critical error in data collector: {e}")
+        error_msg = f"Critical error in data collector: {e}"
+        print(f"CRITICAL ERROR: {error_msg}")
+        print(f"Exception type: {type(e).__name__}")
+        print(f"Exception details: {str(e)}")
+        
+        logger.error(error_msg)
+        logger.error(f"Exception type: {type(e).__name__}")
+        logger.error(f"Exception details: {str(e)}")
+        
+        # Flush logs before exit
+        logging.shutdown()
+        
         sys.exit(1)
 
 
