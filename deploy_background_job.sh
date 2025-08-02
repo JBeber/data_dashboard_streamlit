@@ -7,8 +7,10 @@
 set -e
 
 # Configuration
-PROJECT_ID="vv-data-dashboard"  # Replace with your actual project ID
-REGION="us-east5"              # Replace with your preferred region
+PROJECT_ID="vv-data-dashboard"
+REGION="us-east5"              # Cloud Run location
+# Note: Cloud Scheduler location can be different from Cloud Run
+SCHEDULER_REGION="us-east1"    # Cloud Scheduler location
 JOB_NAME="data-collector-job"
 SCHEDULER_JOB_NAME="daily-data-collection"
 IMAGE_NAME="gcr.io/${PROJECT_ID}/${JOB_NAME}"
@@ -35,7 +37,8 @@ if ! docker info &> /dev/null; then
 fi
 
 echo -e "${YELLOW}📋 Project: ${PROJECT_ID}${NC}"
-echo -e "${YELLOW}📍 Region: ${REGION}${NC}"
+echo -e "${YELLOW}📍 Cloud Run Region: ${REGION}${NC}"
+echo -e "${YELLOW}📍 Scheduler Region: ${SCHEDULER_REGION}${NC}"
 echo -e "${YELLOW}🏗️  Job Name: ${JOB_NAME}${NC}"
 
 # Set the project
@@ -68,18 +71,17 @@ gcloud run jobs create ${JOB_NAME} \
     --cpu=1 \
     --max-retries=3 \
     --parallelism=1 \
-    --task-count=1 \
     --set-env-vars="PYTHONUNBUFFERED=1" \
-    || gcloud run jobs replace-job ${JOB_NAME} \
-        --image=${IMAGE_NAME} \
-        --region=${REGION} \
-        --task-timeout=3600 \
-        --memory=1Gi \
-        --cpu=1 \
-        --max-retries=3 \
-        --parallelism=1 \
-        --task-count=1 \
-        --set-env-vars="PYTHONUNBUFFERED=1"
+    2>/dev/null || \
+gcloud run jobs replace ${JOB_NAME} \
+    --image=${IMAGE_NAME} \
+    --region=${REGION} \
+    --task-timeout=3600 \
+    --memory=1Gi \
+    --cpu=1 \
+    --max-retries=3 \
+    --parallelism=1 \
+    --set-env-vars="PYTHONUNBUFFERED=1"
 
 echo -e "${GREEN}✅ Cloud Run Job deployed successfully${NC}"
 
@@ -87,10 +89,10 @@ echo -e "${GREEN}✅ Cloud Run Job deployed successfully${NC}"
 echo -e "${YELLOW}⏰ Setting up Cloud Scheduler...${NC}"
 
 # Check if scheduler job exists
-if gcloud scheduler jobs describe ${SCHEDULER_JOB_NAME} --location=${REGION} &> /dev/null; then
+if gcloud scheduler jobs describe ${SCHEDULER_JOB_NAME} --location=${SCHEDULER_REGION} &> /dev/null; then
     echo -e "${YELLOW}📝 Updating existing scheduler job...${NC}"
     gcloud scheduler jobs update http ${SCHEDULER_JOB_NAME} \
-        --location=${REGION} \
+        --location=${SCHEDULER_REGION} \
         --schedule="0 6 * * *" \
         --time-zone="America/New_York" \
         --uri="https://${REGION}-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/${PROJECT_ID}/jobs/${JOB_NAME}:run" \
@@ -99,7 +101,7 @@ if gcloud scheduler jobs describe ${SCHEDULER_JOB_NAME} --location=${REGION} &> 
 else
     echo -e "${YELLOW}➕ Creating new scheduler job...${NC}"
     gcloud scheduler jobs create http ${SCHEDULER_JOB_NAME} \
-        --location=${REGION} \
+        --location=${SCHEDULER_REGION} \
         --schedule="0 6 * * *" \
         --time-zone="America/New_York" \
         --uri="https://${REGION}-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/${PROJECT_ID}/jobs/${JOB_NAME}:run" \
@@ -133,4 +135,4 @@ echo "3. Monitor logs:"
 echo "   gcloud logs read --limit=50 --format='table(timestamp,severity,textPayload)' --filter='resource.type=cloud_run_job'"
 echo ""
 echo "4. Check scheduler status:"
-echo "   gcloud scheduler jobs describe ${SCHEDULER_JOB_NAME} --location=${REGION}"
+echo "   gcloud scheduler jobs describe ${SCHEDULER_JOB_NAME} --location=${SCHEDULER_REGION}"
