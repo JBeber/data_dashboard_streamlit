@@ -30,6 +30,7 @@ import pysftp
 import pandas as pd
 from google.oauth2.credentials import Credentials
 from google.auth.exceptions import RefreshError
+from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 from googleapiclient.errors import HttpError
@@ -110,14 +111,20 @@ class EnhancedOAuthManager:
         if self.credentials.expired or self._token_expires_soon():
             try:
                 logger.info("Refreshing OAuth token")
-                self.credentials.refresh(request=None)
+                print("Refreshing OAuth token")
+                request = Request()
+                self.credentials.refresh(request)
                 logger.info("OAuth token refreshed successfully")
+                print("OAuth token refreshed successfully")
                 
             except RefreshError as e:
                 logger.error(f"Failed to refresh OAuth token: {e}")
+                print(f"CRITICAL ERROR: Failed to refresh OAuth token: {e}")
                 # Log detailed error for debugging
                 logger.error(f"Client ID: {self.client_id[:10]}...")
                 logger.error(f"Refresh token exists: {bool(self.refresh_token)}")
+                print(f"Client ID: {self.client_id[:10]}...")
+                print(f"Refresh token exists: {bool(self.refresh_token)}")
                 raise
         
         return self.credentials
