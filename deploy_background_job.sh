@@ -63,17 +63,12 @@ docker push ${IMAGE_NAME}
 
 # Deploy Cloud Run Job
 echo -e "${YELLOW}☁️  Deploying Cloud Run Job...${NC}"
+if gcloud run jobs describe ${JOB_NAME} --region=${REGION} &> /dev/null; then
+    echo -e "${YELLOW}📝 Job already exists, deleting and recreating...${NC}"
+    gcloud run jobs delete ${JOB_NAME} --region=${REGION} --quiet
+fi
+
 gcloud run jobs create ${JOB_NAME} \
-    --image=${IMAGE_NAME} \
-    --region=${REGION} \
-    --task-timeout=3600 \
-    --memory=1Gi \
-    --cpu=1 \
-    --max-retries=3 \
-    --parallelism=1 \
-    --set-env-vars="PYTHONUNBUFFERED=1" \
-    2>/dev/null || \
-gcloud run jobs replace ${JOB_NAME} \
     --image=${IMAGE_NAME} \
     --region=${REGION} \
     --task-timeout=3600 \
