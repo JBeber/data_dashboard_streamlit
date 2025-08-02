@@ -64,22 +64,106 @@ docker push ${IMAGE_NAME}
 
 # Deploy Cloud Run Job
 echo -e "${YELLOW}☁️  Deploying Cloud Run Job...${NC}"
-if gcloud run jobs describe ${JOB_NAME} --region=${REGION} &> /dev/null; then
-    echo -e "${YELLOW}📝 Job already exists, deleting and recreating...${NC}"
-    gcloud run jobs delete ${JOB_NAME} --region=${REGION} --quiet
+
+# Environment variables for the job
+ENV_VARS="PYTHONUNBUFFERED=1"
+
+# Configure secrets from Google Secret Manager
+echo -e "${YELLOW}🔐 Configuring secrets from Secret Manager...${NC}"
+
+# Map of environment variable names to secret names in Secret Manager
+declare -A SECRET_MAP=(
+    ["GOOGLE_CLIENT_ID"]="oauth-client-id"
+    ["GOOGLE_CLIENT_SECRET"]="oauth-client-secret"
+    ["GOOGLE_REFRESH_TOKEN"]="oauth-refresh-token"
+    ["GOOGLE_DRIVE_FOLDER_ID"]="google-drive-folder-id"
+    ["TOAST_SFTP_PRIVATE_KEY"]="toast-sftp-private-key"
+    ["TOAST_SFTP_HOSTNAME"]="toast-sftp-hostname"
+    ["TOAST_SFTP_USERNAME"]="toast-sftp-username"
+    ["TOAST_SFTP_PASSWORD"]="toast-sftp-password"
+    ["TOAST_SFTP_EXPORT_ID"]="toast-sftp-export-id"
+)
+
+MISSING_SECRETS=()
+SECRET_ENV_VARS=""
+
+# Check which secrets exist and build environment variable list
+for env_var in "${!SECRET_MAP[@]}"; do
+    secret_name="${SECRET_MAP[$env_var]}"
+    
+    if gcloud secrets describe "$secret_name" &> /dev/null; then
+        if [[ -z "$SECRET_ENV_VARS" ]]; then
+            SECRET_ENV_VARS="$env_var"
+        else
+            SECRET_ENV_VARS="$SECRET_ENV_VARS,$env_var"
+        fi
+    else
+        MISSING_SECRETS+=("$secret_name")
+    fi
+done
+
+# If we have missing secrets, inform the user
+if [[ ${#MISSING_SECRETS[@]} -gt 0 ]]; then
+    echo -e "${YELLOW}⚠️  Missing secrets in Secret Manager: ${MISSING_SECRETS[*]}${NC}"
+    echo -e "${YELLOW}💡 You can create them using:${NC}"
+    for secret in "${MISSING_SECRETS[@]}"; do
+        echo "   echo 'your-secret-value' | gcloud secrets create $secret --data-file=-"
+    done
+    echo ""
 fi
 
-gcloud run jobs create ${JOB_NAME} \
-    --image=${IMAGE_NAME} \
-    --region=${REGION} \
-    --task-timeout=3600 \
-    --memory=1Gi \
-    --cpu=1 \
-    --max-retries=3 \
-    --parallelism=1 \
-    --set-env-vars="PYTHONUNBUFFERED=1"
-
-echo -e "${GREEN}✅ Cloud Run Job deployed successfully${NC}"
+# Use hybrid approach: update if exists, create if not
+if gcloud run jobs describe ${JOB_NAME} --region=${REGION} &> /dev/null; then
+    echo -e "${YELLOW}📝 Job already exists, updating...${NC}"
+    
+    # Build secrets flags for gcloud command
+    SECRET_FLAGS=""
+    if [[ -n "$SECRET_ENV_VARS" ]]; then
+        IFS=',' read -ra VARS <<< "$SECRET_ENV_VARS"
+        for var in "${VARS[@]}"; do
+            secret_name="${SECRET_MAP[$var]}"
+            SECRET_FLAGS="$SECRET_FLAGS --set-secrets=${var}=${secret_name}:latest"
+        done
+    fi
+    
+    gcloud run jobs update ${JOB_NAME} \
+        --image=${IMAGE_NAME} \
+        --region=${REGION} \
+        --task-timeout=3600 \
+        --memory=1Gi \
+        --cpu=1 \
+        --max-retries=3 \
+        --parallelism=1 \
+        --set-env-vars="PYTHONUNBUFFERED=1" \
+        $SECRET_FLAGS
+    
+    echo -e "${GREEN}✅ Cloud Run Job updated successfully${NC}"
+else
+    echo -e "${YELLOW}➕ Job doesn't exist, creating new job...${NC}"
+    
+    # Build secrets flags for gcloud command
+    SECRET_FLAGS=""
+    if [[ -n "$SECRET_ENV_VARS" ]]; then
+        IFS=',' read -ra VARS <<< "$SECRET_ENV_VARS"
+        for var in "${VARS[@]}"; do
+            secret_name="${SECRET_MAP[$var]}"
+            SECRET_FLAGS="$SECRET_FLAGS --set-secrets=${var}=${secret_name}:latest"
+        done
+    fi
+    
+    gcloud run jobs create ${JOB_NAME} \
+        --image=${IMAGE_NAME} \
+        --region=${REGION} \
+        --task-timeout=3600 \
+        --memory=1Gi \
+        --cpu=1 \
+        --max-retries=3 \
+        --parallelism=1 \
+        --set-env-vars="PYTHONUNBUFFERED=1" \
+        $SECRET_FLAGS
+    
+    echo -e "${GREEN}✅ Cloud Run Job created successfully${NC}"
+fi
 
 # Create or update Cloud Scheduler job
 echo -e "${YELLOW}⏰ Setting up Cloud Scheduler...${NC}"
@@ -119,22 +203,24 @@ echo -e "${GREEN}🎉 Deployment Complete!${NC}"
 echo "========================="
 echo ""
 echo -e "${YELLOW}📋 Next Steps:${NC}"
-echo "1. Set up environment variables in Cloud Run Job:"
-echo "   - GOOGLE_CLIENT_ID"
-echo "   - GOOGLE_CLIENT_SECRET" 
-echo "   - GOOGLE_REFRESH_TOKEN"
-echo "   - GOOGLE_DRIVE_FOLDER_ID"
-echo "   - TOAST_SFTP_PRIVATE_KEY"
-echo "   - TOAST_SFTP_HOSTNAME"
-echo "   - TOAST_SFTP_USERNAME"
-echo "   - TOAST_SFTP_PASSWORD"
-echo "   - TOAST_SFTP_EXPORT_ID"
-echo ""
+if [[ ${#MISSING_SECRETS[@]} -gt 0 ]]; then
+    echo "1. Create missing secrets in Secret Manager:"
+    for secret in "${MISSING_SECRETS[@]}"; do
+        echo "   echo 'your-secret-value' | gcloud secrets create $secret --data-file=-"
+    done
+    echo ""
+    echo "   Then redeploy to pick up the new secrets:"
+    echo "   ./deploy_background_job.sh"
+    echo ""
+else
+    echo "1. ✅ All secrets are configured!"
+    echo ""
+fi
 echo "2. Test the job manually:"
 echo "   gcloud run jobs execute ${JOB_NAME} --region=${REGION}"
 echo ""
 echo "3. Monitor logs:"
-echo "   gcloud logs read --limit=50 --format='table(timestamp,severity,textPayload)' --filter='resource.type=cloud_run_job'"
+echo "   gcloud logging read 'resource.type=cloud_run_job' --limit=50 --format='table(timestamp,severity,textPayload)'"
 echo ""
 echo "4. Check scheduler status:"
 echo "   gcloud scheduler jobs describe ${SCHEDULER_JOB_NAME} --location=${SCHEDULER_REGION}"
