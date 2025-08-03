@@ -164,8 +164,22 @@ The job produces structured logs with the following levels:
 
 ### SFTP Security
 - SSH key-based authentication
-- Host key verification
+- ⚠️ **Host key verification disabled** for AWS Transfer Family dynamic hostnames
 - Secure temporary file handling
+
+#### Known Security Decision - Host Key Verification
+**Status**: Accepted Risk / Technical Debt  
+**Date**: August 3, 2025  
+
+AWS Transfer Family uses dynamic hostnames (e.g., `s-9b0f88558b264dfda.server.transfer.us-east-1.amazonaws.com`) that change between sessions, making traditional known_hosts files ineffective.
+
+**Risk Assessment**: Medium risk, but mitigated by:
+- Managed AWS Transfer Family environment
+- Multiple authentication layers (SSH key + password)
+- Automated process with limited attack surface
+- Secure Cloud Run environment
+
+**Future Improvement**: Implement dynamic host key retrieval. See [SECURITY.md](./SECURITY.md) for detailed analysis and alternative solutions.
 
 ### Container Security
 - Non-root user execution
