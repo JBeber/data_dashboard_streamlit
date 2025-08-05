@@ -39,14 +39,29 @@ if "page" not in st.session_state:
 
 # Background job status indicator
 def show_data_status():
-    """Show status of background data collection job."""
+    """Show status of background data collection job and OAuth connection."""
     st.sidebar.markdown("---")
     st.sidebar.markdown("### 📊 Data Status")
+    
+    # Check OAuth status
+    try:
+        from utils.enhanced_oauth import get_enhanced_drive_service
+        drive_service = get_enhanced_drive_service()
+        
+        if drive_service is not None:
+            st.sidebar.success("✅ Google Drive Connected")
+        else:
+            st.sidebar.error("❌ Google Drive Disconnected")
+            st.sidebar.caption("Contact administrator for authentication help")
+            
+    except Exception as e:
+        st.sidebar.warning("⚠️ Drive Status Unknown")
+        st.sidebar.caption("Unable to check connection status")
     
     # In production, this could check actual job status via Cloud Run API
     # For now, show a simple status indicator
     last_update = datetime.now() - timedelta(hours=2)  # Placeholder
-    st.sidebar.success(f"✅ Data current as of {last_update.strftime('%m/%d %I:%M %p')}")
+    st.sidebar.info(f"📅 Data current as of {last_update.strftime('%m/%d %I:%M %p')}")
     st.sidebar.caption("Data is automatically updated daily at 6 AM EST")
 
 # Main navigation

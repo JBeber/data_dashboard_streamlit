@@ -5,11 +5,11 @@ from functools import lru_cache
 from datetime import datetime, date, timedelta
 import pandas as pd
 import streamlit as st
-from google.oauth2.credentials import Credentials
-from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 from dotenv import load_dotenv
 
+# Import enhanced OAuth management
+from utils.enhanced_oauth import get_enhanced_drive_service
 
 load_dotenv()
 folder_id = st.secrets['Google_Drive']['folder_id']
@@ -57,44 +57,50 @@ def load_config(config_path):
 
 @st.cache_resource
 def get_drive_service():
-    """Build and return the Google Drive API client using OAuth credentials."""
-
-    # Load credentials from environment variables set by Secret Manager
-    client_id = os.environ["GOOGLE_CLIENT_ID"]
-    client_secret = os.environ["GOOGLE_CLIENT_SECRET"]
-    refresh_token = os.environ["GOOGLE_REFRESH_TOKEN"]
-
-    creds = Credentials(
-        token=None,  # No access token, will be refreshed automatically
-        refresh_token=refresh_token,
-        token_uri="https://oauth2.googleapis.com/token",
-        client_id=client_id,
-        client_secret=client_secret,
-        scopes=["https://www.googleapis.com/auth/drive"],
-    )
-
-    return build('drive', 'v3', credentials=creds)
+    """
+    Build and return the Google Drive API client using enhanced OAuth credentials.
+    This is a compatibility wrapper that uses the new enhanced OAuth system.
+    """
+    return get_enhanced_drive_service()
 
 
 def get_existing_dates(drive_service, folder_id):
+    """Get existing dates from Google Drive with enhanced error handling."""
+    if drive_service is None:
+        st.warning("⚠️ Google Drive service unavailable. Cannot load existing dates.")
+        return set()
+    
     date_pattern = re.compile(r'AllItemsReport_(\d{8})\.csv', re.IGNORECASE)
     dates = set()
     page_token = None
 
-    while True:
-        response = drive_service.files().list(
-            q=f"name contains 'AllItemsReport_' and name contains '.csv' and '{folder_id}' in parents and trashed=false",
-            spaces='drive',
-            fields='nextPageToken, files(name)',
-            pageToken=page_token
-        ).execute()
-        for f in response.get('files', []):
-            m = date_pattern.match(f['name'])
-            if m:
-                dates.add(datetime.strptime(m.group(1), "%Y%m%d").date())
-        page_token = response.get('nextPageToken', None)
-        if page_token is None:
-            break
+    try:
+        while True:
+            response = drive_service.files().list(
+                q=f"name contains 'AllItemsReport_' and name contains '.csv' and '{folder_id}' in parents and trashed=false",
+                spaces='drive',
+                fields='nextPageToken, files(name)',
+                pageToken=page_token
+            ).execute()
+            for f in response.get('files', []):
+                m = date_pattern.match(f['name'])
+                if m:
+                    dates.add(datetime.strptime(m.group(1), "%Y%m%d").date())
+            page_token = response.get('nextPageToken', None)
+            if page_token is None:
+                break
+                
+    except Exception as e:
+        st.error(f"🔍 **Error Loading Data from Google Drive**")
+        st.error("Unable to retrieve the list of available data files.")
+        st.error("Please try refreshing the page or contact your administrator.")
+        
+        with st.expander("ℹ️ Technical Details"):
+            st.write("**Error:**", str(e))
+            st.write("**Folder ID:**", folder_id)
+        
+        return set()
+        
     return dates
 
 

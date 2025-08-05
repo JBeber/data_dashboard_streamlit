@@ -40,10 +40,19 @@ class WineDashboardData:
         self.end_date = end_date
         self.bottle_to_glass_map = self.config.get('bottle_to_glass_map', {})
         self.bottle_names = list(self.bottle_to_glass_map.keys())
+        
+        # Initialize drive service with error handling
         self.drive_service = get_drive_service()
         self.folder_id = st.secrets['Google_Drive']['folder_id']
         self.output_df = pd.DataFrame(columns=['Week Ending Date', 'Bottle', 'Bottles Total'])
-        self._load_and_aggregate()
+        
+        # Only proceed with data loading if drive service is available
+        if self.drive_service is not None:
+            self._load_and_aggregate()
+        else:
+            st.warning("⚠️ **Google Drive Unavailable**")
+            st.warning("Wine data cannot be loaded at this time due to authentication issues.")
+            st.info("Please refresh the page or contact your administrator.")
 
     def _date_list(self):
         vv_business_days = self.config.get('business_days', None)
@@ -139,6 +148,10 @@ class WineDashboardData:
 
     @retry_on_ssl_error(max_retries=3, delay=1)
     def get_available_dates(self):
-        """Return list of available dates from Google Drive"""
+        """Return list of available dates from Google Drive with error handling"""
+        if self.drive_service is None:
+            st.warning("⚠️ Cannot load available dates - Google Drive service unavailable")
+            return []
+            
         existing_dates = get_existing_dates(self.drive_service, self.folder_id)
         return sorted(existing_dates)
