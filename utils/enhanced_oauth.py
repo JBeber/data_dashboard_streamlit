@@ -98,7 +98,7 @@ class StreamlitOAuthManager:
             return True
         
         threshold = timedelta(minutes=threshold_minutes)
-        return datetime.utcnow() + threshold >= self.credentials.expiry
+        return datetime.now(timezone.utc) + threshold >= self.credentials.expiry
     
     def _handle_auth_error(self, error):
         """Handle authentication errors with user-friendly messages."""
