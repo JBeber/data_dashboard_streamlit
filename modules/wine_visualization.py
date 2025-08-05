@@ -24,16 +24,33 @@ def wine_bottle_visualization():
     # Info about data availability
     st.info("📊 **Data Availability**: Restaurant data becomes available the day after service. The latest available data is from yesterday.")
     
-    # Get available data range
+    # Get available data range with enhanced error handling
     available_dates = None
     available_wines = None
     
-    with handle_decorator_errors("Unable to connect to data source. Please check your configuration and Google Drive connection."):
-        # Use a single day to quickly get available dates without processing all data
-        yesterday = date.today() - timedelta(days=1)
-        temp_data = WineDashboardData(yesterday, yesterday)
-        available_dates = temp_data.get_available_dates()
-        available_wines = temp_data.get_available_wines()
+    try:
+        with handle_decorator_errors("Unable to connect to data source. Please check your configuration and Google Drive connection."):
+            # Use a single day to quickly get available dates without processing all data
+            yesterday = date.today() - timedelta(days=1)
+            temp_data = WineDashboardData(yesterday, yesterday)
+            
+            # Check if the data object was initialized successfully
+            if temp_data.drive_service is None:
+                st.error("🔐 **Google Drive Authentication Required**")
+                st.error("The wine analysis module requires access to Google Drive to load restaurant data.")
+                st.info("Please contact your administrator to configure Google Drive authentication.")
+                return
+            
+            available_dates = temp_data.get_available_dates()
+            available_wines = temp_data.get_available_wines()
+            
+    except Exception as e:
+        st.error("🚨 **Data Loading Error**")
+        st.error("An unexpected error occurred while connecting to the data source.")
+        with st.expander("ℹ️ Error Details"):
+            st.code(str(e))
+        st.info("Please try refreshing the page or contact your administrator.")
+        return
     
     # If we couldn't get data due to connection issues, stop here
     if available_dates is None or available_wines is None:
