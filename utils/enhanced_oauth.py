@@ -168,14 +168,31 @@ def test_drive_connection():
                 return False
             
             # Simple test - list files in root (limited results)
-            response = drive_service.files().list(pageSize=1, fields="files(id)").execute()
+            response = drive_service.files().list(pageSize=1, fields="files(id, name)").execute()
+            files = response.get('files', [])
             
             st.success("✅ Google Drive connection successful")
+            st.info(f"📁 Found {len(files)} file(s) in root directory")
+            
+            if files:
+                with st.expander("📋 Sample Files"):
+                    for file in files[:3]:  # Show max 3 files
+                        st.write(f"• {file.get('name', 'Unnamed')}")
+            
             return True
             
     except Exception as e:
         logger.error(f"Drive connection test failed: {e}")
-        st.error(f"❌ Google Drive connection test failed: {e}")
+        st.error(f"❌ Google Drive connection test failed")
+        
+        error_str = str(e).lower()
+        if 'incompleteread' in error_str or 'connection' in error_str:
+            st.warning("🌐 This appears to be a network connectivity issue")
+            st.info("Try refreshing the page or checking your internet connection")
+        
+        with st.expander("🔍 Error Details"):
+            st.code(str(e))
+        
         return False
 
 
