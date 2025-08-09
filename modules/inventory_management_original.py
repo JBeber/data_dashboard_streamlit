@@ -80,7 +80,7 @@ def inventory_management_page():
         show_inventory_reports(data_manager)
     elif page == "🔧 Settings":
         show_settings(data_manager)
-
+    
 
 @log_function_errors("inventory", "dashboard")
 def show_dashboard_overview(data_manager: InventoryDataManager):
@@ -855,6 +855,292 @@ def show_settings(data_manager: InventoryDataManager):
     st.info("⚙️ Settings and configuration options will be implemented in Phase 2. Coming soon!")
 
 
+@log_function_errors("inventory", "pos_integration")
+def show_pos_integration(data_manager: InventoryDataManager):
+    """POS Integration interface for automated inventory tracking"""
+    
+    st.subheader("🤖 POS Integration")
+    st.markdown("Automatically track inventory usage from Toast POS data files.")
+    
+    # Import here to avoid circular imports
+    try:
+        from modules.simplified_toast_processor import SimplifiedToastProcessor, process_daily_toast_data
+    except ImportError as e:
+        st.error("❌ Simplified POS Integration module not available")
+        st.error(f"Error: {e}")
+        return
+    
+    # Create tabs for different POS integration functions
+    tab1, tab2, tab3, tab4 = st.tabs(["📅 Process Daily Data", "⚙️ Mapping Configuration", "📊 Processing History", "🔍 Item Reconciliation"])
+    
+    with tab1:
+        show_daily_processing_interface(data_manager)
+    
+    with tab2:
+        show_mapping_configuration(data_manager)
+    
+    with tab3:
+        show_processing_history(data_manager)
+    
+    with tab4:
+        show_item_reconciliation(data_manager)
+
+
+@log_function_errors("inventory", "daily_processing_interface")
+def show_daily_processing_interface(data_manager: InventoryDataManager):
+    """Interface for processing daily POS data"""
+    
+    st.markdown("### Process Daily Toast POS Data")
+    st.info("📊 Process Toast POS data files to automatically track inventory usage for direct-mapped items.")
+    
+    with st.form("process_pos_data_form"):
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            # Date selection
+            process_date = st.date_input(
+                "📅 Processing Date",
+                value=Date.today() - pd.Timedelta(days=1),  # Default to yesterday
+                help="Select the date for POS data processing"
+            )
+            
+            # Auto-detect file or manual upload
+            auto_detect = st.checkbox(
+                "🔍 Auto-detect data file",
+                value=True,
+                help="Automatically find POS data file for the selected date"
+            )
+        
+        with col2:
+            if not auto_detect:
+                # Manual file upload
+                uploaded_file = st.file_uploader(
+                    "📁 Upload POS Data File",
+                    type=['csv'],
+                    help="Upload ItemSelectionDetails CSV file"
+                )
+            
+            # Processing options
+            st.markdown("**Processing Options:**")
+            exclude_voids = st.checkbox("Exclude voided items", value=True)
+            create_missing = st.checkbox("Auto-create missing inventory items", value=True)
+        
+        # Show preview of what would be processed
+        if st.checkbox("🔍 Preview processing"):
+            date_str = process_date.strftime("%Y%m%d")
+            items_file = f"Test_Data/ItemSelectionDetails_{date_str}.csv"
+            
+            if os.path.exists(items_file):
+                try:
+                    preview_df = pd.read_csv(items_file)
+                    if exclude_voids:
+                        preview_df = preview_df[preview_df['Void?'] == False]
+                    
+                    st.markdown("**Preview of POS data:**")
+                    st.write(f"Total items: {len(preview_df)}")
+                    
+                    # Show menu group breakdown
+                    group_counts = preview_df.groupby('Menu Group')['Qty'].sum().sort_values(ascending=False)
+                    
+                    with st.expander("📊 Menu Group Summary"):
+                        for group, qty in group_counts.items():
+                            st.write(f"**{group}**: {qty} items")
+                    
+                except Exception as e:
+                    st.warning(f"⚠️ Could not preview data: {e}")
+            else:
+                st.warning(f"⚠️ Data file not found: {items_file}")
+        
+        # Process button
+        submitted = st.form_submit_button("🚀 Process POS Data", type="primary")
+        
+        if submitted:
+            date_str = process_date.strftime("%Y%m%d")
+            
+            # Determine file path
+            if auto_detect:
+                items_file = f"Test_Data/ItemSelectionDetails_{date_str}.csv"
+            else:
+                if uploaded_file:
+                    # Save uploaded file temporarily
+                    temp_path = f"temp_pos_data_{date_str}.csv"
+                    with open(temp_path, "wb") as f:
+                        f.write(uploaded_file.getbuffer())
+                    items_file = temp_path
+                else:
+                    st.error("Please upload a POS data file or enable auto-detection")
+                    return
+            
+            # Process the data
+            with st.spinner("🔄 Processing POS data..."):
+                try:
+                    from modules.simplified_toast_processor import process_daily_toast_data
+                    
+                    results = process_daily_toast_data(date_str, items_file)
+                    
+                    if results["success"]:
+                        st.success("✅ POS data processing completed successfully!")
+                        
+                        # Show results summary
+                        col1, col2, col3 = st.columns(3)
+                        
+                        with col1:
+                            st.metric("Total POS Items", results["total_pos_items"])
+                        
+                        with col2:
+                            st.metric("✅ Matched Items", len(results["matched_items"]))
+                        
+                        with col3:
+                            st.metric("❓ Unmatched Items", len(results["unmatched_items"]))
+                        
+                        # Show matched items
+                        if results["matched_items"]:
+                            with st.expander("✅ Successfully Processed Items"):
+                                matched_df = pd.DataFrame(results["matched_items"])
+                                st.dataframe(matched_df, use_container_width=True, hide_index=True)
+                        
+                        # Show unmatched items
+                        if results["unmatched_items"]:
+                            with st.expander("❓ Unmatched Items (No Inventory Mapping)"):
+                                unmatched_df = pd.DataFrame(results["unmatched_items"])
+                                st.dataframe(unmatched_df, use_container_width=True, hide_index=True)
+                                
+                                st.info("💡 **Tip**: Create inventory items with matching standardized names, or add these items to your manual inventory with appropriate POS mappings.")
+                    
+                    else:
+                        st.error(f"❌ Processing failed: {results.get('error', 'Unknown error')}")
+                        
+                    # Clean up temp file if used
+                    if not auto_detect and os.path.exists(items_file):
+                        os.remove(items_file)
+                    
+                except Exception as e:
+                    st.error(f"❌ Error during processing: {e}")
+                    app_logger.log_error("POS data processing failed", e)
+
+
+@log_function_errors("inventory", "mapping_configuration")
+def show_mapping_configuration(data_manager: InventoryDataManager):
+    """Show simplified mapping configuration"""
+    
+    st.markdown("### ⚙️ POS Mapping Configuration")
+    st.info("🔗 The simplified system uses standardized item names selected during inventory item creation. No complex configuration needed!")
+    
+    # Show available standardized names
+    try:
+        standardized_names = load_standardized_item_names()
+        
+        st.markdown("#### 📋 Available Standardized Names")
+        st.markdown("These are the standardized names available when creating inventory items:")
+        
+        # Group by category for display
+        import json
+        with open("data/standardized_item_names.json", "r") as f:
+            data = json.load(f)
+        
+        # Display in tabs by category
+        categories = [cat for cat in data.keys() if cat != "metadata"]
+        if categories:
+            tabs = st.tabs([cat.replace("_", " ").title() for cat in categories])
+            
+            for i, category in enumerate(categories):
+                with tabs[i]:
+                    items = data[category]
+                    
+                    # Create a DataFrame for nice display
+                    import pandas as pd
+                    items_list = [
+                        {"Standardized Name": key, "Display Name": value}
+                        for key, value in items.items()
+                    ]
+                    
+                    if items_list:
+                        df = pd.DataFrame(items_list)
+                        st.dataframe(df, use_container_width=True, hide_index=True)
+                    else:
+                        st.info(f"No items in {category.replace('_', ' ')} category yet.")
+        
+        # Instructions
+        st.markdown("#### 💡 How to Use")
+        st.markdown("""
+        1. **Create Inventory Items**: Go to "Manage Items" tab
+        2. **Select POS Mapping**: Choose appropriate standardized name from dropdown
+        3. **Process POS Data**: Use "Process Daily Data" tab to automatically track usage
+        4. **Review Results**: Check "Item Reconciliation" tab to see what's connected
+        
+        **Example:**
+        - Item Name: "Casa Vinicola Pinot Grigio 2023" (your custom name)
+        - POS Mapping: "wine_pinot_grigio_bottle" (standardized name)
+        - Result: Toast POS "pinot grigio bottle" → Automatic inventory tracking ✅
+        """)
+        
+    except Exception as e:
+        st.error(f"❌ Error loading standardized names: {str(e)}")
+        st.info("📁 Make sure the standardized_item_names.json file exists in the data directory.")
+
+
+@log_function_errors("inventory", "processing_history")  
+def show_processing_history(data_manager: InventoryDataManager):
+    """Show history of POS data processing"""
+    
+    st.markdown("### POS Integration Processing History")
+    st.info("📊 View history of automated POS data processing sessions.")
+    
+    # Load transactions from POS integration
+    pos_transactions = data_manager.load_transactions()
+    pos_transactions = [t for t in pos_transactions if t.source == "pos_integration"]
+    
+    if not pos_transactions:
+        st.info("No POS integration transactions found yet. Process some daily data to see history here.")
+        return
+    
+    # Group by date
+    transaction_by_date = {}
+    for transaction in pos_transactions:
+        date_key = transaction.timestamp.date()
+        if date_key not in transaction_by_date:
+            transaction_by_date[date_key] = []
+        transaction_by_date[date_key].append(transaction)
+    
+    # Display by date
+    st.markdown("#### Recent Processing Sessions")
+    
+    for date_key in sorted(transaction_by_date.keys(), reverse=True)[:10]:  # Last 10 days
+        transactions = transaction_by_date[date_key]
+        
+        with st.expander(f"📅 {date_key.strftime('%Y-%m-%d')} ({len(transactions)} transactions)"):
+            # Summary
+            total_quantity = sum(t.quantity for t in transactions)
+            items_affected = len(set(t.item_id for t in transactions))
+            
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Transactions", len(transactions))
+            with col2:
+                st.metric("Total Usage", f"{total_quantity:.1f}")
+            with col3:
+                st.metric("Items Affected", items_affected)
+            
+            # Transaction details
+            if st.button(f"Show Details - {date_key}", key=f"details_{date_key}"):
+                items = data_manager.load_items()
+                
+                details_data = []
+                for transaction in transactions:
+                    item_name = items.get(transaction.item_id, {}).name if transaction.item_id in items else transaction.item_id
+                    
+                    details_data.append({
+                        "Item": item_name,
+                        "Quantity": f"{transaction.quantity:.2f}",
+                        "Time": transaction.timestamp.strftime("%H:%M"),
+                        "Notes": transaction.notes[:50] + "..." if transaction.notes and len(transaction.notes) > 50 else transaction.notes or ""
+                    })
+                
+                if details_data:
+                    details_df = pd.DataFrame(details_data)
+                    st.dataframe(details_df, use_container_width=True, hide_index=True)
+
+
 def main():
     """Main entry point for inventory management"""
     # Only set page config if running standalone
@@ -869,3 +1155,245 @@ def main():
         pass
     
     inventory_management_page()
+
+
+
+@log_function_errors("inventory", "item_reconciliation")
+def show_item_reconciliation(data_manager: InventoryDataManager):
+    """Show reconciliation between manual items and POS-processed items"""
+    
+    st.markdown("### 🔍 Item Reconciliation Report")
+    st.markdown("Compare manually entered items with items detected from Toast POS data to identify mapping gaps.")
+    
+    try:
+        from modules.simplified_toast_processor import SimplifiedToastProcessor
+        import pandas as pd
+        from datetime import datetime, timedelta
+        import os
+        
+        # Get available dates
+        dates = get_available_pos_dates()
+        if not dates:
+            st.warning("📂 No Toast POS data files found in Test_Data directory")
+            return
+        
+        # Date selection
+        col1, col2 = st.columns(2)
+        with col1:
+            selected_date = st.selectbox(
+                "📅 Select date to analyze:",
+                dates,
+                format_func=lambda x: x.strftime('%B %d, %Y (%A)'),
+                help="Choose a date to compare manual inventory items with POS data"
+            )
+        
+        with col2:
+            if st.button("🔍 Generate Reconciliation Report", type="primary"):
+                with st.spinner("Analyzing inventory reconciliation..."):
+                    generate_reconciliation_report(data_manager, selected_date)
+        
+        # Show reconciliation tips
+        with st.expander("💡 Understanding Reconciliation Results"):
+            st.markdown("""
+            **✅ Matched Items**: POS menu items successfully linked to manual inventory items
+            - These items will have their usage automatically tracked when processing POS data
+            - Verify the mapping accuracy and consumption ratios
+            
+            **❓ Unmatched POS Items**: Menu items from Toast that couldn't be matched
+            - Consider creating manual inventory items for important unmatched items
+            - Add custom mappings in the mapping configuration tab
+            - Some items (like service charges) may intentionally not need tracking
+            
+            **🔧 Unused Manual Items**: Manually created inventory items not matched to POS data
+            - Items may not have been sold on the selected date
+            - May need mapping configuration adjustments
+            - Could be items tracked manually rather than through POS data
+            """)
+    
+    except Exception as e:
+        st.error(f"❌ Error in reconciliation interface: {str(e)}")
+        app_logger.log_error("Reconciliation interface error", e)
+
+def generate_reconciliation_report(data_manager: InventoryDataManager, selected_date):
+    """Generate and display the reconciliation report"""
+    
+    try:
+        from modules.simplified_toast_processor import SimplifiedToastProcessor
+        processor = SimplifiedToastProcessor()
+        
+        # Load manual items
+        manual_items = data_manager.load_items()
+        
+        # Process POS data to see what items would be created/matched
+        date_str = selected_date.strftime('%Y%m%d')
+        
+        # Get POS items for this date (without creating new inventory items)
+        pos_items = get_pos_items_for_date(date_str)
+        
+        if not pos_items:
+            st.warning(f"📂 No POS data found for {selected_date.strftime('%Y-%m-%d')}")
+            return
+        
+        # Analysis results
+        matched_items = []
+        unmatched_pos_items = []
+        
+        # Check each POS item against manual inventory
+        for pos_item in pos_items:
+            menu_item = pos_item['menu_item']
+            menu_group = pos_item.get('menu_group', '')
+            
+            # Generate standardized name
+            standardized_name = processor._generate_standardized_name(menu_item, menu_group)
+            
+            if standardized_name:
+                # Find matching inventory item
+                matched_item_id = processor._find_inventory_item_by_standardized_name(
+                    standardized_name, manual_items
+                )
+                
+                if matched_item_id:
+                    matched_items.append({
+                        'POS Menu Item': menu_item,
+                        'Menu Group': menu_group,
+                        'Standardized Name': standardized_name,
+                        'Matched Inventory ID': matched_item_id,
+                        'Inventory Name': manual_items[matched_item_id].name,
+                        'Quantity Sold': pos_item['quantity'],
+                        'Category': manual_items[matched_item_id].category
+                    })
+                else:
+                    unmatched_pos_items.append({
+                        'POS Menu Item': menu_item,
+                        'Menu Group': menu_group,
+                        'Standardized Name': standardized_name,
+                        'Quantity Sold': pos_item['quantity'],
+                        'Reason': 'No inventory item with this standardized name'
+                    })
+            else:
+                unmatched_pos_items.append({
+                    'POS Menu Item': menu_item,
+                    'Menu Group': menu_group,
+                    'Standardized Name': 'N/A',
+                    'Quantity Sold': pos_item['quantity'],
+                    'Reason': 'Could not generate standardized name'
+                })
+        
+        # Find unused manual items
+        matched_ids = {item['Matched Inventory ID'] for item in matched_items}
+        unused_manual_items = [
+            {
+                'Item ID': item_id, 
+                'Item Name': item.name, 
+                'Category': item.category,
+                'Standardized Name': item.standardized_item_name or 'Not set',
+                'Current Stock': item.current_stock,
+                'Unit Type': item.unit_type
+            }
+            for item_id, item in manual_items.items()
+            if item_id not in matched_ids and item.standardized_item_name
+        ]
+        
+        # Display results summary
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            st.metric("✅ Matched Items", len(matched_items), help="POS items successfully linked to inventory")
+        
+        with col2:
+            st.metric("❓ Unmatched POS Items", len(unmatched_pos_items), help="POS items without inventory match")
+        
+        with col3:
+            st.metric("🔧 Unused Manual Items", len(unused_manual_items), help="Manual inventory items not used by POS")
+        
+        # Detailed breakdown
+        if matched_items:
+            st.markdown("### ✅ Successfully Matched Items")
+            st.success(f"These {len(matched_items)} POS items are properly linked to inventory items")
+            matched_df = pd.DataFrame(matched_items)
+            st.dataframe(matched_df, use_container_width=True, hide_index=True)
+        
+        if unmatched_pos_items:
+            st.markdown("### ❓ POS Items Without Inventory Match")
+            st.warning(f"Found {len(unmatched_pos_items)} POS menu items that couldn't be matched to existing inventory")
+            unmatched_df = pd.DataFrame(unmatched_pos_items)
+            st.dataframe(unmatched_df, use_container_width=True, hide_index=True)
+            
+            # Suggest actions
+            with st.expander("📋 Recommended Actions for Unmatched Items"):
+                st.markdown("""
+                1. **Create Manual Inventory Items**: For important items you want to track
+                2. **Add Custom Mappings**: Use the Mapping Configuration tab to link specific POS items to existing inventory
+                3. **Review Necessity**: Some items (service charges, taxes) may not need inventory tracking
+                4. **Check Item Names**: Verify POS menu item names match expected inventory items
+                """)
+        
+        if unused_manual_items:
+            st.markdown("### 🔧 Manual Items Not Used by POS Processing")
+            st.info(f"Found {len(unused_manual_items)} manually created inventory items not being used by POS processing")
+            unused_df = pd.DataFrame(unused_manual_items)
+            st.dataframe(unused_df, use_container_width=True, hide_index=True)
+            
+            with st.expander("📋 Possible Reasons for Unused Items"):
+                st.markdown("""
+                1. **Not Sold on This Date**: Items may not have been ordered on the selected day
+                2. **Mapping Configuration**: May need adjustment in custom mappings
+                3. **Manual Tracking**: Items tracked manually rather than through POS data
+                4. **Seasonal Items**: Items only available certain times of year
+                """)
+    
+    except Exception as e:
+        st.error(f"❌ Error generating reconciliation report: {str(e)}")
+        app_logger.log_error("Error in reconciliation report generation", e)
+
+def get_available_pos_dates():
+    """Get available POS data dates from Test_Data directory"""
+    from datetime import datetime
+    import os
+    
+    dates = []
+    data_dir = "Test_Data"
+    
+    try:
+        if os.path.exists(data_dir):
+            for filename in os.listdir(data_dir):
+                if filename.startswith("ItemSelectionDetails_") and filename.endswith(".csv"):
+                    date_str = filename.split("_")[1].split(".")[0]
+                    try:
+                        date_obj = datetime.strptime(date_str, "%Y%m%d")
+                        dates.append(date_obj)
+                    except ValueError:
+                        continue
+        
+        return sorted(dates, reverse=True)
+    except Exception:
+        return []
+
+def get_pos_items_for_date(date_str):
+    """Get POS items for a specific date without processing them"""
+    import pandas as pd
+    import os
+    
+    items_file = f"Test_Data/ItemSelectionDetails_{date_str}.csv"
+    
+    if not os.path.exists(items_file):
+        return []
+    
+    try:
+        df = pd.read_csv(items_file)
+        
+        # Group by menu item and sum quantities
+        grouped = df.groupby(['Item'], as_index=False).agg({
+            'Qty': 'sum',
+            'Menu Group': 'first'
+        }).rename(columns={'Item': 'menu_item', 'Qty': 'quantity', 'Menu Group': 'menu_group'})
+        
+        return grouped.to_dict('records')
+    
+    except Exception as e:
+        app_logger.log_error(f"Error reading POS data for {date_str}", e)
+        return []
+
+
+if __name__ == "__main__":
+    main()

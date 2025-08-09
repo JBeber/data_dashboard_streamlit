@@ -61,6 +61,7 @@ class InventoryItem:
     reorder_point: float
     supplier_id: str
     cost_per_unit: float
+    standardized_item_name: Optional[str] = None  # Maps to POS processing standard names
     notes: Optional[str] = None
     created_at: datetime = field(default_factory=datetime.now)
     updated_at: datetime = field(default_factory=datetime.now)
