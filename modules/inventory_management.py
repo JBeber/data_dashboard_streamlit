@@ -504,13 +504,13 @@ def load_standardized_item_names():
         with open("data/standardized_item_names.json", "r") as f:
             data = json.load(f)
         
-        # Flatten all categories into a single list
-        all_items = {}
+        # Return categorized data (excluding metadata)
+        categorized_items = {}
         for category, items in data.items():
             if category != "metadata":
-                all_items.update(items)
+                categorized_items[category] = items
         
-        return all_items
+        return categorized_items
     except Exception as e:
         app_logger.log_error("Failed to load standardized item names", e)
         return {}
@@ -526,7 +526,57 @@ def show_add_item_form(data_manager: InventoryDataManager):
     suppliers = data_manager.load_suppliers()
     standardized_names = load_standardized_item_names()
     
+    # POS Mapping Selection (outside form since it uses buttons)
+    st.markdown("**🔗 POS Mapping ***")
+    st.caption("First, select the POS item that matches your inventory item:")
+    
+    category_labels = {
+        "beverages": "☕ Beverages",
+        "wine_bottles": "🍷 Wine Bottles", 
+        "wine_glasses": "🥂 Wine Glasses",
+        "beer": "🍺 Beer",
+        "spirits": "🥃 Spirits",
+        "food": "🍽️ Food Items",
+        "supplies": "📦 Supplies"
+    }
+    
+    # Initialize selection state
+    if 'selected_pos_item' not in st.session_state:
+        st.session_state.selected_pos_item = None
+        st.session_state.selected_pos_display = "Click a category below to select an item"
+    
+    # Display current selection
+    if st.session_state.selected_pos_item:
+        st.success(f"**Selected:** {st.session_state.selected_pos_display}")
+    else:
+        st.info(f"**Selected:** {st.session_state.selected_pos_display}")
+    
+    # Create expandable categories
+    cols = st.columns(2)
+    col_index = 0
+    
+    for category, items in standardized_names.items():
+        with cols[col_index]:
+            with st.expander(f"{category_labels.get(category, category.title())} ({len(items)} items)"):
+                for key, display_name in items.items():
+                    button_type = "primary" if st.session_state.selected_pos_item == key else "secondary"
+                    if st.button(
+                        display_name, 
+                        key=f"pos_item_{key}",
+                        use_container_width=True,
+                        type=button_type
+                    ):
+                        st.session_state.selected_pos_item = key
+                        st.session_state.selected_pos_display = f"{display_name} ({category_labels.get(category, category)})"
+                        st.rerun()
+        
+        col_index = (col_index + 1) % 2  # Alternate between columns
+    
+    st.divider()
+    
+    # Form for other item details
     with st.form("add_item_form", clear_on_submit=True):
+        st.markdown("**📝 Item Details**")
         col1, col2 = st.columns(2)
         
         with col1:
@@ -541,15 +591,6 @@ def show_add_item_form(data_manager: InventoryDataManager):
             unit = st.text_input(
                 "📏 Unit *", 
                 placeholder="e.g., bottles, cases, lbs"
-            )
-            
-            # Add standardized name dropdown
-            standardized_options = [""] + list(standardized_names.keys())
-            standardized_item = st.selectbox(
-                "🔗 POS Mapping (Optional)",
-                options=standardized_options,
-                format_func=lambda x: f"{standardized_names[x]} ({x})" if x else "No POS mapping",
-                help="Select the standardized name that matches this item in POS data. This allows automatic tracking of usage from Toast POS."
             )
         
         with col2:
@@ -595,6 +636,11 @@ def show_add_item_form(data_manager: InventoryDataManager):
                 st.error("Cost per unit cannot be negative")
                 return
             
+            # Validate POS mapping selection
+            if not st.session_state.selected_pos_item:
+                st.error("POS Mapping is required - please select an item from one of the categories above")
+                return
+            
             with handle_decorator_errors("Unable to add item. Please try again."):
                 # Generate unique ID
                 item_id = f"item_{uuid.uuid4().hex[:8]}"
@@ -609,7 +655,7 @@ def show_add_item_form(data_manager: InventoryDataManager):
                     reorder_point=reorder_point,
                     supplier_id=supplier,
                     cost_per_unit=cost_per_unit,
-                    standardized_item_name=standardized_item if standardized_item else None,
+                    standardized_item_name=st.session_state.selected_pos_item,  # Now required
                     notes=notes.strip() if notes.strip() else None
                 )
                 
@@ -619,6 +665,10 @@ def show_add_item_form(data_manager: InventoryDataManager):
                 data_manager.save_items(items)
                 
                 st.success(f"✅ Successfully added '{item_name}' to inventory!")
+                
+                # Clear POS selection for next item
+                st.session_state.selected_pos_item = None
+                st.session_state.selected_pos_display = "Click a category below to select an item"
                 
                 app_logger.log_info("New inventory item added", {
                     "app_module": "inventory",

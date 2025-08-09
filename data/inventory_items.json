@@ -8,11 +8,11 @@
     "reorder_point": 3.0,
     "supplier_id": "supplier_002",
     "cost_per_unit": 120.0,
+    "standardized_item_name": null,
     "notes": null,
     "created_at": "2025-07-30T11:05:14.921540",
     "updated_at": "2025-07-30T11:05:14.921540"
   },
- 
   "item_fc8f14a0": {
     "item_id": "item_fc8f14a0",
     "name": "Barocco Espresso",
@@ -22,8 +22,23 @@
     "reorder_point": 3.0,
     "supplier_id": "supplier_f60a4d27",
     "cost_per_unit": 120.0,
+    "standardized_item_name": null,
     "notes": null,
     "created_at": "2025-07-30T12:21:03.882002",
     "updated_at": "2025-07-30T12:21:03.882002"
+  },
+  "item_8a7a42d2": {
+    "item_id": "item_8a7a42d2",
+    "name": "Sage Napkins",
+    "category": "supplies",
+    "unit": "case",
+    "par_level": 2.0,
+    "reorder_point": 1.0,
+    "supplier_id": "supplier_f60a4d27",
+    "cost_per_unit": 10.0,
+    "standardized_item_name": "napkins",
+    "notes": null,
+    "created_at": "2025-08-09T17:28:10.802568",
+    "updated_at": "2025-08-09T17:28:10.802568"
   }
 }
