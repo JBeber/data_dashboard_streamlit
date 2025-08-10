@@ -23,6 +23,7 @@ from modules.inventory_data import (
     InventoryDataManager, InventoryItem, Transaction, 
     InventoryCategory, Supplier
 )
+from modules.pos_mapping import POSMappingManager
 from utils.logging_config import app_logger, log_function_errors, handle_decorator_errors
 
 
@@ -405,16 +406,13 @@ def show_item_management(data_manager: InventoryDataManager):
     st.subheader("⚙️ Manage Inventory Items")
     
     # Tabs for different item management functions
-    tab1, tab2, tab3 = st.tabs(["📦 Current Items", "➕ Add New Item", "📂 Categories & Suppliers"])
+    tab1, tab2 = st.tabs(["📦 Current Items", "⚙️ Configure Items"])
     
     with tab1:
         show_current_items(data_manager)
     
     with tab2:
-        show_add_item_form(data_manager)
-    
-    with tab3:
-        show_categories_suppliers(data_manager)
+        show_configure_items(data_manager)
 
 
 @log_function_errors("inventory", "current_items")
@@ -545,21 +543,23 @@ def load_standardized_item_names():
         app_logger.log_error("Failed to load standardized item names from POS config", e)
         return {}
 
-@log_function_errors("inventory", "add_item_form")
-def show_add_item_form(data_manager: InventoryDataManager):
-    """Form for adding new inventory items"""
+@log_function_errors("inventory", "configure_items")
+def show_configure_items(data_manager: InventoryDataManager):
+    """Interface for configuring inventory items from POS config"""
     
-    st.markdown("### Add New Inventory Item")
+    st.markdown("### Configure Inventory Items")
+    st.info("Configure inventory settings for items from the POS system. Set par levels, reorder points, costs, and suppliers.")
     
-    # Load categories and suppliers
+    # Load necessary data
     categories = data_manager.load_categories()
     suppliers = data_manager.load_suppliers()
     standardized_names = load_standardized_item_names()
+    existing_items = data_manager.load_items()
     
-    # POS Mapping Selection (outside form since it uses buttons)
-    st.markdown("**🔗 POS Mapping ***")
-    st.caption("First, select the POS item that matches your inventory item:")
+    # Create a mapping of standardized keys to existing items
+    existing_items_map = {item.standardized_item_name: item for item in existing_items.values()}
     
+    # Category filtering
     category_labels = {
         "beverages": "☕ Beverages",
         "wine_bottles": "🍷 Wine Bottles", 
@@ -567,148 +567,151 @@ def show_add_item_form(data_manager: InventoryDataManager):
         "beer": "🍺 Beer",
         "spirits": "🥃 Spirits",
         "food": "🍽️ Food Items",
-        "supplies": "📦 Supplies"
+        "supplies": "📦 General Supplies",
+        "espresso_bar": "☕ Espresso Bar",
+        "flavors": "🍯 Flavors & Syrups",
+        "condiments": "🧂 Condiments",
+        "milk": "🥛 Milk",
+        "other": "📦 Other Items"
     }
     
-    # Initialize selection state
-    if 'selected_pos_item' not in st.session_state:
-        st.session_state.selected_pos_item = None
-        st.session_state.selected_pos_display = "Click a category below to select an item"
+    selected_category = st.selectbox(
+        "Filter by Category:",
+        options=["All"] + list(standardized_names.keys()),
+        format_func=lambda x: category_labels.get(x, x.title()) if x != "All" else "All Categories"
+    )
     
-    # Display current selection
-    if st.session_state.selected_pos_item:
-        st.success(f"**Selected:** {st.session_state.selected_pos_display}")
-    else:
-        st.info(f"**Selected:** {st.session_state.selected_pos_display}")
+    # Display items for configuration
+    categories_to_show = [selected_category] if selected_category != "All" else standardized_names.keys()
     
-    # Create expandable categories
-    cols = st.columns(2)
-    col_index = 0
-    
-    for category, items in standardized_names.items():
-        with cols[col_index]:
-            with st.expander(f"{category_labels.get(category, category.title())} ({len(items)} items)"):
-                for key, display_name in items.items():
-                    button_type = "primary" if st.session_state.selected_pos_item == key else "secondary"
-                    if st.button(
-                        display_name, 
-                        key=f"pos_item_{key}",
-                        use_container_width=True,
-                        type=button_type
-                    ):
-                        st.session_state.selected_pos_item = key
-                        st.session_state.selected_pos_display = f"{display_name} ({category_labels.get(category, category)})"
-                        st.rerun()
+    for category in categories_to_show:
+        if category not in standardized_names:
+            continue
+            
+        st.markdown(f"#### {category_labels.get(category, category.title())}")
         
-        col_index = (col_index + 1) % 2  # Alternate between columns
-    
-    st.divider()
-    
-    # Form for other item details
-    with st.form("add_item_form", clear_on_submit=True):
-        st.markdown("**📝 Item Details**")
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            item_name = st.text_input("📦 Item Name *", placeholder="e.g., Pinot Noir 2022")
-            
-            category = st.selectbox(
-                "📂 Category *",
-                options=list(categories.keys()),
-                format_func=lambda x: categories[x].name if x in categories else x
-            )
-            
-            unit = st.text_input(
-                "📏 Unit *", 
-                placeholder="e.g., bottles, cases, lbs"
-            )
-        
-        with col2:
-            par_level = st.number_input("📊 Par Level *", min_value=0.0, value=20.0, step=0.1)
-            
-            reorder_point = st.number_input("🔔 Reorder Point *", min_value=0.0, value=5.0, step=0.1)
-            
-            cost_per_unit = st.number_input("💰 Cost per Unit ($) *", min_value=0.0, value=0.0, step=0.01)
-            
-            supplier = st.selectbox(
-                "🏢 Supplier",
-                options=list(suppliers.keys()),
-                format_func=lambda x: suppliers[x].name if x in suppliers else x
-            )
-        
-        notes = st.text_area("📝 Notes", placeholder="Optional notes about this item...")
-        
-        submitted = st.form_submit_button("➕ Add Item", type="primary")
-        
-        if submitted:
-            # Validation
-            if not item_name.strip():
-                st.error("Item name is required")
-                return
-            
-            if not unit.strip():
-                st.error("Unit is required")
-                return
-            
-            if par_level <= 0:
-                st.error("Par level must be greater than 0")
-                return
-            
-            if reorder_point < 0:
-                st.error("Reorder point cannot be negative")
-                return
-            
-            if reorder_point >= par_level:
-                st.error("Reorder point should be less than par level")
-                return
-            
-            if cost_per_unit < 0:
-                st.error("Cost per unit cannot be negative")
-                return
-            
-            # Validate POS mapping selection
-            if not st.session_state.selected_pos_item:
-                st.error("POS Mapping is required - please select an item from one of the categories above")
-                return
-            
-            with handle_decorator_errors("Unable to add item. Please try again."):
-                # Generate unique ID
-                item_id = f"item_{uuid.uuid4().hex[:8]}"
+        for key, display_name in standardized_names[category].items():
+            with st.expander(f"{display_name}", expanded=False):
+                # Get existing item if it exists
+                existing_item = existing_items_map.get(key)
                 
-                # Create new item
-                new_item = InventoryItem(
-                    item_id=item_id,
-                    name=item_name.strip(),
-                    category=category,
-                    unit=unit.strip(),
-                    par_level=par_level,
-                    reorder_point=reorder_point,
-                    supplier_id=supplier,
-                    cost_per_unit=cost_per_unit,
-                    standardized_item_name=st.session_state.selected_pos_item,  # Now required
-                    notes=notes.strip() if notes.strip() else None
-                )
-                
-                # Load existing items and add new one
-                items = data_manager.load_items()
-                items[item_id] = new_item
-                data_manager.save_items(items)
-                
-                st.success(f"✅ Successfully added '{item_name}' to inventory!")
-                
-                # Clear POS selection for next item
-                st.session_state.selected_pos_item = None
-                st.session_state.selected_pos_display = "Click a category below to select an item"
-                
-                app_logger.log_info("New inventory item added", {
-                    "app_module": "inventory",
-                    "action": "add_item",
-                    "item_id": item_id,
-                    "item_name": item_name,
-                    "category": category
-                })
-                
-                st.rerun()
+                with st.form(f"config_form_{key}"):
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        custom_name = st.text_input(
+                            "📦 Custom Display Name",
+                            value=existing_item.name if existing_item else display_name,
+                            help="Optionally provide a custom name for this item"
+                        )
+                        
+                        # Get unit from existing item or POS config
+                        default_unit = ""
+                        if existing_item:
+                            default_unit = existing_item.unit
+                        else:
+                            # Try to get unit from POS mapping manager
+                            pos_manager = POSMappingManager()
+                            # For menu items, find item by standardized_key
+                            for menu_item in pos_manager._mappings.values():
+                                if menu_item.get('standardized_key') == key:
+                                    default_unit = menu_item.get('base_unit', '')
+                                    break
+                            # If not found in menu items, check components
+                            if not default_unit and key in pos_manager._components:
+                                default_unit = pos_manager._components[key].get('base_unit', '')
+                        
+                        unit = st.text_input(
+                            "� Unit",
+                            value=default_unit,
+                            disabled=True,  # Unit comes from POS config
+                            help="Unit is defined in POS configuration"
+                        )
+                        
+                        supplier = st.selectbox(
+                            "🏢 Supplier",
+                            options=list(suppliers.keys()),
+                            index=list(suppliers.keys()).index(existing_item.supplier_id) if existing_item and existing_item.supplier_id else 0,
+                            format_func=lambda x: suppliers[x].name if x in suppliers else x
+                        )
+                    
+                    with col2:
+                        par_level = st.number_input(
+                            "📊 Par Level",
+                            min_value=0.0,
+                            value=float(existing_item.par_level if existing_item else 20.0),
+                            step=0.1
+                        )
+                        
+                        reorder_point = st.number_input(
+                            "🔔 Reorder Point",
+                            min_value=0.0,
+                            value=float(existing_item.reorder_point if existing_item else 5.0),
+                            step=0.1
+                        )
+                        
+                        cost_per_unit = st.number_input(
+                            "💰 Cost per Unit ($)",
+                            min_value=0.0,
+                            value=float(existing_item.cost_per_unit if existing_item else 0.0),
+                            step=0.01
+                        )
+                    
+                    notes = st.text_area(
+                        "📝 Notes",
+                        value=existing_item.notes if existing_item else "",
+                        placeholder="Optional notes about this item..."
+                    )
+                    
+                    submitted = st.form_submit_button("💾 Save Configuration")
+                    
+                    if submitted:
+                        if par_level <= 0:
+                            st.error("Par level must be greater than 0")
+                            continue
+                        
+                        if reorder_point < 0:
+                            st.error("Reorder point cannot be negative")
+                            continue
+                        
+                        if reorder_point >= par_level:
+                            st.error("Reorder point should be less than par level")
+                            continue
+                        
+                        if cost_per_unit < 0:
+                            st.error("Cost per unit cannot be negative")
+                            continue
+                        
+                        with handle_decorator_errors("Unable to save item configuration. Please try again."):
+                            # Generate ID if this is a new item
+                            item_id = existing_item.item_id if existing_item else f"item_{uuid.uuid4().hex[:8]}"
+                            
+                            # Create or update item
+                            updated_item = InventoryItem(
+                                item_id=item_id,
+                                name=custom_name.strip(),
+                                category=category,  # Use POS category
+                                unit=unit.strip(),
+                                par_level=par_level,
+                                reorder_point=reorder_point,
+                                supplier_id=supplier,
+                                cost_per_unit=cost_per_unit,
+                                standardized_item_name=key,
+                                notes=notes.strip() if notes.strip() else None
+                            )
+                            
+                            # Update items dictionary
+                            existing_items[item_id] = updated_item
+                            data_manager.save_items(existing_items)
+                            
+                            st.success(f"✅ Successfully saved configuration for '{custom_name}'!")
+                            
+                            app_logger.log_info("Item configuration updated", {
+                                "app_module": "inventory",
+                                "action": "update_item_config",
+                                "item_id": item_id,
+                                "standardized_name": key
+                            })
 
 
 @log_function_errors("inventory", "categories_suppliers")
