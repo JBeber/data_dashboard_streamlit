@@ -1,25 +1,11 @@
 {
-  "beverages": {
-    "coffee_americano": "Americano Coffee",
-    "coffee_cappuccino": "Cappuccino", 
-    "coffee_latte": "Latte",
-    "coffee_espresso": "Espresso Shot",
-    "coffee_macchiato": "Macchiato",
-    "coffee_cortado": "Cortado",
-    "coffee_mocha": "Mocha",
-    "tea_black": "Black Tea",
-    "tea_green": "Green Tea",
-    "tea_herbal": "Herbal Tea",
-    "hot_chocolate": "Hot Chocolate",
-    "soda_coca_cola": "Coca Cola",
-    "soda_sprite": "Sprite",
-    "soda_orange": "Orange Soda",
-    "water_still": "Still Water",
-    "water_sparkling": "Sparkling Water",
+  "packaged_beverages": {
+    "soda_bottle_coca_cola": "Coca Cola Bottle",
+    "soda_bottle_sprite": "Sprite Bottle",
+    "soda_bottle_fanta": "Orange Fanta Bottle",
+    "acqua_panna_750ml": "Acqua Panna 750ml",
     "pellegrino_500ml": "Pellegrino 500ml",
-    "pellegrino_750ml": "Pellegrino 750ml",
-    "juice_orange": "Orange Juice",
-    "juice_apple": "Apple Juice"
+    "pellegrino_750ml": "Pellegrino 750ml"
   },
   "wine_bottles": {
     "wine_prosecco_bottle": "Prosecco Bottle",
@@ -59,41 +45,6 @@
     "beer_bottle_domestic": "Domestic Beer Bottle",
     "beer_bottle_imported": "Imported Beer Bottle",
     "beer_draft_pint": "Draft Beer Pint"
-  },
-  "spirits": {
-    "vodka_shot": "Vodka Shot",
-    "gin_shot": "Gin Shot",
-    "rum_shot": "Rum Shot", 
-    "whiskey_shot": "Whiskey Shot",
-    "tequila_shot": "Tequila Shot",
-    "bourbon_shot": "Bourbon Shot",
-    "scotch_shot": "Scotch Shot",
-    "liqueur_amaretto": "Amaretto Shot",
-    "liqueur_baileys": "Baileys Shot",
-    "liqueur_kahlua": "Kahlua Shot"
-  },
-  "food": {
-    "cornetto_plain": "Plain Cornetto",
-    "cornetto_chocolate": "Chocolate Cornetto",
-    "cornetto_cream": "Cream Cornetto",
-    "cornetto_jam": "Jam Cornetto", 
-    "cornetto_nutella": "Nutella Cornetto",
-    "cornetto_pistachio": "Pistachio Cornetto",
-    "bombolone_plain": "Plain Bombolone",
-    "bombolone_cream": "Cream Bombolone",
-    "bombolone_jam": "Jam Bombolone",
-    "conchiglia_chocolate": "Chocolate Conchiglia",
-    "conchiglia_plain": "Plain Conchiglia",
-    "panini_prosciutto": "Prosciutto Panini",
-    "panini_salami": "Salami Panini",
-    "panini_caprese": "Caprese Panini",
-    "panini_vegetarian": "Vegetarian Panini",
-    "sandwich_club": "Club Sandwich",
-    "sandwich_blt": "BLT Sandwich",
-    "salad_caesar": "Caesar Salad",
-    "salad_mixed": "Mixed Green Salad",
-    "soup_daily": "Daily Soup",
-    "soup_minestrone": "Minestrone Soup"
   },
   "supplies": {
     "napkins": "Napkins",

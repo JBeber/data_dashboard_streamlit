@@ -498,21 +498,51 @@ def show_current_items(data_manager: InventoryDataManager):
 
 @log_function_errors("inventory", "load_standardized_names")
 def load_standardized_item_names():
-    """Load standardized item names for POS mapping"""
+    """Load standardized item names from POS mapping configuration"""
     try:
-        import json
-        with open("data/standardized_item_names.json", "r") as f:
-            data = json.load(f)
+        from modules.pos_mapping import POSMappingManager
         
-        # Return categorized data (excluding metadata)
+        # Initialize POS mapping manager with default config location
+        pos_manager = POSMappingManager()
+        
+        # Track what we've already added to avoid duplicates
+        added_keys = set()
         categorized_items = {}
-        for category, items in data.items():
-            if category != "metadata":
-                categorized_items[category] = items
+        
+        # First, process menu items that are direct inventory items
+        # (i.e., don't have component relationships)
+        for item_key, details in pos_manager._mappings.items():
+            standardized_key = details['standardized_key']
+            # Skip if this item has component relationships (it's made of other things)
+            if standardized_key in pos_manager._component_relationships:
+                continue
+                
+            menu_group = details['menu_group']
+            display_name = details.get('display_name', item_key)
+            
+            if menu_group not in categorized_items:
+                categorized_items[menu_group] = {}
+            
+            categorized_items[menu_group][standardized_key] = display_name
+            added_keys.add(standardized_key)
+        
+        # Then process components, avoiding duplicates
+        for comp_key, details in pos_manager._components.items():
+            # Skip if we already added this as a menu item
+            if comp_key in added_keys:
+                continue
+                
+            menu_group = details['menu_group']
+            display_name = details['display_name']
+            
+            if menu_group not in categorized_items:
+                categorized_items[menu_group] = {}
+            
+            categorized_items[menu_group][comp_key] = display_name
         
         return categorized_items
     except Exception as e:
-        app_logger.log_error("Failed to load standardized item names", e)
+        app_logger.log_error("Failed to load standardized item names from POS config", e)
         return {}
 
 @log_function_errors("inventory", "add_item_form")

@@ -1,307 +1,177 @@
 """
-Simplified Toast Inventory Processor using Standardized Item Name Mapping
+Integrated Toast Inventory Processor
 
-This processor uses the standardized_item_name field in inventory items to directly
-map Toast POS menu items to inventory items, eliminating complex matching logic.
+This processor combines:
+1. Standardized mapping for regular menu items from POS config
+2. Specialized espresso drink tracking from modular espresso inventory
 """
 
 import pandas as pd
-import json
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 import sys
 import os
+from pathlib import Path
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from utils.logging_config import app_logger, log_function_errors
 from modules.inventory_data import InventoryDataManager, Transaction
+from modules.pos_mapping import POSMappingManager
 
 
 class SimplifiedToastProcessor:
-    """Simplified processor using standardized item name mapping"""
-    
-    def __init__(self):
+    """Integrated processor using both standardized mapping and specialized espresso tracking"""
+
+    def __init__(self, mapping_file: str = None):
         self.data_manager = InventoryDataManager()
+        self.mapping_manager = POSMappingManager(mapping_file) if mapping_file else POSMappingManager()
+        
+        # Initialize espresso inventory manager
+        from modular_espresso_inventory import ModularEspressoInventoryManager
+        self.espresso_manager = ModularEspressoInventoryManager()
     
     @log_function_errors("toast_processor", "process_daily_data")
-    def process_daily_data(self, items_file: str, date_str: str) -> Dict:
-        """Process Toast POS data using standardized name mapping"""
+    def process_daily_data(self, items_file: str, modifiers_file: str, date_str: str) -> Dict:
+        """Process Toast POS data focusing on modifier-based component usage"""
         
-        app_logger.log_info("Processing Toast POS data with standardized mapping", {
+        app_logger.log_info("Processing Toast POS data with modifier tracking", {
             "app_module": "simplified_toast_processor",
             "action": "process_daily_data",
             "date": date_str,
-            "file": items_file
+            "items_file": items_file,
+            "modifiers_file": modifiers_file
         })
         
         # Load POS data
         try:
-            pos_df = pd.read_csv(items_file)
+            items_df = pd.read_csv(items_file)
+            modifiers_df = pd.read_csv(modifiers_file)
         except Exception as e:
             return {"success": False, "error": f"Failed to load POS data: {str(e)}"}
         
         # Filter out voided items
-        pos_df = pos_df[pos_df['Void?'] == False]
-        
-        # Load inventory items
-        inventory_items = self.data_manager.load_items()
-        
-        # Group POS data by menu item
-        grouped_pos = pos_df.groupby(['Item', 'Menu Group'], as_index=False)['Qty'].sum()
+        items_df = items_df[items_df['Void?'] == False]
+        modifiers_df = modifiers_df[modifiers_df['Void?'] == False]
         
         results = {
             "success": True,
             "date": date_str,
-            "total_pos_items": len(grouped_pos),
-            "matched_items": [],
-            "unmatched_items": [],
-            "transactions_logged": 0
+            "component_usage": {},
+            "processed_modifiers": 0,
+            "unprocessed_modifiers": [],
+            "espresso_results": {}
         }
         
-        # Process each POS item
-        for _, row in grouped_pos.iterrows():
-            menu_item = row['Item']
-            menu_group = row.get('Menu Group', '')
-            quantity = row['Qty']
-            
-            # Generate standardized name for this POS item
-            standardized_name = self._generate_standardized_name(menu_item, menu_group)
-            
-            if standardized_name:
-                # Find inventory item with this standardized name
-                matched_item_id = self._find_inventory_item_by_standardized_name(
-                    standardized_name, inventory_items
+        # Process espresso drinks first using modular espresso inventory
+        espresso_results = {
+            'cups': self.espresso_manager.calculate_togo_cup_usage(items_df, modifiers_df),
+            'espresso': self.espresso_manager.calculate_espresso_usage(items_df, modifiers_df),
+            'syrups_milk': self.espresso_manager.calculate_syrup_milk_usage(modifiers_df)
+        }
+        
+        # Add espresso component usage to overall results
+        for cup_type, quantity in espresso_results['cups'].items():
+            if quantity > 0:
+                self._add_component_usage(
+                    results["component_usage"],
+                    f"cups_{cup_type}",
+                    quantity,
+                    "cup"
                 )
                 
-                if matched_item_id:
-                    # Log transaction
-                    success = self._log_usage_transaction(
-                        matched_item_id, quantity, date_str, menu_item, menu_group
-                    )
-                    
-                    if success:
-                        results["matched_items"].append({
-                            "menu_item": menu_item,
-                            "menu_group": menu_group,
-                            "quantity": quantity,
-                            "standardized_name": standardized_name,
-                            "inventory_item_id": matched_item_id,
-                            "inventory_item_name": inventory_items[matched_item_id].name
-                        })
-                        results["transactions_logged"] += 1
-                    else:
-                        results["unmatched_items"].append({
-                            "menu_item": menu_item,
-                            "menu_group": menu_group,
-                            "quantity": quantity,
-                            "reason": "Transaction logging failed"
-                        })
-                else:
-                    results["unmatched_items"].append({
-                        "menu_item": menu_item,
-                        "menu_group": menu_group,
-                        "quantity": quantity,
-                        "standardized_name": standardized_name,
-                        "reason": "No inventory item with matching standardized name"
-                    })
-            else:
-                results["unmatched_items"].append({
-                    "menu_item": menu_item,
-                    "menu_group": menu_group,
-                    "quantity": quantity,
-                    "reason": "Could not generate standardized name"
-                })
+        for bean_type, shots in espresso_results['espresso'].items():
+            if shots > 0:
+                self._add_component_usage(
+                    results["component_usage"],
+                    f"espresso_{bean_type.lower()}", 
+                    shots,
+                    "shot"
+                )
+        
+        syrup_usage, milk_usage = espresso_results['syrups_milk']
+        for syrup_type, count in syrup_usage.items():
+            if count > 0:
+                self._add_component_usage(
+                    results["component_usage"],
+                    f"flavor_{syrup_type.lower().replace(' ', '_')}",
+                    count,
+                    "unit"
+                )
+                
+        for milk_type, count in milk_usage.items():
+            if count > 0:
+                self._add_component_usage(
+                    results["component_usage"],
+                    f"milk_{milk_type.lower().replace(' ', '_')}",
+                    count,
+                    "unit"
+                )
+        
+        results["espresso_results"] = espresso_results
+        
+        # Process remaining non-espresso items from the mapping config
+        for _, row in items_df.iterrows():
+            menu_item = row['Menu Item']
+            quantity = row['Qty']
+            
+            # Skip espresso drinks - already handled
+            if menu_item in self.espresso_manager.drink_specs:
+                continue
+                
+            # Get component mappings for non-espresso items
+            item_mapping = self.mapping_manager.get_mapping_for_item(menu_item)
+            if not item_mapping:
+                continue
+            
+            # Add components from mapping
+            for component in item_mapping.get('components', []):
+                self._add_component_usage(
+                    results["component_usage"],
+                    component['key'],
+                    quantity * component['quantity'],
+                    component['unit']
+                )
+                
+        # Log all component usage transactions
+        self._log_component_transactions(results["component_usage"], date_str)
         
         app_logger.log_info("Toast POS processing complete", {
             "app_module": "simplified_toast_processor",
             "action": "processing_complete",
-            "matched_items": len(results["matched_items"]),
-            "unmatched_items": len(results["unmatched_items"]),
-            "transactions_logged": results["transactions_logged"]
+            "date": date_str,
+            "espresso_drinks_processed": len(espresso_results.get('espresso', {})),
+            "transactions_logged": len(results["component_usage"])
         })
         
         return results
+    def _add_component_usage(self, usage_dict: Dict, key: str, 
+                            quantity: float, unit: str):
+        """Add or update component usage tracking"""
+        if key not in usage_dict:
+            usage_dict[key] = {"quantity": 0.0, "unit": unit}
+        usage_dict[key]["quantity"] += quantity
     
-    def _find_inventory_item_by_standardized_name(self, standardized_name: str, 
-                                                 items: Dict) -> Optional[str]:
-        """Find inventory item with matching standardized_item_name"""
+    def _log_component_transactions(self, component_usage: Dict, date_str: str):
+        """Log transactions for component usage"""
+        timestamp = datetime.strptime(date_str, "%Y%m%d").replace(hour=23, minute=59)
         
-        for item_id, item in items.items():
-            if item.standardized_item_name == standardized_name:
-                return item_id
-        
-        return None
-    
-    def _log_usage_transaction(self, item_id: str, quantity: float, date_str: str,
-                              menu_item: str, menu_group: str) -> bool:
-        """Log a usage transaction for inventory item"""
-        
-        try:
+        for component_key, usage in component_usage.items():
             transaction = Transaction(
-                item_id=item_id,
+                item_id=component_key,  # Using standardized_key as item_id
                 transaction_type="usage",
-                quantity=quantity,
-                timestamp=datetime.strptime(date_str, "%Y%m%d").replace(hour=23, minute=59),
+                quantity=usage["quantity"],
+                timestamp=timestamp,
                 user="pos_automation",
-                notes=f"POS usage: {menu_item} ({menu_group})",
+                notes=f"POS daily usage",
                 source="simplified_pos_integration"
             )
             
-            self.data_manager.log_transaction(transaction)
-            return True
-            
-        except Exception as e:
-            app_logger.log_error(f"Failed to log transaction for {item_id}", e)
-            return False
-    
-    def _generate_standardized_name(self, menu_item: str, menu_group: str) -> Optional[str]:
-        """
-        Generate standardized name from menu item and group.
-        This maps Toast POS menu items to our standardized naming scheme.
-        """
-        
-        menu_item_lower = menu_item.lower().strip()
-        menu_group_lower = menu_group.lower().strip()
-        
-        # Direct mappings for common items
-        direct_mappings = {
-            # Coffee items
-            "americano": "coffee_americano",
-            "cappuccino": "coffee_cappuccino",
-            "latte": "coffee_latte", 
-            "espresso": "coffee_espresso",
-            "macchiato": "coffee_macchiato",
-            "cortado": "coffee_cortado",
-            "mocha": "coffee_mocha",
-            
-            # Beverages
-            "coca cola": "soda_coca_cola",
-            "sprite": "soda_sprite",
-            "pellegrino 500ml": "pellegrino_500ml",
-            "pellegrino 750ml": "pellegrino_750ml",
-            
-            # Pastries - exact name matches
-            "cornetto cioccolato": "cornetto_chocolate",
-            "cornetto crema": "cornetto_cream", 
-            "cornetto nutella": "cornetto_nutella",
-            "cornetto pistacchio": "cornetto_pistachio",
-            "bombolone crema": "bombolone_cream",
-            "conchiglia choc": "conchiglia_chocolate",
-            
-            # Panini
-            "panini prosciutto": "panini_prosciutto",
-            "panini salami": "panini_salami",
-        }
-        
-        # Check direct mappings first
-        if menu_item_lower in direct_mappings:
-            return direct_mappings[menu_item_lower]
-        
-        # Wine bottle logic
-        if "wine" in menu_group_lower and "bottle" in menu_group_lower:
-            return self._map_wine_to_standardized(menu_item_lower, is_bottle=True)
-        
-        # Wine glass logic  
-        if "wine" in menu_group_lower and "glass" in menu_group_lower:
-            return self._map_wine_to_standardized(menu_item_lower, is_bottle=False)
-        
-        # Beer logic
-        if "beer" in menu_group_lower:
-            return self._map_beer_to_standardized(menu_item_lower)
-        
-        # Food items with keyword matching
-        if menu_group_lower in ["cornetti/bombolone", "food"]:
-            return self._map_food_to_standardized(menu_item_lower)
-        
-        return None
-    
-    def _map_wine_to_standardized(self, menu_item: str, is_bottle: bool) -> Optional[str]:
-        """Map wine items to standardized names"""
-        
-        # Common wine type keywords
-        wine_types = {
-            "prosecco": "prosecco",
-            "chianti": "chianti", 
-            "pinot grigio": "pinot_grigio",
-            "pinot noir": "pinot_noir", 
-            "chardonnay": "chardonnay",
-            "merlot": "merlot",
-            "cabernet": "cabernet",
-            "sauvignon blanc": "sauvignon_blanc"
-        }
-        
-        suffix = "_bottle" if is_bottle else "_glass"
-        
-        for wine_name, standardized in wine_types.items():
-            if wine_name in menu_item:
-                return f"wine_{standardized}{suffix}"
-        
-        # Fallback for unrecognized wines
-        if "red" in menu_item:
-            return f"wine_red_blend{suffix}"
-        elif "white" in menu_item:
-            return f"wine_white_blend{suffix}" 
-        elif "rosé" in menu_item or "rose" in menu_item:
-            return f"wine_rose{suffix}"
-        
-        return None
-    
-    def _map_beer_to_standardized(self, menu_item: str) -> Optional[str]:
-        """Map beer items to standardized names"""
-        
-        if "lager" in menu_item:
-            return "beer_lager"
-        elif "ipa" in menu_item:
-            return "beer_ipa"
-        elif "wheat" in menu_item:
-            return "beer_wheat"
-        elif "stout" in menu_item:
-            return "beer_stout"
-        elif "pilsner" in menu_item:
-            return "beer_pilsner"
-        
-        # Default beer mapping
-        return "beer_lager"
-    
-    def _map_food_to_standardized(self, menu_item: str) -> Optional[str]:
-        """Map food items to standardized names"""
-        
-        # Check for specific food items
-        if "cornetto" in menu_item:
-            if "cioccolato" in menu_item or "chocolate" in menu_item:
-                return "cornetto_chocolate"
-            elif "crema" in menu_item or "cream" in menu_item:
-                return "cornetto_cream"
-            elif "nutella" in menu_item:
-                return "cornetto_nutella"
-            elif "pistacchio" in menu_item:
-                return "cornetto_pistachio"
-            else:
-                return "cornetto_plain"
-        
-        elif "bombolone" in menu_item:
-            if "crema" in menu_item:
-                return "bombolone_cream"
-            else:
-                return "bombolone_plain"
-        
-        elif "conchiglia" in menu_item:
-            if "choc" in menu_item:
-                return "conchiglia_chocolate"
-            else:
-                return "conchiglia_plain"
-        
-        elif "panini" in menu_item:
-            if "prosciutto" in menu_item:
-                return "panini_prosciutto"
-            elif "salami" in menu_item:
-                return "panini_salami"
-            else:
-                return "panini_prosciutto"  # Default
-        
-        return None
+            try:
+                self.data_manager.log_transaction(transaction)
+            except Exception as e:
+                app_logger.log_error(f"Failed to log transaction for {component_key}", e)
 
 
 # Main function for processing
@@ -310,7 +180,18 @@ def process_daily_toast_data(date_str: str, items_file: str = None) -> Dict:
     """Process Toast POS data for a specific date"""
     
     if not items_file:
-        items_file = f"Test_Data/ItemSelectionDetails_{date_str}.csv"
+        # Auto-detect files in Test_Data
+        items_file = f"../Test_Data/ItemSelectionDetails_{date_str}.csv"
+        modifiers_file = f"../Test_Data/ModifiersSelectionDetails_{date_str}.csv"
+    else:
+        # If manual file provided, build modifiers path
+        base_path = os.path.dirname(items_file)
+        base_name = os.path.basename(items_file)
+        if base_name.startswith('ItemSelectionDetails'):
+            modifiers_file = os.path.join(base_path, f"ModifiersSelectionDetails_{date_str}.csv")
+        else:
+            # Fall back to Test_Data
+            modifiers_file = f"Test_Data/ModifiersSelectionDetails_{date_str}.csv"
     
     processor = SimplifiedToastProcessor()
-    return processor.process_daily_data(items_file, date_str)
+    return processor.process_daily_data(items_file, modifiers_file, date_str)

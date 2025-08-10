@@ -1,0 +1,1200 @@
+{
+    "metadata": {
+        "version": "3.0",
+        "last_updated": "2025-08-10",
+        "description": "Complete POS mapping configuration including component tracking",
+        "usage": "Used by inventory system to map POS items and track component usage"
+    },
+    "menu_items": {
+        "Beer": {
+            "Torrente - del Ducato": {
+                "standardized_key": "beer_ducato",
+                "display_name": "Torrente - del Ducato",
+                "base_unit": "bottle"
+            },
+            "Super Floreale - Baladin": {
+                "standardized_key": "beer_floreale",
+                "display_name": "Super Floreale - Baladin",
+                "base_unit": "bottle"
+            },
+            "Peroni Zero - Bottle": {
+                "standardized_key": "beer_zero",
+                "display_name": "Peroni Zero - Bottle",
+                "base_unit": "bottle"
+            },
+            "Peroni - Draft": {
+                "standardized_key": "beer_peroni_draft",
+                "display_name": "Peroni - Draft",
+                "base_unit": "mL"
+            },
+            "Peroni - Bottle": {
+                "standardized_key": "beer_peroni",
+                "display_name": "Peroni - Bottle",
+                "base_unit": "bottle"
+            },
+            "Nazionale - Baladin": {
+                "standardized_key": "beer_nazionale",
+                "display_name": "Nazionale - Baladin",
+                "base_unit": "bottle"
+            },
+            "L'Ippa - Baladin": {
+                "standardized_key": "beer_ippa",
+                "display_name": "L'Ippa - Baladin",
+                "base_unit": "bottle"
+            },
+            "Isaac - Baladin": {
+                "standardized_key": "beer_isaac",
+                "display_name": "Isaac - Baladin",
+                "base_unit": "bottle"
+            },
+            "Ippa - Draft": {
+                "standardized_key": "beer_ippa_draft",
+                "display_name": "Ippa - Draft",
+                "base_unit": "mL"
+            }
+        },
+        "Non-Alcoholic": {
+            "Acqua Panna glass bottle": {
+                "standardized_key": "na_bev_panna_bottle",
+                "display_name": "Acqua Panna bottle",
+                "base_unit": "bottle"
+            },
+            "Tonic water bottle": {
+                "standardized_key": "na_bev_tonic_bottle",
+                "display_name": "Tonic water bottle",
+                "base_unit": "bottle"
+            },
+            "Yoga Fruit Juice bottle": {
+                "standardized_key": "na_bev_yoga_bottle",
+                "display_name": "Yoga bottle",
+                "base_unit": "bottle"
+            },
+            "Aranciata Rossa can": {
+                "standardized_key": "na_bev_pele_rossa",
+                "display_name": "Pellegrino Arancia can",
+                "base_unit": "can"
+            },
+            "Baladin Agrumata": {
+                "standardized_key": "na_bev_agrumata",
+                "display_name": "Agrumata soda",
+                "base_unit": "bottle"
+            },
+            "Baladin Spuma Nera": {
+                "standardized_key": "na_bev_spuma",
+                "display_name": "Spuma Nera soda",
+                "base_unit": "bottle"
+            },
+            "Bellini no alcohol": {
+                "standardized_key": "na_bev_bellini",
+                "display_name": "NA Bellini bottle",
+                "base_unit": "bottle"
+            },
+            "Coke -draft": {
+                "standardized_key": "na_bev_coke_draft",
+                "display_name": "Coke draft",
+                "base_unit": "serving",
+                "notes": "Uses SYRUP_COKE (2 oz per serving)"
+            },
+            "Coke bottle": {
+                "standardized_key": "na_bev_coke_bottle",
+                "display_name": "Coke bottle",
+                "base_unit": "bottle"
+            },
+            "Cold Brew Can": {
+                "standardized_key": "na_bev_cold_brew",
+                "display_name": "Cold Brew",
+                "base_unit": "can"
+            },
+            "Crodino SanBitter": {
+                "standardized_key": "na_bev_crodino",
+                "display_name": "Crodino",
+                "base_unit": "bottle"
+            },
+            "Diet Coke -draft": {
+                "standardized_key": "na_bev_diet_draft",
+                "display_name": "Diet Draft",
+                "base_unit": "serving",
+                "notes": "Uses SYRUP_DIET (2 oz per serving)"
+            },
+            "Fanta bottle": {
+                "standardized_key": "na_bev_fanta_bottle",
+                "display_name": "Fanta Bottle",
+                "base_unit": "bottle"
+            },
+            "Baladin Cedrata": {
+                "standardized_key": "na_bev_cedrata",
+                "display_name": "Cedrata",
+                "base_unit": "bottle"
+            },
+            "Sprite -draft": {
+                "standardized_key": "na_bev_sprite_draft",
+                "display_name": "Sprite Draft",
+                "base_unit": "serving",
+                "notes": "Uses SYRUP_SPRITE (2 oz per serving)"
+            },
+            "Sprite bottle": {
+                "standardized_key": "na_bev_sprite_bottle",
+                "display_name": "Sprite Bottle",
+                "base_unit": "bottle"
+            },
+            "Santal Fruit Juice bottle": {
+                "standardized_key": "na_bev_santal",
+                "display_name": "Santal",
+                "base_unit": "bottle"
+            },
+            "San Pellegrino water can": {
+                "standardized_key": "na_bev_pele_can",
+                "display_name": "Pele Can",
+                "base_unit": "can"
+            },
+            "Tea EstaThe": {
+                "standardized_key": "na_bev_estathe",
+                "display_name": "Estathe",
+                "base_unit": "bottle"
+            },
+            "San Pellegrino Lg glass bottle": {
+                "standardized_key": "na_bev_pele_lg",
+                "display_name": "Pele Lg",
+                "base_unit": "bottle"
+            },
+            "Lemonade -draft/oj": {
+                "standardized_key": "na_bev_lem_draft",
+                "display_name": "Lem Draft",
+                "base_unit": "serving",
+                "notes": "Uses SYRUP_LEMONADE (2 oz per serving)"
+            },
+            "Iced Tea": {
+                "standardized_key": "na_bev_tea_draft",
+                "display_name": "Tea Draft",
+                "base_unit": "serving",
+                "notes": "Uses SYRUP_ICED (2 oz per serving)"
+            },
+            "San Pellegrino Sm glass bottle": {
+                "standardized_key": "na_bev_pele_sm",
+                "display_name": "Pele Sm",
+                "base_unit": "bottle"
+            },
+            "Gassosa bottle": {
+                "standardized_key": "na_bev_gassosa", 
+                "display_name": "Gassosa bottle",
+                "base_unit": "bottle"
+            }
+        },
+        "Wine - Bottles": {
+            "Prosecco Brut - Castel Nuovo del Garda": {
+                "standardized_key": "wine_bottles_prosecco_brut_castel",
+                "display_name": "Prosecco Brut Castel",
+                "base_unit": "bottle"
+            },
+            "Pinot Grigio - San Pietro": {
+                "standardized_key": "wine_bottles_pinot_grigio_pietro",
+                "display_name": "Pinot Grigio Pietro",
+                "base_unit": "bottle"
+            },
+            "Prosecco 1925 - Vigneti del sole": {
+                "standardized_key": "wine_bottles_prosecco_vigneti_1925",
+                "display_name": "Prosecco Vigneti 1925",
+                "base_unit": "bottle"
+            },
+            "Primitivo Sin - Vigne Vecchie": {
+                "standardized_key": "wine_bottles_primitivo_sin",
+                "display_name": "Primitivo Sin",
+                "base_unit": "bottle"
+            },
+            "Primitivo Primum - Monsellato": {
+                "standardized_key": "wine_bottles_primitivo_primum_monsellato",
+                "display_name": "Primitivo Primum Monsellato",
+                "base_unit": "bottle"
+            },
+            "Primitivo Orion - Masseria Li Veli": {
+                "standardized_key": "wine_bottles_primitivo_orion_masseria",
+                "display_name": "Primitivo Orion Masseria",
+                "base_unit": "bottle"
+            },
+            "Pinot Grigio delle Venezie - The Pinot Project": {
+                "standardized_key": "wine_bottles_pinot_grigio_pinot_project",
+                "display_name": "Pinot Grigio Pinot Project",
+                "base_unit": "bottle"
+            },
+            "Pinot Grigio - Villa Loren": {
+                "standardized_key": "wine_bottles_pinot_grigio_loren",
+                "display_name": "Pinot Grigio Loren",
+                "base_unit": "bottle"
+            },
+            "Moscato D'Asti Sorri Gramella - Elvio Tintero": {
+                "standardized_key": "wine_bottles_moscato_elvio",
+                "display_name": "Moscato Elvio",
+                "base_unit": "bottle"
+            },
+            "Negramaro Sixos - Monsellato": {
+                "standardized_key": "wine_bottles_monsellato_sixos",
+                "display_name": "Monsellato Sixos",
+                "base_unit": "bottle"
+            },
+            "Nero D'Avola Lu Cori - Cantine Barbera": {
+                "standardized_key": "wine_bottles_nero_davola_lu_cori",
+                "display_name": "Nero D'Avola Lu Cori",
+                "base_unit": "bottle"
+            },
+            "Nerello Mascalese - Vento di Mare": {
+                "standardized_key": "wine_bottles_nerello_vento",
+                "display_name": "Nerello Vento",
+                "base_unit": "bottle"
+            },
+            "Negroamaro Notarpanaro - Cosimo Taurino": {
+                "standardized_key": "wine_bottles_notarpanaro_taurino",
+                "display_name": "Notarpanaro Taurino",
+                "base_unit": "bottle"
+            },
+            "Negramaro Rosato Soul - Vigne Vecchie": {
+                "standardized_key": "wine_bottles_negramaro_rosato_soul",
+                "display_name": "Negramaro Rosato Soul",
+                "base_unit": "bottle"
+            },
+            "Nebbiolo d'Alba - Indigenous": {
+                "standardized_key": "wine_bottles_nebbiolo_indigenous",
+                "display_name": "Nebbiolo Indigenous",
+                "base_unit": "bottle"
+            },
+            "Nebbiolo - Vigne Vecchie": {
+                "standardized_key": "wine_bottles_nebbiolo_vigne",
+                "display_name": "Nebbiolo Vigne",
+                "base_unit": "bottle"
+            },
+            "N.S. della Neve - G.D. Vajra": {
+                "standardized_key": "wine_bottles_della_neve_vajra",
+                "display_name": "Della Neve Vajra",
+                "base_unit": "bottle"
+            },
+            "Prosecco Brut DOC - Indigenous": {
+                "standardized_key": "wine_bottles_prosecco_doc_indigenous",
+                "display_name": "Prosecco Doc Indigenous",
+                "base_unit": "bottle"
+            },
+            "Pecorino Colline Pescaresi - Torre Raone": {
+                "standardized_key": "wine_bottles_pecorino_torre_raone",
+                "display_name": "Pecorino Torre Raone",
+                "base_unit": "bottle"
+            },
+            "Prosecco Rose - Castel Nuovo del Garda": {
+                "standardized_key": "wine_bottles_house_rose_prosecco",
+                "display_name": "House Rose Prosecco",
+                "base_unit": "bottle"
+            },
+            "Toscana Bianco Il Corzanello - Corzano e Paterno": {
+                "standardized_key": "wine_bottles_il_corzanello_corzano",
+                "display_name": "Il Corzanello Corzano",
+                "base_unit": "bottle"
+            },
+            "Puglia Bianco Litrotto - L'Archetipo": {
+                "standardized_key": "wine_bottles_bianco_litrotto_larchetipo",
+                "display_name": "Bianco Litrotto L'Archetipo",
+                "base_unit": "bottle"
+            },
+            "Moscato D'Asti Bricco Quaglia - La Spinetta": {
+                "standardized_key": "wine_bottles_moscato_bricco_quaglia",
+                "display_name": "Moscato Bricco Quaglia",
+                "base_unit": "bottle"
+            },
+            "Verdicchio Pignocco - Stefano Antonucci": {
+                "standardized_key": "wine_bottles_verdicchio_antonucci",
+                "display_name": "Verdicchio Antonucci",
+                "base_unit": "bottle"
+            },
+            "Verdicchio dei Castelli di Jesi - Andrea Felici": {
+                "standardized_key": "wine_bottles_verdecchio_felici",
+                "display_name": "Verdecchio Felici",
+                "base_unit": "bottle"
+            },
+            "Valpollicella Classico - Ca La Bionda": {
+                "standardized_key": "wine_bottles_valpollicella_calabionda",
+                "display_name": "Valpollicella Calabionda",
+                "base_unit": "bottle"
+            },
+            "Valpollicella Classico Superiore - Tenuta Santa Maria": {
+                "standardized_key": "wine_bottles_valpollicella_tenuta",
+                "display_name": "Valpollicella Tenuta",
+                "base_unit": "bottle"
+            },
+            "Tzingarella - Monte Bernardi": {
+                "standardized_key": "wine_bottles_tzingarella_monte",
+                "display_name": "Tzingarella Monte",
+                "base_unit": "bottle"
+            },
+            "Trento DOC - Maso Bianco - Seiterre": {
+                "standardized_key": "wine_bottles_trento_doc_seiterre",
+                "display_name": "Trento Doc Seiterre",
+                "base_unit": "bottle"
+            },
+            "Toscana Rosso Il Corzano - Corzano e Paterno": {
+                "standardized_key": "wine_bottles_il_corzano_corzano",
+                "display_name": "Il Corzano Corzano",
+                "base_unit": "bottle"
+            },
+            "Toscana Rosso - Ciacci Piccolomini d'Aragona": {
+                "standardized_key": "wine_bottles_toscana_rosso_ciacci",
+                "display_name": "Toscana Rosso Ciacci",
+                "base_unit": "bottle"
+            },
+            "Toscana Rose Il Rose di Casanova - La Spinetta": {
+                "standardized_key": "wine_bottles_toscana_rose_il_rose_di_casanova",
+                "display_name": "Toscana Rose Il Rose Di Casanova",
+                "base_unit": "bottle"
+            },
+            "Susumaniello Pietra - Menhir Salento": {
+                "standardized_key": "wine_bottles_susumaniello_pietra",
+                "display_name": "Susumaniello Pietra",
+                "base_unit": "bottle"
+            },
+            "Soave Classico - Gini": {
+                "standardized_key": "wine_bottles_soave_gini",
+                "display_name": "Soave Gini",
+                "base_unit": "bottle"
+            },
+            "Sassicaia - Bolgheri Sassicaia": {
+                "standardized_key": "wine_bottles_sassicaia_bolgheri",
+                "display_name": "Sassicaia Bolgheri",
+                "base_unit": "bottle"
+            },
+            "Sangiovese Il Nero di Casanova - La Spinetta": {
+                "standardized_key": "wine_bottles_sangiovese_il_nero",
+                "display_name": "Sangiovese Il Nero",
+                "base_unit": "bottle"
+            },
+            "Salice Salentino - Cosimo Taurino": {
+                "standardized_key": "wine_bottles_salice_salentino_cosimo",
+                "display_name": "Salice Salentino Cosimo",
+                "base_unit": "bottle"
+            },
+            "Rosso di Montepulciano - Cantine Dei": {
+                "standardized_key": "wine_bottles_cantine_dei",
+                "display_name": "Cantine Dei",
+                "base_unit": "bottle"
+            },
+            "Rosso di Montalcino - San Polino": {
+                "standardized_key": "wine_bottles_rosso_san_polino",
+                "display_name": "Rosso San Polino",
+                "base_unit": "bottle"
+            },
+            "Rosato Il Corzanello - Corzano e Paterno": {
+                "standardized_key": "wine_bottles_rosato_il_corzanello_corzano",
+                "display_name": "Rosato Il Corzanello Corzano",
+                "base_unit": "bottle"
+            },
+            "Rive Gauche Rose Spumante - Malvira": {
+                "standardized_key": "wine_bottles_rive_gauche_malvira",
+                "display_name": "Rive Gauche Malvira",
+                "base_unit": "bottle"
+            },
+            "Prosecco Rose Brut Nature - Wild Nature": {
+                "standardized_key": "wine_bottles_prosecco_rose_wild_nature",
+                "display_name": "Prosecco Rose Wild Nature",
+                "base_unit": "bottle"
+            },
+            "Moscato D'Asti - La Morandina": {
+                "standardized_key": "wine_bottles_moscato_morandina",
+                "display_name": "Moscato Morandina",
+                "base_unit": "bottle"
+            },
+            "Cabernet Franc - Tenuta Maccan": {
+                "standardized_key": "wine_bottles_cabernet_franc_tenuta",
+                "display_name": "Cabernet Franc Tenuta",
+                "base_unit": "bottle"
+            },
+            "Montepulciano d'Abruzzo - Torre Raone": {
+                "standardized_key": "wine_bottles_montepulciano_torre_raone",
+                "display_name": "Montepulciano Torre Raone",
+                "base_unit": "bottle"
+            },
+            "Chianti Classico - Isole e Olena": {
+                "standardized_key": "wine_bottles_chianti_classico_isole",
+                "display_name": "Chianti Classico Isole",
+                "base_unit": "bottle"
+            },
+            "Chianti Classico - Cigliano di Sopra": {
+                "standardized_key": "wine_bottles_chianti_sopra",
+                "display_name": "Chianti Sopra",
+                "base_unit": "bottle"
+            },
+            "Chardonnay - Tenuta Maccan": {
+                "standardized_key": "wine_bottles_chardonnay_tenuta",
+                "display_name": "Chardonnay Tenuta",
+                "base_unit": "bottle"
+            },
+            "Carmignano - Tenuta Le Farnete": {
+                "standardized_key": "wine_bottles_carmignano_farnete",
+                "display_name": "Carmignano Farnete",
+                "base_unit": "bottle"
+            },
+            "Cannonau di Sardegna Tonaghe - Contini": {
+                "standardized_key": "wine_bottles_cannonau_tonaghe_contini",
+                "display_name": "Cannonau Tonaghe Contini",
+                "base_unit": "bottle"
+            },
+            "Calabria il Rosso - A Vita": {
+                "standardized_key": "wine_bottles_calabria_a_vita",
+                "display_name": "Calabria A Vita",
+                "base_unit": "bottle"
+            },
+            "Vermentino di Sardegna Tyrsos - Contini": {
+                "standardized_key": "wine_bottles_vermentino_tyrsos_contini",
+                "display_name": "Vermentino Tyrsos Contini",
+                "base_unit": "bottle"
+            },
+            "Brunello di Montalcino - Mocali": {
+                "standardized_key": "wine_bottles_brunello_mocali",
+                "display_name": "Brunello Mocali",
+                "base_unit": "bottle"
+            },
+            "Brachetto Birbet - Malvira": {
+                "standardized_key": "wine_bottles_brachetto_birbet_malvira",
+                "display_name": "Brachetto Birbet Malvira",
+                "base_unit": "bottle"
+            },
+            "Barolo Chiara Boschis - E. Pira e Figli": {
+                "standardized_key": "wine_bottles_barolo_chiara_boschis",
+                "display_name": "Barolo Chiara Boschis",
+                "base_unit": "bottle"
+            },
+            "Barolo Albe - G.D. Vajra": {
+                "standardized_key": "wine_bottles_barolo_albe",
+                "display_name": "Barolo Albe",
+                "base_unit": "bottle"
+            },
+            "Barolo - Morando": {
+                "standardized_key": "wine_bottles_barolo_morando",
+                "display_name": "Barolo Morando",
+                "base_unit": "bottle"
+            },
+            "Barolo - Fratelli Seghesio": {
+                "standardized_key": "wine_bottles_barolo_fratelli",
+                "display_name": "Barolo Fratelli",
+                "base_unit": "bottle"
+            },
+            "Bardolino Chiaretto Rodon - Le Fraghe": {
+                "standardized_key": "wine_bottles_bardolino_le_fraghe",
+                "display_name": "Bardolino Le Fraghe",
+                "base_unit": "bottle"
+            },
+            "Barbera D'Asti - Vigne Vecchie": {
+                "standardized_key": "wine_bottles_barbera_vigne",
+                "display_name": "Barbera Vigne",
+                "base_unit": "bottle"
+            },
+            "Barbaresco Ovello - Carlo Giacosa": {
+                "standardized_key": "wine_bottles_barbaresco_ovello_carlo",
+                "display_name": "Barbaresco Ovello Carlo",
+                "base_unit": "bottle"
+            },
+            "Amarone della Valpollicella Ravazzol - Ca la Bionda": {
+                "standardized_key": "wine_bottles_amarone_calabionda",
+                "display_name": "Amarone Calabionda",
+                "base_unit": "bottle"
+            },
+            "Amarone della Valpolicella - Mazzi": {
+                "standardized_key": "wine_bottles_amarone_mazzi",
+                "display_name": "Amarone Mazzi",
+                "base_unit": "bottle"
+            },
+            "Aglianico Rosso del Vulcano - Macarico": {
+                "standardized_key": "wine_bottles_rosso_del_vulcano_macarico",
+                "display_name": "Rosso Del Vulcano Macarico",
+                "base_unit": "bottle"
+            },
+            "Chianti Colli Il Garrulo - Montenidoli": {
+                "standardized_key": "wine_bottles_chianti_colli_montenidoli",
+                "display_name": "Chianti Colli Montenidoli",
+                "base_unit": "bottle"
+            },
+            "Montepulciano d'Abruzzo - Vigneti del Sole": {
+                "standardized_key": "wine_bottles_montepulciano_vigneti",
+                "display_name": "Montepulciano Vigneti",
+                "base_unit": "bottle"
+            },
+            "Chianti Riserva Casanova - La Spinetta": {
+                "standardized_key": "wine_bottles_chianti_casanova_spinetta",
+                "display_name": "Chianti Casanova Spinetta",
+                "base_unit": "bottle"
+            },
+            "Chianti Terre di Corzano- Corzano e Paterno": {
+                "standardized_key": "wine_bottles_chianti_terre_di_corzano",
+                "display_name": "Chianti Terre Di Corzano",
+                "base_unit": "bottle"
+            },
+            "Montepulciano d'Abbruzzo - Cirelli": {
+                "standardized_key": "wine_bottles_montepulciano_cirelli",
+                "display_name": "Montepulciano Cirelli",
+                "base_unit": "bottle"
+            },
+            "Merlot Collio - Venica & Venica": {
+                "standardized_key": "wine_bottles_merlot_collio_venica",
+                "display_name": "Merlot Collio Venica",
+                "base_unit": "bottle"
+            },
+            "Langhe Rosso - G.D. Vajra": {
+                "standardized_key": "wine_bottles_langhe_rosso_vajra",
+                "display_name": "Langhe Rosso Vajra",
+                "base_unit": "bottle"
+            },
+            "Lambrusco Grasparossa - Galvana": {
+                "standardized_key": "wine_bottles_lambrusco_galvana",
+                "display_name": "Lambrusco Galvana",
+                "base_unit": "bottle"
+            },
+            "Lambrusco dell'Emilia Rosa Luna - La Collina": {
+                "standardized_key": "wine_bottles_lambrusco_rosa_luna",
+                "display_name": "Lambrusco Rosa Luna",
+                "base_unit": "bottle"
+            },
+            "Gavi Masera - Stefano Massone": {
+                "standardized_key": "wine_bottles_gavi_masera",
+                "display_name": "Gavi Masera",
+                "base_unit": "bottle"
+            },
+            "Gattinara Rosato Bricco Lorella - Antoniolo": {
+                "standardized_key": "wine_bottles_gattinara_rosato_bricco_lorella",
+                "display_name": "Gattinara Rosato Bricco Lorella",
+                "base_unit": "bottle"
+            },
+            "Gattinara Riserva - Antoniolo": {
+                "standardized_key": "wine_bottles_gattinara_riserva_antoniolo",
+                "display_name": "Gattinara Riserva Antoniolo",
+                "base_unit": "bottle"
+            },
+            "Franciacorta Rosé - Elisabetta Abrami": {
+                "standardized_key": "wine_bottles_franciacorta_abrami",
+                "display_name": "Franciacorta Abrami",
+                "base_unit": "bottle"
+            },
+            "Franciacorta Cuvee - Ca del Bosco": {
+                "standardized_key": "wine_bottles_franciacorta_cadelbosco",
+                "display_name": "Franciacorta Cadelbosco",
+                "base_unit": "bottle"
+            },
+            "Franciacorta Brut - Elisabetta Abrami": {
+                "standardized_key": "wine_bottles_franciacorta_elisabetta",
+                "display_name": "Franciacorta Elisabetta",
+                "base_unit": "bottle"
+            },
+            "Fiano di Avellino - Rocca del Principe": {
+                "standardized_key": "wine_bottles_fiano_di_avellino_rocca",
+                "display_name": "Fiano Di Avellino Rocca",
+                "base_unit": "bottle"
+            },
+            "Falanghina del Beneventano - Il Raduno delle Streghe": {
+                "standardized_key": "wine_bottles_falanghina_il_raduno",
+                "display_name": "Falanghina Il Raduno",
+                "base_unit": "bottle"
+            },
+            "Etna Rosso Cauru - Torre Mora": {
+                "standardized_key": "wine_bottles_etna_rosso_cauru_torre",
+                "display_name": "Etna Rosso Cauru Torre",
+                "base_unit": "bottle"
+            },
+            "Etna Rosso a Rina - Girolamo Russo": {
+                "standardized_key": "wine_bottles_etna_rosso_a_rina_girolamo",
+                "display_name": "Etna Rosso A Rina Girolamo",
+                "base_unit": "bottle"
+            },
+            "Dolcetto d'Alba - Fratelli Alessandria": {
+                "standardized_key": "wine_bottles_dolcetto_fratelli",
+                "display_name": "Dolcetto Fratelli",
+                "base_unit": "bottle"
+            },
+            "Dolcetto D'Alba - Luigi Voghera": {
+                "standardized_key": "wine_bottles_dolcetto_luigi_voghera",
+                "display_name": "Dolcetto Luigi Voghera",
+                "base_unit": "bottle"
+            },
+            "Chianti Superiore - Banfi": {
+                "standardized_key": "wine_bottles_chianti_banfi",
+                "display_name": "Chianti Banfi",
+                "base_unit": "bottle"
+            },
+            "Vin Santo di Carmignano Riserva - Capezzana": {
+                "standardized_key": "wine_bottles_vin_santo_capezzana",
+                "display_name": "Vin Santo Capezzana",
+                "base_unit": "bottle"
+            }
+        }
+    },
+    "components": {
+        "espresso_bar": {
+            "espresso_barocco": {
+                "display_name": "Barocco Espresso",
+                "base_unit": "shot"
+            },
+            "espresso_sereno": {
+                "display_name": "Sereno Decaf Espresso",
+                "base_unit": "shot"
+            },
+            "cups_4oz_hot": {
+                "display_name": "Cups 4oz hot",
+                "base_unit": "cup"
+            },
+            "cups_8oz_hot": {
+                "display_name": "Cups 8oz hot",
+                "base_unit": "cup"
+            },
+            "cups_12oz_hot": {
+                "display_name": "Cups 12oz hot",
+                "base_unit": "cup"
+            },
+            "cups_16oz_hot": {
+                "display_name": "Cups 16oz hot",
+                "base_unit": "cup"
+            },
+            "cups_9oz_cold": {
+                "display_name": "Cups 9oz cold",
+                "base_unit": "cup"
+            },
+            "cups_20oz_cold": {
+                "display_name": "Cups 20oz cold",
+                "base_unit": "cup"
+            },
+            "lids_4oz_hot": {
+                "display_name": "Lids 4oz hot",
+                "base_unit": "lid"
+            },
+            "lids_8+_hot": {
+                "display_name": "Lids 8+ hot",
+                "base_unit": "lid"
+            },
+            "lids_9+_cold": {
+                "display_name": "Lids 9+ cold",
+                "base_unit": "lid"
+            }
+        },
+        "flavors": {
+            "flavor_vanilla": {
+                "display_name": "Vanilla",
+                "base_unit": "oz"
+            },
+            "flavor_sf_vanilla": {
+                "display_name": "SF Vanilla",
+                "base_unit": "oz"
+            },
+            "flavor_caramel_sauce": {
+                "display_name": "Caramel Sauce",
+                "base_unit": "oz"
+            },
+            "flavor_chocolate_sauce": {
+                "display_name": "Chocolate Sauce",
+                "base_unit": "oz"
+            },
+            "flavor_sf_caramel": {
+                "display_name": "SF Caramel",
+                "base_unit": "oz"
+            },
+            "flavor_hazelnut": {
+                "display_name": "Hazelnut",
+                "base_unit": "oz"
+            },
+            "flavor_almond": {
+                "display_name": "Almond",
+                "base_unit": "oz"
+            },
+            "flavor_rose": {
+                "display_name": "Rose",
+                "base_unit": "oz"
+            },
+            "flavor_lavander": {
+                "display_name": "Lavander",
+                "base_unit": "oz"
+            },
+            "flavor_amaretto": {
+                "display_name": "Amaretto",
+                "base_unit": "oz"
+            },
+            "flavor_cinnamon_syrup": {
+                "display_name": "Cinnamon Syrup",
+                "base_unit": "oz"
+            },
+            "flavor_honey": {
+                "display_name": "Honey",
+                "base_unit": "oz"
+            },
+            "flavor_nutella": {
+                "display_name": "Nutella",
+                "base_unit": "oz"
+            },
+            "flavor_pistacchio_cream": {
+                "display_name": "Pistacchio Cream",
+                "base_unit": "oz"
+            }
+        },
+        "other": {
+            "other_ciobar": {
+                "display_name": "Ciobar",
+                "base_unit": "packet"
+            },
+            "other_hot_tea": {
+                "display_name": "Hot Tea",
+                "base_unit": "bag"
+            },
+            "other_matcha": {
+                "display_name": "Matcha",
+                "base_unit": "oz"
+            },
+            "other_kinder_bueno": {
+                "display_name": "Kinder Bueno",
+                "base_unit": "bar"
+            },
+            "other_kinder_chocolate_bar": {
+                "display_name": "Kinder Chocolate Bar",
+                "base_unit": "bar"
+            },
+            "other_ferrero_rochet": {
+                "display_name": "Ferrero Rochet",
+                "base_unit": "piece"
+            }
+        },
+        "condiments": {
+            "cond_white_sugar": {
+                "display_name": "White sugar",
+                "base_unit": "case"
+            },
+            "cond_raw_sugar": {
+                "display_name": "Raw sugar",
+                "base_unit": "case"
+            },
+            "cond_stevia": {
+                "display_name": "Stevia",
+                "base_unit": "case"
+            },
+            "cond_splenda": {
+                "display_name": "Splenda",
+                "base_unit": "case"
+            },
+            "cond_sweet_&_low": {
+                "display_name": "Sweet & Low",
+                "base_unit": "case"
+            },
+            "cond_flavored_italian_sugar": {
+                "display_name": "Flavored Italian sugar",
+                "base_unit": "case"
+            }
+        },
+        "supplies": {
+            "gen_thermal_paper": {
+                "display_name": "Thermal paper",
+                "base_unit": "case"
+            },
+            "gen_single-ply_printer_paper": {
+                "display_name": "Single-ply printer paper",
+                "base_unit": "case"
+            },
+            "gen_wrapped_straws": {
+                "display_name": "Wrapped straws",
+                "base_unit": "case"
+            },
+            "gen_short_stir_straws": {
+                "display_name": "Short stir straws",
+                "base_unit": "case"
+            },
+            "gen_long_stir_straws": {
+                "display_name": "Long stir straws",
+                "base_unit": "case"
+            },
+            "gen_black_bev_naps": {
+                "display_name": "Black bev naps",
+                "base_unit": "case"
+            },
+            "gen_sage_napkins": {
+                "display_name": "Sage napkins",
+                "base_unit": "case"
+            },
+            "gen_togo_utensil_packets": {
+                "display_name": "Togo utensil packets",
+                "base_unit": "case"
+            },
+            "gen_plastic_spoons": {
+                "display_name": "plastic spoons",
+                "base_unit": "case"
+            },
+            "gen_togo_drink_carriers": {
+                "display_name": "togo drink carriers",
+                "base_unit": "case"
+            },
+            "gen_clamshells": {
+                "display_name": "clamshells",
+                "base_unit": "case"
+            },
+            "gen_square_dessert_containers": {
+                "display_name": "square dessert containers",
+                "base_unit": "case"
+            },
+            "gen_rectangle_dessert_containers": {
+                "display_name": "rectangle dessert containers",
+                "base_unit": "case"
+            },
+            "gen_small_brown_pastry_bags": {
+                "display_name": "small brown pastry bags",
+                "base_unit": "case"
+            },
+            "gen_small_white_pastry_bags": {
+                "display_name": "small white pastry bags",
+                "base_unit": "case"
+            },
+            "gen_large_white_pastry_bags": {
+                "display_name": "large white pastry bags",
+                "base_unit": "case"
+            },
+            "gen_bakery_tissue": {
+                "display_name": "bakery tissue",
+                "base_unit": "case"
+            }
+        },
+        "milk": {
+            "milk_almond_milk": {
+                "display_name": "Almond milk",
+                "base_unit": "oz"
+            },
+            "milk_oat_milk": {
+                "display_name": "Oat milk",
+                "base_unit": "oz"
+            },
+            "milk_coconut_milk": {
+                "display_name": "Coconut milk",
+                "base_unit": "oz"
+            },
+            "milk_soy_milk": {
+                "display_name": "Soy milk",
+                "base_unit": "oz"
+            }
+        },
+        "beverage_components": {
+            "na_bev_pele_lg": {
+                "display_name": "San Pellegrino Large Bottle",
+                "base_unit": "bottle"
+            },
+            "na_bev_pele_can": {
+                "display_name": "San Pellegrino Can",
+                "base_unit": "can" 
+            },
+            "na_bev_pele_flavored": {
+                "display_name": "San Pellegrino Flavored Can",
+                "base_unit": "can"
+            },
+            "na_bev_gassosa": {
+                "display_name": "Gassosa Bottle",
+                "base_unit": "bottle"
+            },
+            "na_bev_pele_rossa": {
+                "display_name": "Aranciata Rossa Can",
+                "base_unit": "can"
+            },
+            "na_bev_panna_bottle": {
+                "display_name": "Acqua Panna Bottle",
+                "base_unit": "bottle"
+            },
+            "na_bev_tonic_bottle": {
+                "display_name": "Tonic Water Bottle",
+                "base_unit": "bottle"
+            },
+            "na_bev_yoga_bottle": {
+                "display_name": "Yoga Fruit Juice Bottle",
+                "base_unit": "bottle"
+            },
+            "na_bev_agrumata": {
+                "display_name": "Baladin Agrumata",
+                "base_unit": "bottle"
+            },
+            "na_bev_spuma": {
+                "display_name": "Baladin Spuma Nera",
+                "base_unit": "bottle"
+            },
+            "na_bev_bellini": {
+                "display_name": "Non-Alcoholic Bellini",
+                "base_unit": "bottle"
+            },
+            "na_bev_coke_bottle": {
+                "display_name": "Coca Cola Bottle",
+                "base_unit": "bottle"
+            },
+            "na_bev_cold_brew": {
+                "display_name": "Cold Brew Can",
+                "base_unit": "can"
+            },
+            "na_bev_crodino": {
+                "display_name": "Crodino SanBitter",
+                "base_unit": "bottle"
+            },
+            "na_bev_fanta_bottle": {
+                "display_name": "Fanta Bottle",
+                "base_unit": "bottle"
+            },
+            "na_bev_cedrata": {
+                "display_name": "Baladin Cedrata",
+                "base_unit": "bottle"
+            },
+            "na_bev_sprite_bottle": {
+                "display_name": "Sprite Bottle",
+                "base_unit": "bottle"
+            },
+            "na_bev_santal": {
+                "display_name": "Santal Fruit Juice",
+                "base_unit": "bottle"
+            },
+            "na_bev_estathe": {
+                "display_name": "Tea EstaThe",
+                "base_unit": "bottle"
+            },
+            "na_bev_pele_sm": {
+                "display_name": "San Pellegrino Small Bottle",
+                "base_unit": "bottle"
+            },
+            "syrup_coke": {
+                "display_name": "Coke Syrup Base",
+                "base_unit": "oz"
+            },
+            "syrup_diet": {
+                "display_name": "Diet Coke Syrup Base",
+                "base_unit": "oz"
+            },
+            "syrup_fanta": {
+                "display_name": "Fanta Syrup Base",
+                "base_unit": "oz"
+            },
+            "syrup_lemonade": {
+                "display_name": "Lemonade Syrup Base",
+                "base_unit": "oz"
+            },
+            "syrup_sprite": {
+                "display_name": "Sprite Syrup Base",
+                "base_unit": "oz"
+            },
+            "syrup_iced_tea": {
+                "display_name": "Iced Tea Syrup Base",
+                "base_unit": "oz"
+            }
+        }
+    },
+    "component_relationships": {
+        "na_bev_pele_lg": {
+            "uses": [
+                {
+                    "component": "na_bev_pele_lg",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_pele_can": {
+            "uses": [
+                {
+                    "component": "na_bev_pele_can",
+                    "quantity": 1.0,
+                    "unit": "can"
+                }
+            ]
+        },
+        "na_bev_pele_flavored": {
+            "uses": [
+                {
+                    "component": "na_bev_pele_flavored",
+                    "quantity": 1.0,
+                    "unit": "can"
+                }
+            ]
+        },
+        "na_bev_gassosa": {
+            "uses": [
+                {
+                    "component": "na_bev_gassosa",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_pele_rossa": {
+            "uses": [
+                {
+                    "component": "na_bev_pele_rossa",
+                    "quantity": 1.0,
+                    "unit": "can"
+                }
+            ]
+        },
+        "na_bev_panna_bottle": {
+            "uses": [
+                {
+                    "component": "na_bev_panna_bottle",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_tonic_bottle": {
+            "uses": [
+                {
+                    "component": "na_bev_tonic_bottle",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_yoga_bottle": {
+            "uses": [
+                {
+                    "component": "na_bev_yoga_bottle",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_agrumata": {
+            "uses": [
+                {
+                    "component": "na_bev_agrumata",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_spuma": {
+            "uses": [
+                {
+                    "component": "na_bev_spuma",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_bellini": {
+            "uses": [
+                {
+                    "component": "na_bev_bellini",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_coke_bottle": {
+            "uses": [
+                {
+                    "component": "na_bev_coke_bottle",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_cold_brew": {
+            "uses": [
+                {
+                    "component": "na_bev_cold_brew",
+                    "quantity": 1.0,
+                    "unit": "can"
+                }
+            ]
+        },
+        "na_bev_crodino": {
+            "uses": [
+                {
+                    "component": "na_bev_crodino",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_fanta_bottle": {
+            "uses": [
+                {
+                    "component": "na_bev_fanta_bottle",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_cedrata": {
+            "uses": [
+                {
+                    "component": "na_bev_cedrata",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_sprite_bottle": {
+            "uses": [
+                {
+                    "component": "na_bev_sprite_bottle",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_santal": {
+            "uses": [
+                {
+                    "component": "na_bev_santal",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_estathe": {
+            "uses": [
+                {
+                    "component": "na_bev_estathe",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_pele_sm": {
+            "uses": [
+                {
+                    "component": "na_bev_pele_sm",
+                    "quantity": 1.0,
+                    "unit": "bottle"
+                }
+            ]
+        },
+        "na_bev_coke_draft": {
+            "uses": [
+                {
+                    "component": "syrup_coke",
+                    "quantity": 2.0,
+                    "unit": "oz"
+                }
+            ]
+        },
+        "na_bev_diet_draft": {
+            "uses": [
+                {
+                    "component": "syrup_diet",
+                    "quantity": 2.0,
+                    "unit": "oz"
+                }
+            ]
+        },
+        "na_bev_sprite_draft": {
+            "uses": [
+                {
+                    "component": "syrup_sprite",
+                    "quantity": 2.0,
+                    "unit": "oz"
+                }
+            ]
+        },
+        "na_bev_lem_draft": {
+            "uses": [
+                {
+                    "component": "syrup_lemonade",
+                    "quantity": 2.0,
+                    "unit": "oz"
+                }
+            ]
+        },
+        "na_bev_tea_draft": {
+            "uses": [
+                {
+                    "component": "syrup_iced_tea",
+                    "quantity": 2.0,
+                    "unit": "oz"
+                }
+            ]
+        }
+    }
+}
