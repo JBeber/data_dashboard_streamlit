@@ -143,20 +143,22 @@ def show_dashboard_overview(data_manager: InventoryDataManager):
             with alert_col1:
                 if zero_stock_items > 0:
                     st.error("**Out of Stock Items**")
-                    for item_id, level in current_levels.items():
-                        if level == 0:
-                            item = items[item_id]
-                            category_name = categories.get(item.category).name if item.category in categories else item.category
-                            st.write(f"• **{item.name}** ({category_name})")
+                    with st.expander("View Out of Stock Items", expanded=False):
+                        for item_id, level in current_levels.items():
+                            if level == 0:
+                                item = items[item_id]
+                                category_name = categories.get(item.category).name if item.category in categories else item.category
+                                st.write(f"• **{item.name}** ({category_name})")
             
             with alert_col2:
                 if low_stock_items > 0:
                     st.warning("**Low Stock Items**")
-                    for item_id, item in items.items():
-                        level = current_levels.get(item_id, 0)
-                        if 0 < level < item.reorder_point:
-                            st.write(f"• **{item.name}**: {level:.1f} {item.unit} (reorder at {item.reorder_point})")
-        
+                    with st.expander("View Low Stock Items", expanded=False):
+                        for item_id, item in items.items():
+                            level = current_levels.get(item_id, 0)
+                            if 0 < level < item.reorder_point:
+                                st.write(f"• **{item.name}**: {level:.1f} {item.unit} (reorder at {item.reorder_point})")
+
         # Recent activity
         st.subheader("📅 Recent Activity")
         show_recent_transactions(data_manager, limit=10)
@@ -171,7 +173,7 @@ def show_dashboard_overview(data_manager: InventoryDataManager):
                 st.rerun()
         
         with quick_col2:
-            if st.button("📦 Add New Item"):
+            if st.button("📦 View Current Items"):
                 st.session_state.nav_target = "⚙️ Manage Items"
                 st.rerun()
         
