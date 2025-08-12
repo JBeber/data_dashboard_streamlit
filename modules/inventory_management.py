@@ -372,7 +372,7 @@ def show_recent_transactions(data_manager: InventoryDataManager, limit: int = 20
         # Create display data
         display_data = []
         for transaction in recent_transactions:
-            item_name = items.get(transaction.item_id, {}).name if transaction.item_id in items else "Unknown Item"
+            item_name = items.get(transaction.item_id, {}).name if transaction.item_id in items else transaction.item_id
             
             display_data.append({
                 "Time": transaction.timestamp.strftime("%m/%d %H:%M"),
