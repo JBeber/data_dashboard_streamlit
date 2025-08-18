@@ -197,148 +197,167 @@ def show_transaction_entry(data_manager: InventoryDataManager):
     if not items:
         st.warning("⚠️ No inventory items found. Please add items first in the 'Manage Items' section.")
         return
-    
+
+    # Handle post-submit reset before any widgets are instantiated
+    if st.session_state.get("reset_txn", False):
+        st.session_state["txn_qty_v2"] = 0.0
+        st.session_state["txn_unit_cost"] = 0.0
+        st.session_state["txn_notes"] = ""
+        st.session_state["txn_type"] = "usage"
+        st.session_state["reset_txn"] = False
+
+    # Select item and transaction type OUTSIDE the form so dependent widgets re-render immediately
+    left, right = st.columns(2)
+    with left:
+        item_options = {item_id: f"{item.name} ({categories.get(item.category).name if item.category in categories else item.category})"
+                        for item_id, item in items.items()}
+        selected_item_id = st.selectbox(
+            "📦 Item",
+            options=list(item_options.keys()),
+            format_func=lambda x: item_options[x],
+            key="txn_item",
+            help="Select the inventory item for this transaction"
+        )
+    with right:
+        transaction_type = st.selectbox(
+            "📋 Transaction Type",
+            options=["delivery", "usage", "waste", "adjustment"],
+            format_func=lambda x: {
+                "delivery": "📦 Delivery/Receipt",
+                "usage": "📉 Usage/Consumption",
+                "waste": "🗑️ Waste/Spoilage",
+                "adjustment": "⚖️ Inventory Adjustment"
+            }[x],
+            key="txn_type",
+            help="Choose the type of inventory transaction"
+        )
+
+    # Ensure session quantity respects the min bound when switching away from adjustment
+    if transaction_type != "adjustment" and st.session_state.get("txn_qty_v2", 0.0) < 0:
+        st.session_state["txn_qty_v2"] = 0.0
+
+    # Show current level for the selected item
+    if selected_item_id:
+        current_level = current_levels.get(selected_item_id, 0)
+        selected_item = items[selected_item_id]
+        st.info(f"**Current Level**: {current_level:.1f} {selected_item.unit}")
+
+    # Now render the form inputs that depend on selection/type
     with st.form("transaction_form", clear_on_submit=True):
         st.markdown("### Transaction Details")
-        
+
         col1, col2 = st.columns(2)
-        
+
         with col1:
-            # Item selection - use category name instead of ID
-            item_options = {item_id: f"{item.name} ({categories.get(item.category).name if item.category in categories else item.category})" 
-                          for item_id, item in items.items()}
-            selected_item_id = st.selectbox(
-                "📦 Item",
-                options=list(item_options.keys()),
-                format_func=lambda x: item_options[x],
-                help="Select the inventory item for this transaction"
-            )
-            
-            # Show current level
-            if selected_item_id:
-                current_level = current_levels.get(selected_item_id, 0)
-                selected_item = items[selected_item_id]
-                st.info(f"**Current Level**: {current_level:.1f} {selected_item.unit}")
-            
-            # Transaction type
-            transaction_type = st.selectbox(
-                "📋 Transaction Type",
-                options=["delivery", "usage", "waste", "adjustment"],
-                format_func=lambda x: {
-                    "delivery": "📦 Delivery/Receipt",
-                    "usage": "📉 Usage/Consumption", 
-                    "waste": "🗑️ Waste/Spoilage",
-                    "adjustment": "⚖️ Inventory Adjustment"
-                }[x],
-                help="Choose the type of inventory transaction"
-            )
-            
-            # Quantity
+            qty_min = -999.0 if transaction_type == "adjustment" else 0.0
             quantity = st.number_input(
                 "📊 Quantity",
-                min_value=-999.0 if transaction_type == "adjustment" else 0.0,
-                max_value=999.0,
-                value=0.0,
+                min_value=qty_min,
                 step=0.1,
+                key="txn_qty_v2",
                 help="Enter the quantity (positive for increases, negative for adjustments)"
             )
-        
+
         with col2:
-            # Unit cost (for deliveries)
+            unit_cost_disabled = transaction_type != "delivery"
             unit_cost = st.number_input(
                 "💰 Unit Cost ($)",
                 min_value=0.0,
-                value=0.0,
                 step=0.01,
-                disabled=transaction_type != "delivery",
+                disabled=unit_cost_disabled,
+                key="txn_unit_cost",
                 help="Unit cost for delivery transactions"
             )
-            
-            # Source
+
+        col3, col4 = st.columns(2)
+        with col3:
             source = st.selectbox(
                 "📍 Source",
                 options=["manual", "delivery", "count", "pos_integration"],
+                key="txn_source",
                 format_func=lambda x: {
                     "manual": "🖱️ Manual Entry",
-                    "delivery": "🚚 Delivery Receipt", 
+                    "delivery": "🚚 Delivery Receipt",
                     "count": "🔢 Physical Count",
                     "pos_integration": "💻 POS Integration"
                 }[x],
                 help="How this transaction was recorded"
             )
-            
-            # User
+        with col4:
             user = st.text_input(
                 "👤 User",
                 value=st.session_state.get('user', 'current_user'),
+                key="txn_user",
                 help="Who is recording this transaction"
             )
-            
-            # Notes
-            notes = st.text_area(
-                "📝 Notes",
-                placeholder="Optional notes about this transaction...",
-                help="Any additional information about this transaction"
-            )
-        
-        # Validation warnings
+
+        notes = st.text_area(
+            "📝 Notes",
+            key="txn_notes",
+            placeholder="Optional notes about this transaction...",
+            help="Any additional information about this transaction"
+        )
+
+        # Contextual warnings
         if selected_item_id and quantity > 0:
             current_level = current_levels.get(selected_item_id, 0)
             selected_item = items[selected_item_id]
-            
             if transaction_type in ["usage", "waste"] and quantity > current_level:
                 st.warning(f"⚠️ Warning: This transaction would result in negative inventory ({current_level - quantity:.1f} {selected_item.unit})")
-            
             if transaction_type == "delivery":
                 new_level = current_level + quantity
                 if new_level > selected_item.par_level * 1.5:
                     st.info(f"💡 Note: This delivery would bring inventory well above par level ({new_level:.1f} vs {selected_item.par_level} {selected_item.unit})")
-        
-        # Submit button
+
         submitted = st.form_submit_button("💾 Log Transaction", type="primary")
-        
+
         if submitted:
             with handle_decorator_errors("Unable to log transaction. Please try again."):
-                # Validate inputs
+                # Validate core inputs
                 if not selected_item_id:
                     st.error("Please select an item")
                     return
-                
-                if quantity <= 0:
+
+                # Type-specific validation
+                if transaction_type in ["delivery", "usage", "waste"] and quantity <= 0:
                     st.error("Please enter a positive quantity")
                     return
-                
-                # Create transaction
+                if transaction_type == "adjustment" and quantity == 0:
+                    st.error("Adjustment quantity cannot be zero")
+                    return
+                if transaction_type == "delivery" and (unit_cost is None or unit_cost <= 0):
+                    st.error("Unit cost is required for delivery transactions")
+                    return
+
+                # Build transaction
                 transaction = Transaction(
                     transaction_id=str(uuid.uuid4()),
                     item_id=selected_item_id,
                     transaction_type=transaction_type,
                     quantity=quantity,
-                    unit_cost=unit_cost if transaction_type == "delivery" and unit_cost > 0 else None,
+                    unit_cost=unit_cost if transaction_type == "delivery" else None,
                     timestamp=datetime.now(),
                     user=user,
                     notes=notes.strip() if notes.strip() else None,
                     source=source
                 )
-                
+
                 # Log the transaction
                 data_manager.log_transaction(transaction)
-                
-                # Update item cost if this is a delivery with cost
-                if transaction_type == "delivery" and unit_cost > 0:
+
+                # Update item cost if delivery
+                if transaction_type == "delivery" and unit_cost and unit_cost > 0:
                     selected_item.update_cost(unit_cost)
                     items_dict = data_manager.load_items()
                     items_dict[selected_item_id] = selected_item
                     data_manager.save_items(items_dict)
-                
-                # Success message
+
+                # Success + updated level
                 st.success("✅ Transaction logged successfully!")
-                
-                # Show updated level
                 new_levels = data_manager.calculate_current_levels()
                 new_level = new_levels.get(selected_item_id, 0)
                 st.info(f"📊 **Updated Level**: {new_level:.1f} {selected_item.unit}")
-                
+
                 app_logger.log_info("Transaction logged via UI", {
                     "app_module": "inventory",
                     "action": "transaction_entry_ui",
@@ -348,8 +367,9 @@ def show_transaction_entry(data_manager: InventoryDataManager):
                     "quantity": quantity,
                     "user": user
                 })
-                
-                # Auto-refresh after short delay
+
+                # Trigger a safe reset on next run (can't set widget keys after instantiation)
+                st.session_state["reset_txn"] = True
                 st.rerun()
 
 
@@ -624,7 +644,7 @@ def show_configure_items(data_manager: InventoryDataManager):
                                 default_unit = pos_manager._components[key].get('base_unit', '')
                         
                         unit = st.text_input(
-                            "� Unit",
+                            "📏 Unit",
                             value=default_unit,
                             disabled=True,  # Unit comes from POS config
                             help="Unit is defined in POS configuration"
@@ -685,8 +705,8 @@ def show_configure_items(data_manager: InventoryDataManager):
                             continue
                         
                         with handle_decorator_errors("Unable to save item configuration. Please try again."):
-                            # Generate ID if this is a new item
-                            item_id = existing_item.item_id if existing_item else f"item_{uuid.uuid4().hex[:8]}"
+                            # Use standardized key as ID for new items to align with transactions
+                            item_id = existing_item.item_id if existing_item else key
                             
                             # Create or update item
                             updated_item = InventoryItem(
