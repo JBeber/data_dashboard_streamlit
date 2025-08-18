@@ -128,7 +128,6 @@ def show_dashboard_overview(data_manager: InventoryDataManager):
         
         with col3:
             st.metric("Out of Stock", zero_stock_items,
-                     delta=-zero_stock_items if zero_stock_items > 0 else None,
                      delta_color="inverse")
         
         with col4:
@@ -203,8 +202,18 @@ def show_transaction_entry(data_manager: InventoryDataManager):
         st.session_state["txn_qty_v2"] = 0.0
         st.session_state["txn_unit_cost"] = 0.0
         st.session_state["txn_notes"] = ""
-        st.session_state["txn_type"] = "usage"
+        # Do not reset txn_type; keep user's last selection
         st.session_state["reset_txn"] = False
+
+    # Initialize defaults once per session (before widgets are created)
+    if "txn_type" not in st.session_state:
+        st.session_state["txn_type"] = "usage"
+    if "txn_qty_v2" not in st.session_state:
+        st.session_state["txn_qty_v2"] = 0.0
+    if "txn_unit_cost" not in st.session_state:
+        st.session_state["txn_unit_cost"] = 0.0
+    if "txn_notes" not in st.session_state:
+        st.session_state["txn_notes"] = ""
 
     # Select item and transaction type OUTSIDE the form so dependent widgets re-render immediately
     left, right = st.columns(2)
@@ -232,8 +241,11 @@ def show_transaction_entry(data_manager: InventoryDataManager):
             help="Choose the type of inventory transaction"
         )
 
-    # Ensure session quantity respects the min bound when switching away from adjustment
+    # Ensure session quantity respects bounds when switching types
     if transaction_type != "adjustment" and st.session_state.get("txn_qty_v2", 0.0) < 0:
+        st.session_state["txn_qty_v2"] = 0.0
+    if transaction_type == "adjustment" and st.session_state.get("txn_qty_v2", 0.0) == -999.0:
+        # Avoid auto-filling to -999 by ensuring we keep 0.0 default
         st.session_state["txn_qty_v2"] = 0.0
 
     # Show current level for the selected item
