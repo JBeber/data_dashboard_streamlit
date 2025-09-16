@@ -12,7 +12,6 @@ from typing import Dict, List, Optional, Tuple
 import sys
 import os
 from pathlib import Path
-from math import ceil
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
