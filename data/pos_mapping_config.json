@@ -863,7 +863,7 @@
                 "base_unit": "oz"
             }
         },
-        "beverage_components": {
+        "na_beverages": {
             "na_bev_pele_lg": {
                 "display_name": "San Pellegrino Large Bottle",
                 "base_unit": "bottle"

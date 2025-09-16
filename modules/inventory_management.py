@@ -160,7 +160,8 @@ def show_dashboard_overview(data_manager: InventoryDataManager):
 
         # Recent activity
         st.subheader("📅 Recent Activity")
-        show_recent_transactions(data_manager, limit=10)
+        # show_recent_transactions(data_manager, limit=10)
+        show_recent_transactions(data_manager)
         
         # Quick actions
         st.subheader("⚡ Quick Actions")
@@ -386,13 +387,15 @@ def show_transaction_entry(data_manager: InventoryDataManager):
 
 
 @log_function_errors("inventory", "recent_transactions")
-def show_recent_transactions(data_manager: InventoryDataManager, limit: int = 20):
+# def show_recent_transactions(data_manager: InventoryDataManager, limit: int = 20):
+def show_recent_transactions(data_manager: InventoryDataManager):
     """Display recent transactions in a formatted table"""
     
     with handle_decorator_errors("Unable to load recent transactions"):
         # Load recent transactions
         all_transactions = data_manager.load_transactions()
-        recent_transactions = sorted(all_transactions, key=lambda t: t.timestamp, reverse=True)[:limit]
+        # recent_transactions = sorted(all_transactions, key=lambda t: t.timestamp, reverse=True)[:limit]
+        recent_transactions = sorted(all_transactions, key=lambda t: t.timestamp, reverse=True)
         
         if not recent_transactions:
             st.info("No transactions recorded yet.")

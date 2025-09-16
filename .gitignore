@@ -10,6 +10,7 @@ __pycache__/
 test*.py
 /.vscode
 /test_data
+/scripts/
 
 # Inventory runtime data (exclude actual transaction/snapshot data)
 /data/inventory_transactions.json

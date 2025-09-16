@@ -12,7 +12,6 @@ from typing import Dict, List, Optional, Tuple
 import sys
 import os
 from pathlib import Path
-from math import ceil
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -55,9 +54,6 @@ class SimplifiedToastProcessor:
         # Filter out voided items
         items_df = items_df[items_df['Void?'] == False]
         modifiers_df = modifiers_df[modifiers_df['Void?'] == False]
-
-        # Filter out relevant menu categories
-        items_df = items_df[items_df['Menu Group'].isin(('Espresso Bar', 'Beer', 'Wine - Glasses', 'Wine - Bottles', 'RETAIL WINE'))]
         
         results = {
             "success": True,
@@ -65,9 +61,7 @@ class SimplifiedToastProcessor:
             "component_usage": {},
             "processed_modifiers": 0,
             "unprocessed_modifiers": [],
-            "espresso_results": {},
-            "beer_results": {},
-            "wine_results": {}
+            "espresso_results": {}
         }
         
         # Process espresso drinks first using modular espresso inventory
@@ -133,76 +127,87 @@ class SimplifiedToastProcessor:
         
         results["espresso_results"] = espresso_results
         
-        # Calculate and store beer counts
-        beer_items = items_df[items_df['Menu Group'] == 'Beer']
-        for _, row in beer_items.iterrows():
+        # Process remaining non-espresso items from the mapping config
+        # First, check for wine and beer items and create direct usage transactions for them
+        items = self.data_manager.load_items()
+        
+        # Create lookup dictionaries for wine and beer items by their standardized names
+        wine_items = {}
+        beer_items = {}
+        for item_id, item in items.items():
+            if item.category in ('Wine - Glasses', 'Wine - Bottle'):
+                wine_items[item.standardized_item_name] = item_id
+            elif item.standardized_item_name and "beer" in item.standardized_item_name:
+                beer_items[item.standardized_item_name] = item_id
+        
+        # Process wine and beer menu items
+        for _, row in items_df.iterrows():
+            menu_item = row['Menu Item']
             quantity = row['Qty']
-            if quantity > 0:
-                beer_key = f"beer_{row['Menu Item'].lower().replace(' - ', '_').replace(' ', '_')}"
-                self._add_component_usage(
-                    results["component_usage"],
-                    beer_key,
-                    quantity,
-                    "unit"
-                )
-
-        # Calculate and store wine counts
-        # wine_items = items_df[items_df['Menu Group'].isin(['Wine - Glasses', 'Wine - Bottles', 'RETAIL WINE'])]
-        bottle_totals = {}
-
-        bottle_to_glass_map = {
-            "Barbera D'Asti - Vigne Vecchie": "Glass Barbera D'Asti - Vigne Vecchie",
-            "Primitivo Sin - Vigne Vecchie": "Glass Primitivo Sin - Vigne Vecchie",
-            "Pinot Grigio - Villa Loren": "Glass Pinot Grigio - Villa Loren",
-            "Chardonnay - Tenuta Maccan": "Glass Chardonnay - Tenuta Maccan",
-            "Moscato D'Asti - La Morandina": "Glass Moscato D'Asti - La Morandina",
-            "Gavi Masera - Stefano Massone": "Glass Gavi - Masera",
-            "Negramaro Rosato Soul - Vigne Vecchie": "Glass Rosato Soul - Vigne Vecchie",
-            "Gattinara Rosato Bricco Lorella - Antoniolo": "Glass Gattinara Rosato - Antoniolo Bricco Lorella",
-            "Prosecco Brut - Castel Nuovo del Garda": "Glass Prosecco Brut - Castel Nuovo del Garda",
-            "Prosecco Rose - Castel Nuovo del Garda": "Glass Prosecco Rosato - Castel Nuovo del Garda",
-            "Trento DOC - Maso Bianco - Seiterre": "Glass Trento DOC - Maso Bianco - Seiterre",
-            "Nebbiolo - Vigne Vecchie": "Glass Nebbiolo - Vigne Vecchie",
-            "Chianti Superiore - Banfi": "Glass Chianti Superiore - Banfi",
-            "Nerello Mascalese - Vento di Mare": "Glass Nerello Mascalese - Vento di Mare"
-        }
-
-        btg_bottle_names = list(bottle_to_glass_map.keys())
-
-        bottles_df = items_df[items_df['Menu Group'].isin(['RETAIL WINE', 'Wine - Bottles'])]
-        glasses_df = items_df[items_df['Menu Group'].isin(['Wine - Glasses']) & items_df['Menu Item'].isin(bottle_to_glass_map.values())]
-
-        whole_bottles_sold = bottles_df.groupby('Menu Item')['Qty'].sum() if not bottles_df.empty else 0
-        glasses_sold = glasses_df.groupby('Menu Item')['Qty'].sum() if not glasses_df.empty else 0
-
-        for bottle in whole_bottles_sold.index:
-            bottle_count = whole_bottles_sold.get(bottle, 0)
-            bottle_totals[bottle] = bottle_count
-
-        for gls, glass_count in glasses_sold.items():
-            bottle_name = None
-            for btl, mapped_gls in bottle_to_glass_map.items():
-                if mapped_gls == gls:
-                    bottle_name = btl
-                    break
-            if bottle_name:
-                if bottle_name in bottle_totals:
-                    bottle_totals[bottle_name] += glass_count / 4  # 4 glasses per bottle
-                else:
-                    bottle_totals[bottle_name] = glass_count / 4
             
-
-        for bottle, quantity in bottle_totals.items():
-            self._add_component_usage(
-                results["component_usage"],
-                f"wine_bottles_{bottle.lower().replace(' - ', '_').replace(' ', '_')}",
-                quantity,
-                "bottle"
-            )
+            # Skip espresso drinks - already handled
+            if menu_item in self.espresso_manager.drink_specs:
+                continue
+            
+            # Check if this is a wine or beer item that matches our inventory
+            found_match = False
+            # Try exact match first
+            standardized_key = menu_item.lower().replace(" ", "_")
+            
+            if standardized_key.startswith("wine"):
+                # Check if this menu item matches any wine inventory item
+                for wine_key, item_id in wine_items.items():
+                    if standardized_key in wine_key or wine_key in standardized_key:
+                        self._add_component_usage(
+                            results["component_usage"],
+                            wine_key,
+                            quantity,
+                            "bottle"
+                        )
+                        found_match = True
+                        break
+            elif standardized_key.startswith("beer"):
+                # Check if this menu item matches any beer inventory item
+                for beer_key, item_id in beer_items.items():
+                    if standardized_key in beer_key or beer_key in standardized_key:
+                        self._add_component_usage(
+                            results["component_usage"],
+                            beer_key,
+                            quantity,
+                            "bottle"
+                        )
+                        found_match = True
+                        break
+            
+            if found_match:
+                continue
 
             
-        # TODO: Add logic for other items tracking    
-           
+            # TODO: Add logic for other item tracking    
+            # # Get component mappings for non-espresso items
+            # item_mapping = self.mapping_manager.get_mapping_for_item(menu_item)
+            # if not item_mapping:
+            #     continue
+            
+            # # Handle Non-Alcoholic Beverages directly - they don't have components but should be tracked
+            # if item_mapping.get('menu_group') == 'Non-Alcoholic':
+            #     self._add_component_usage(
+            #         results["component_usage"],
+            #         item_mapping['standardized_key'],  # Use the standardized key like na_bev_pele_lg
+            #         quantity,
+            #         item_mapping['base_unit']
+            #     )
+            #     continue
+            
+            # # Add components from mapping
+            # for component in item_mapping.get('components', []):
+            #     self._add_component_usage(
+            #         results["component_usage"],
+            #         component['key'],
+            #         quantity * component['quantity'],
+            #         component['unit']
+            #     )
+                
         # Log all component usage transactions
         self._log_component_transactions(results["component_usage"], date_str)
         

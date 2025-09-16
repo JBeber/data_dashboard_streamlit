@@ -54,8 +54,8 @@ class ModularEspressoInventoryManager:
         print("🥤 Calculating togo cup usage...")
         
         cup_usage = {
-            'hot_4oz': 0, 'hot_8oz': 0, 'hot_12oz': 0, 'hot_16oz': 0,
-            'cold_9oz': 0, 'cold_20oz': 0
+            '4oz_hot': 0, '8oz_hot': 0, '12oz_hot': 0, '16oz_hot': 0,
+            '9oz_cold': 0, '20oz_cold': 0
         }
         
         # Filter takeout espresso drinks in Items.csv
@@ -73,9 +73,9 @@ class ModularEspressoInventoryManager:
             drink_qty = item['Qty']
             spec = self.drink_specs[drink_name]
             if spec.get('hot_size_oz'):
-                cup_key = f"hot_{spec['hot_size_oz']}oz"
+                cup_key = f"{spec['hot_size_oz']}oz_hot"
             else:
-                cup_key = f"cold_{spec['cold_size_oz']}oz"
+                cup_key = f"{spec['cold_size_oz']}oz_cold"
 
             cup_usage[cup_key] = cup_usage.get(cup_key, 0) + drink_qty
 
@@ -88,26 +88,61 @@ class ModularEspressoInventoryManager:
         ]
 
         # Process each iced togo drink in Mods.csv
-        iced_cup_usage = { 'cold_9oz': 0, 'cold_20oz': 0 }
+        iced_cup_usage = { '9oz_cold': 0, '20oz_cold': 0 }
 
         for _, iced_item in iced_togo.iterrows():
             iced_drink_name = iced_item['Parent Menu Selection']
             iced_drink_qty = iced_item['Qty']
             spec = self.drink_specs[iced_drink_name]
 
-            cup_key = f"cold_{spec['cold_size_oz']}oz"
+            # Default to 9oz if cold_size_oz not specified
+            cold_size = spec.get('cold_size_oz', None)
+            cup_key = f"{cold_size}oz_cold"
             iced_cup_usage[cup_key] = iced_cup_usage.get(cup_key, 0) + iced_drink_qty
 
             # Subtract the corresponding hot cup count
-            hot_cup_key = f"hot_{spec['hot_size_oz']}oz"
+            hot_size = spec.get('hot_size_oz', None)
+            hot_cup_key = f"{hot_size}oz_hot"
             cup_usage[hot_cup_key] = cup_usage.get(hot_cup_key, 0) - iced_drink_qty
 
         # Add cold counts to hot counts for total usage
-        cup_usage['cold_9oz'] += iced_cup_usage.get('cold_9oz', 0)
-        cup_usage['cold_20oz'] += iced_cup_usage.get('cold_20oz', 0)
+        cup_usage['9oz_cold'] += iced_cup_usage.get('9oz_cold', 0)
+        cup_usage['20oz_cold'] += iced_cup_usage.get('20oz_cold', 0)
 
         print(f"Cup usage calculated: {sum(cup_usage.values())} total cups")
         return cup_usage
+    
+    def calculate_lid_usage(self, cup_usage):
+        """
+        Calculate lid usage based on cup usage
+        
+        Logic:
+        - For every 4oz hot cup, use one "Lids 4oz hot"
+        - For all other hot cups (8oz, 12oz, 16oz), use one "Lids 8+ hot"
+        - For all cold cups (9oz, 20oz), use one "Lids 9+ cold"
+        """
+        print("🧢 Calculating lid usage...")
+        
+        lid_usage = {
+            'lids_4oz_hot': 0,
+            'lids_8+_hot': 0,
+            'lids_9+_cold': 0
+        }
+        
+        # Process each cup type
+        for cup_type, quantity in cup_usage.items():
+            if quantity <= 0:
+                continue
+                
+            if cup_type == '4oz_hot':
+                lid_usage['lids_4oz_hot'] += quantity
+            elif 'hot' in cup_type:  # 8oz, 12oz, 16oz hot cups
+                lid_usage['lids_8+_hot'] += quantity
+            elif 'cold' in cup_type:  # 9oz, 20oz cold cups
+                lid_usage['lids_9+_cold'] += quantity
+        
+        print(f"Lid usage calculated: {sum(lid_usage.values())} total lids")
+        return lid_usage
     
     def calculate_espresso_usage(self, items_df, modifiers_df, has_item_selection_id=False):
         """
@@ -237,6 +272,7 @@ class ModularEspressoInventoryManager:
             
             # Calculate each component separately
             cup_usage = self.calculate_togo_cup_usage(items_df, modifiers_df)
+            lid_usage = self.calculate_lid_usage(cup_usage)
             espresso_usage = self.calculate_espresso_usage(items_df, modifiers_df, has_item_selection_id)
             syrup_usage, milk_usage = self.calculate_syrup_milk_usage(modifiers_df)
             
@@ -244,6 +280,7 @@ class ModularEspressoInventoryManager:
             daily_inventory = {
                 'date': date_str,
                 'cups': cup_usage,
+                'lids': lid_usage,
                 'espresso': espresso_usage,
                 'syrups': syrup_usage,
                 'milk_alternatives': milk_usage,
@@ -285,20 +322,31 @@ class ModularEspressoInventoryManager:
         total_cups = sum(cups.values())
         print(f"\nTogo Cups: {total_cups} total")
         
-        hot_cups = sum(v for k, v in cups.items() if k.startswith('hot_') and v > 0)
-        cold_cups = sum(v for k, v in cups.items() if k.startswith('cold_') and v > 0)
+        hot_cups = sum(v for k, v in cups.items() if 'hot' in k and v > 0)
+        cold_cups = sum(v for k, v in cups.items() if 'cold' in k and v > 0)
         
         if hot_cups > 0:
             print(f"  Hot cups: {hot_cups}")
             for cup_type, count in cups.items():
-                if cup_type.startswith('hot_') and count > 0:
-                    print(f"    - {cup_type.replace('hot_', '')}: {count}")
+                if 'hot' in cup_type and count > 0:
+                    print(f"    - {cup_type}: {count}")
         
         if cold_cups > 0:
             print(f"  Cold cups: {cold_cups}")
             for cup_type, count in cups.items():
-                if cup_type.startswith('cold_') and count > 0:
-                    print(f"    - {cup_type.replace('cold_', '')}: {count}")
+                if 'cold' in cup_type and count > 0:
+                    print(f"    - {cup_type}: {count}")
+        
+        # Lid usage
+        lids = inventory_data['lids']
+        total_lids = sum(lids.values())
+        if total_lids > 0:
+            print(f"\n🧢 Lids: {total_lids} total")
+            for lid_type, count in lids.items():
+                if count > 0:
+                    print(f"    - {lid_type}: {count}")
+        else:
+            print("\n🧢 Lids: No lid usage detected")
         
         # Syrups - Enhanced detailed breakdown
         syrups = inventory_data['syrups']

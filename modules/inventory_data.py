@@ -313,6 +313,79 @@ class InventoryDataManager:
             })
             
             return transactions
+
+    @log_function_errors("inventory", "transactions_save_all")
+    def save_transactions(self, transactions: List[Transaction]):
+        """Overwrite transactions file with provided list."""
+        with handle_decorator_errors("Unable to save transactions"):
+            data = [asdict(t) for t in transactions]
+            with open(self.transactions_file, 'w') as f:
+                json.dump(data, f, indent=2, default=self._serialize_datetime)
+            app_logger.log_info("Successfully saved transactions", {
+                "app_module": "inventory",
+                "action": "transactions_save_all",
+                "transactions_count": len(transactions)
+            })
+
+    @log_function_errors("inventory", "transactions_purge_by_source_date")
+    def purge_transactions_by_source_date(self, target_date: Date, source: str, types: Optional[List[str]] = None) -> int:
+        """Remove transactions matching date (by timestamp.date()), source, and optional types.
+
+        Only transactions whose source equals `source` AND whose date equals `target_date`
+        AND whose transaction_type is in `types` (when provided) will be removed.
+
+        Returns: number of transactions removed.
+        """
+        with handle_decorator_errors("Unable to purge transactions"):
+            # Load all transactions without filtering to preserve others
+            all_txns = self.load_transactions()
+
+            # Create a timestamped backup before purging
+            try:
+                backup_dir = self.data_dir / "backups"
+                backup_dir.mkdir(exist_ok=True)
+                backup_path = backup_dir / f"inventory_transactions.{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
+                with open(backup_path, 'w') as bf:
+                    json.dump([asdict(t) for t in all_txns], bf, indent=2, default=self._serialize_datetime)
+                app_logger.log_info("Created transactions backup prior to purge", {
+                    "app_module": "inventory",
+                    "action": "transactions_backup",
+                    "path": str(backup_path)
+                })
+            except Exception as e:
+                # Do not block purge if backup fails; just log a warning
+                app_logger.log_warning(f"Failed to create transactions backup: {e}")
+
+            kept: List[Transaction] = []
+            removed = 0
+            for t in all_txns:
+                try:
+                    t_date = t.timestamp.date() if isinstance(t.timestamp, datetime) else Date.fromisoformat(str(t.timestamp))
+                except Exception:
+                    # If timestamp parsing fails, keep the transaction
+                    kept.append(t)
+                    continue
+
+                match_source = (t.source == source)
+                match_date = (t_date == target_date)
+                match_type = (t.transaction_type in types) if types else True
+
+                if match_source and match_date and match_type:
+                    removed += 1
+                    continue
+                kept.append(t)
+
+            # Save back
+            self.save_transactions(kept)
+            app_logger.log_info("Purged transactions by source/date/types", {
+                "app_module": "inventory",
+                "action": "transactions_purge_by_source_date",
+                "source": source,
+                "date": target_date.isoformat(),
+                "types": types,
+                "removed": removed
+            })
+            return removed
     
     @log_function_errors("inventory", "categories_load")
     def load_categories(self) -> Dict[str, InventoryCategory]:
@@ -368,33 +441,233 @@ class InventoryDataManager:
             with open(self.suppliers_file, 'w') as f:
                 json.dump(data, f, indent=2)
     
+    @log_function_errors("inventory", "snapshots_load")
+    def load_snapshots(self) -> List[InventorySnapshot]:
+        """Load inventory snapshots from JSON file"""
+        
+        if not self.snapshots_file.exists():
+            app_logger.log_info("No snapshots file found, returning empty list", {
+                "app_module": "inventory",
+                "action": "snapshots_load",
+                "file_path": str(self.snapshots_file)
+            })
+            return []
+        
+        with handle_decorator_errors("Unable to load inventory snapshots"):
+            with open(self.snapshots_file, 'r') as f:
+                data = json.load(f)
+            
+            snapshots = []
+            for snapshot_data in data:
+                # Convert datetime strings back to datetime objects
+                snapshot_data = self._deserialize_datetime(snapshot_data)
+                snapshots.append(InventorySnapshot(**snapshot_data))
+            
+            app_logger.log_info("Successfully loaded inventory snapshots", {
+                "app_module": "inventory",
+                "action": "snapshots_load",
+                "snapshots_count": len(snapshots)
+            })
+            
+            return snapshots
+    
+    @log_function_errors("inventory", "snapshots_save")
+    def save_snapshots(self, snapshots: List[InventorySnapshot]):
+        """Save inventory snapshots to JSON file"""
+        
+        with handle_decorator_errors("Unable to save inventory snapshots"):
+            # Convert dataclasses to dictionaries
+            data = [asdict(s) for s in snapshots]
+            
+            # Save to file with datetime serialization
+            with open(self.snapshots_file, 'w') as f:
+                json.dump(data, f, indent=2, default=self._serialize_datetime)
+            
+            app_logger.log_info("Successfully saved inventory snapshots", {
+                "app_module": "inventory",
+                "action": "snapshots_save",
+                "snapshots_count": len(snapshots)
+            })
+    
+    @log_function_errors("inventory", "get_latest_snapshot")
+    def get_latest_snapshot(self) -> Optional[InventorySnapshot]:
+        """Get the most recent inventory snapshot"""
+        
+        snapshots = self.load_snapshots()
+        if not snapshots:
+            return None
+            
+        # Sort by date descending, then by created_at descending
+        latest = sorted(snapshots, key=lambda s: (s.date, s.created_at), reverse=True)[0]
+        
+        # Debug print
+        print(f"DEBUG: Using snapshot from {latest.date} with {len(latest.items)} items")
+        print(f"DEBUG: First few items: {list(latest.items.items())[:5]}")
+        
+        return latest
+    
+    @log_function_errors("inventory", "create_snapshot_from_current")
+    def create_snapshot_from_current(self, snapshot_date: Optional[Date] = None, notes: Optional[str] = None) -> InventorySnapshot:
+        """
+        Create a new snapshot from current inventory levels
+        
+        Args:
+            snapshot_date: Date for the snapshot (default: today)
+            notes: Optional notes for the snapshot
+            
+        Returns:
+            The created snapshot (already saved to storage)
+        """
+        
+        if snapshot_date is None:
+            snapshot_date = Date.today()
+            
+        # Calculate current levels
+        items = self.load_items()
+        current_levels = self.calculate_current_levels(items, snapshot_date)
+        
+        # Create snapshot
+        snapshot = InventorySnapshot(
+            date=snapshot_date,
+            items=current_levels,
+            created_at=datetime.now(),
+            created_by="system",
+            notes=notes or f"Automatically created snapshot as of {snapshot_date}"
+        )
+        
+        # Save snapshot
+        snapshots = self.load_snapshots()
+        
+        # Check if there's already a snapshot for this date
+        existing_snapshot = None
+        for s in snapshots:
+            if hasattr(s, 'date') and s.date == snapshot_date:
+                existing_snapshot = s
+                break
+        
+        if existing_snapshot:
+            existing_snapshot.items = current_levels
+            existing_snapshot.created_at = datetime.now()
+            existing_snapshot.notes = notes or f"Updated snapshot as of {snapshot_date}"
+        else:
+            snapshots.append(snapshot)
+        
+        # Save snapshots
+        self.save_snapshots(snapshots)
+        
+        app_logger.log_info(f"Created inventory snapshot from current levels", {
+            "app_module": "inventory",
+            "action": "create_snapshot_from_current",
+            "snapshot_date": snapshot_date.isoformat() if hasattr(snapshot_date, 'isoformat') else str(snapshot_date),
+            "items_count": len(current_levels)
+        })
+        
+        return snapshot
+    
     @log_function_errors("inventory", "current_levels_calculate")
-    def calculate_current_levels(self, items: Optional[Dict[str, InventoryItem]] = None) -> Dict[str, float]:
-        """Calculate current inventory levels from transaction history"""
+    def calculate_current_levels(self, items: Optional[Dict[str, InventoryItem]] = None,
+                                reference_date: Optional[Date] = None) -> Dict[str, float]:
+        """
+        Calculate current inventory levels from snapshots and transaction history
+        
+        Args:
+            items: Optional dictionary of inventory items
+            reference_date: Optional date to calculate levels for (defaults to today)
+        
+        Returns:
+            Dictionary mapping item_id to current quantity
+        """
         
         if items is None:
             items = self.load_items()
-        
-        current_levels = {}
-        
-        for item_id in items.keys():
-            transactions = self.load_transactions(item_id=item_id)
             
-            current_quantity = 0.0
-            for transaction in transactions:
-                if transaction.transaction_type == "delivery":
-                    current_quantity += transaction.quantity
-                elif transaction.transaction_type == "adjustment":
-                    current_quantity += transaction.quantity  # Can be positive or negative
-                elif transaction.transaction_type in ["usage", "waste"]:
-                    current_quantity -= transaction.quantity
+        if reference_date is None:
+            reference_date = Date.today()
             
-            current_levels[item_id] = max(0.0, current_quantity)  # Prevent negative inventory
+        # First check if we have a snapshot to use as baseline
+        latest_snapshot = self.get_latest_snapshot()
+        
+        if latest_snapshot:
+            # Start with snapshot levels
+            app_logger.log_info(f"Using snapshot from {latest_snapshot.date} as baseline", {
+                "app_module": "inventory",
+                "action": "current_levels_calculate",
+                "snapshot_date": latest_snapshot.date.isoformat() if hasattr(latest_snapshot.date, 'isoformat') else str(latest_snapshot.date),
+                "reference_date": reference_date.isoformat() if hasattr(reference_date, 'isoformat') else str(reference_date)
+            })
+            
+            # Debug print
+            print(f"DEBUG: calculate_current_levels using snapshot from {latest_snapshot.date}")
+            print(f"DEBUG: First few items in snapshot: {list(latest_snapshot.items.items())[:5]}")
+            
+            current_levels = dict(latest_snapshot.items)
+            
+            # Only apply transactions after the snapshot date
+            snapshot_datetime = datetime.combine(latest_snapshot.date, datetime.min.time())
+            
+            # Apply transactions after the snapshot date
+            for item_id in items.keys():
+                # Skip if item not in items we're tracking
+                if item_id not in current_levels:
+                    current_levels[item_id] = 0.0
+                    
+                # Get transactions after the snapshot
+                transactions = self.load_transactions(item_id=item_id)
+                
+                # Filter to only transactions after the snapshot date and up to reference date
+                filtered_transactions = []
+                for tx in transactions:
+                    tx_date = tx.timestamp.date() if isinstance(tx.timestamp, datetime) else None
+                    if tx_date and tx_date > latest_snapshot.date and tx_date <= reference_date:
+                        filtered_transactions.append(tx)
+                
+                # Apply filtered transactions
+                for transaction in filtered_transactions:
+                    if transaction.transaction_type == "delivery":
+                        current_levels[item_id] += transaction.quantity
+                    elif transaction.transaction_type == "adjustment":
+                        current_levels[item_id] += transaction.quantity  # Can be positive or negative
+                    elif transaction.transaction_type in ["usage", "waste"]:
+                        current_levels[item_id] -= transaction.quantity
+                
+                # Prevent negative inventory
+                current_levels[item_id] = max(0.0, current_levels[item_id])
+        else:
+            # No snapshot available, fall back to transaction-based calculation
+            app_logger.log_info("No snapshots found, calculating from all transactions", {
+                "app_module": "inventory",
+                "action": "current_levels_calculate"
+            })
+            
+            current_levels = {}
+            
+            for item_id in items.keys():
+                # Only include transactions up to the reference date
+                transactions = self.load_transactions(item_id=item_id)
+                
+                # Filter transactions by date
+                filtered_transactions = []
+                for tx in transactions:
+                    tx_date = tx.timestamp.date() if isinstance(tx.timestamp, datetime) else None
+                    if tx_date and tx_date <= reference_date:
+                        filtered_transactions.append(tx)
+                
+                current_quantity = 0.0
+                for transaction in filtered_transactions:
+                    if transaction.transaction_type == "delivery":
+                        current_quantity += transaction.quantity
+                    elif transaction.transaction_type == "adjustment":
+                        current_quantity += transaction.quantity  # Can be positive or negative
+                    elif transaction.transaction_type in ["usage", "waste"]:
+                        current_quantity -= transaction.quantity
+                
+                current_levels[item_id] = max(0.0, current_quantity)  # Prevent negative inventory
         
         app_logger.log_info("Calculated current inventory levels", {
             "app_module": "inventory",
             "action": "current_levels_calculate",
-            "items_processed": len(current_levels)
+            "items_processed": len(current_levels),
+            "reference_date": reference_date.isoformat() if hasattr(reference_date, 'isoformat') else str(reference_date)
         })
         
         return current_levels
