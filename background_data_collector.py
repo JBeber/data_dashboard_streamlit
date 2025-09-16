@@ -305,10 +305,11 @@ class DataCollector:
             # Setup SFTP connection
             uploaded_count = self._process_sftp_data(missing_dates, results)
             
-            # Process POS transactions for yesterday (most recent complete day)
+            # Process POS transactions ONLY for yesterday (most recent complete day)
             # This ensures inventory is kept current with the latest available data
+            # without reprocessing historical dates during backfill operations
             yesterday = date.today() - timedelta(days=1)
-            if self.pos_processor and yesterday not in missing_dates:
+            if self.pos_processor:
                 self._process_recent_pos_data(yesterday, results)
             
             results['files_uploaded'] = uploaded_count
@@ -395,7 +396,7 @@ class DataCollector:
     def _process_single_date(self, sftp, dt: date) -> bool:
         """
         Process a single date's data including AllItemsReport, ItemSelectionDetails, and ModifiersSelectionDetails.
-        Also processes POS transactions for inventory updates.
+        Downloads and uploads files to Drive, but does NOT process POS transactions (that's handled separately for yesterday only).
         
         Returns:
             True if at least one file was uploaded successfully, False otherwise
@@ -410,8 +411,6 @@ class DataCollector:
         ]
         
         uploaded_any = False
-        items_file_path = None
-        modifiers_file_path = None
         
         try:
             # Navigate to date folder
@@ -450,57 +449,17 @@ class DataCollector:
                     logger.info(f"Successfully uploaded {drive_filename}")
                     uploaded_any = True
                     
-                    # Save file data for POS processing if it's a required file
-                    if source_filename == 'ItemSelectionDetails.csv':
-                        file_obj.seek(0)
-                        items_file_path = self._save_temp_file(file_obj, f"items_{date_str}.csv")
-                    elif source_filename == 'ModifiersSelectionDetails.csv':
-                        file_obj.seek(0)
-                        modifiers_file_path = self._save_temp_file(file_obj, f"modifiers_{date_str}.csv")
-                    
                 except Exception as e:
                     # Log error but continue with other files
                     error_msg = f"Failed to process {source_filename} for {date_str}: {e}"
                     logger.error(error_msg)
                     continue
             
-            # Process POS transactions if we have the required files and processor is available
-            if (self.pos_processor and items_file_path and modifiers_file_path):
-                try:
-                    logger.info(f"Processing POS transactions for {date_str}")
-                    result = self.pos_processor.process_daily_data(
-                        items_file_path, 
-                        modifiers_file_path, 
-                        date_str
-                    )
-                    
-                    if result.get('success'):
-                        component_count = len(result.get('component_usage', {}))
-                        logger.info(f"Successfully processed POS transactions for {date_str}: {component_count} component types")
-                    else:
-                        logger.warning(f"POS transaction processing failed for {date_str}: {result.get('error', 'Unknown error')}")
-                        
-                except Exception as e:
-                    logger.error(f"Error processing POS transactions for {date_str}: {e}")
-            else:
-                if not self.pos_processor:
-                    logger.debug(f"POS processor not available, skipping transaction processing for {date_str}")
-                elif not (items_file_path and modifiers_file_path):
-                    logger.warning(f"Missing required files for POS processing on {date_str}")
-            
             return uploaded_any
             
         finally:
             # Always return to parent directory
             sftp.chdir('..')
-            
-            # Clean up temporary files
-            for temp_path in [items_file_path, modifiers_file_path]:
-                if temp_path and os.path.exists(temp_path):
-                    try:
-                        os.remove(temp_path)
-                    except Exception as e:
-                        logger.warning(f"Failed to clean up temp file {temp_path}: {e}")
     
     def _save_temp_file(self, file_obj: io.BytesIO, filename: str) -> str:
         """Save BytesIO content to a temporary file and return the path."""
