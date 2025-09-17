@@ -698,8 +698,8 @@
                 "display_name": "Rose",
                 "base_unit": "oz"
             },
-            "flavor_lavander": {
-                "display_name": "Lavander",
+            "flavor_lavender": {
+                "display_name": "Lavender",
                 "base_unit": "oz"
             },
             "flavor_amaretto": {
