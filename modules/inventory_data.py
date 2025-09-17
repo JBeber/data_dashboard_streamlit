@@ -500,9 +500,17 @@ class InventoryDataManager:
         # Sort by date descending, then by created_at descending
         latest = sorted(snapshots, key=lambda s: (s.date, s.created_at), reverse=True)[0]
         
-        # Debug print
-        print(f"DEBUG: Using snapshot from {latest.date} with {len(latest.items)} items")
-        print(f"DEBUG: First few items: {list(latest.items.items())[:5]}")
+        # Log debug information about the latest snapshot
+        app_logger.log_info(
+            f"Using snapshot from {latest.date} with {len(latest.items)} items. First few items: {list(latest.items.items())[:5]}",
+            {
+                "app_module": "inventory",
+                "action": "get_latest_snapshot",
+                "snapshot_date": str(latest.date),
+                "items_count": len(latest.items),
+                "first_few_items": list(latest.items.items())[:5]
+            }
+        )
         
         return latest
     
