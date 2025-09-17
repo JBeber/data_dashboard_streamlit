@@ -26,7 +26,7 @@ def check_password():
                 st.error("Incorrect password")
         st.stop()
 
-# check_password()
+check_password()
 
 # Navigation config
 PAGES = {
