@@ -1059,7 +1059,7 @@ def show_settings(data_manager: InventoryDataManager):
                             
                             reset_notes = notes or f"Inventory reset to {reset_count} via Streamlit interface"
                             snapshot = InventorySnapshot(
-                                date=Date.today(),
+                                date=datetime.now().date(),
                                 items=snapshot_items,
                                 created_at=datetime.now(),
                                 created_by="streamlit_user",
@@ -1075,8 +1075,9 @@ def show_settings(data_manager: InventoryDataManager):
                             else:
                                 # Update or add current date snapshot
                                 existing_idx = None
+                                today = datetime.now().date()
                                 for i, s in enumerate(snapshots):
-                                    if hasattr(s, 'date') and s.date == Date.today():
+                                    if hasattr(s, 'date') and s.date == today:
                                         existing_idx = i
                                         break
                                 
