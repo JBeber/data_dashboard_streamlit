@@ -21,7 +21,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from modules.inventory_data import (
     InventoryDataManager, InventoryItem, Transaction, 
-    InventoryCategory, Supplier
+    InventoryCategory, Supplier, InventorySnapshot
 )
 from modules.pos_mapping import POSMappingManager
 from utils.logging_config import app_logger, log_function_errors, handle_decorator_errors
@@ -972,7 +972,180 @@ def show_settings(data_manager: InventoryDataManager):
     """Inventory system settings and configuration"""
     
     st.subheader("🔧 Settings")
-    st.info("⚙️ Settings and configuration options will be implemented in Phase 2. Coming soon!")
+    
+    # Create tabs for different settings
+    tab1, tab2, tab3 = st.tabs(["🔄 Reset Inventory", "📊 System Info", "⚙️ Configuration"])
+    
+    with tab1:
+        st.markdown("### 🔄 Reset Inventory Counts")
+        st.warning("⚠️ **Use with caution!** This will reset inventory counts for testing or initial setup.")
+        
+        col1, col2 = st.columns([2, 1])
+        
+        with col1:
+            reset_count = st.number_input(
+                "Target count for each item", 
+                min_value=0.0, 
+                value=500.0, 
+                step=10.0,
+                help="All items will be set to this count"
+            )
+            
+            reset_scope = st.radio(
+                "Items to reset",
+                ["Active items only (last 90 days)", "All items"],
+                help="Active items = items with recent transactions"
+            )
+            
+            preserve_snapshots = st.checkbox(
+                "Keep existing snapshots", 
+                value=False,
+                help="If unchecked, removes all previous snapshots for a clean reset"
+            )
+            
+            notes = st.text_area(
+                "Reset notes (optional)",
+                placeholder="e.g., Initial inventory setup, Testing reset, etc."
+            )
+        
+        with col2:
+            # Show confirmation dialog first if needed
+            if st.session_state.get('confirm_reset', False):
+                st.error("⚠️ **CONFIRM RESET**")
+                st.markdown(f"**Target:** {reset_count} units")
+                st.markdown(f"**Scope:** {reset_scope}")
+                if not preserve_snapshots:
+                    st.markdown("**⚠️ Will remove existing snapshots**")
+                
+                col_confirm, col_cancel = st.columns(2)
+                with col_confirm:
+                    if st.button("✅ Confirm Reset", type="primary", use_container_width=True):
+                        # Perform the actual reset
+                        try:
+                            items = data_manager.load_items()
+                            items_to_process = items
+                            
+                            # Filter to active items if selected
+                            if reset_scope == "Active items only (last 90 days)":
+                                txs = data_manager.load_transactions()
+                                active_item_ids = set()
+                                cutoff_date = datetime.now().timestamp() - (90 * 24 * 60 * 60)
+                                
+                                for tx in txs:
+                                    if hasattr(tx, 'timestamp'):
+                                        tx_time = tx.timestamp
+                                        item_id = tx.item_id
+                                    else:
+                                        tx_time = tx.get('timestamp')
+                                        item_id = tx.get('item_id')
+                                        
+                                    if isinstance(tx_time, str):
+                                        try:
+                                            tx_time = datetime.fromisoformat(tx_time).timestamp()
+                                        except:
+                                            continue
+                                    elif isinstance(tx_time, datetime):
+                                        tx_time = tx_time.timestamp()
+                                    else:
+                                        continue
+                                        
+                                    if tx_time >= cutoff_date:
+                                        active_item_ids.add(item_id)
+                                
+                                items_to_process = {k: v for k, v in items.items() if k in active_item_ids}
+                            
+                            # Create snapshot
+                            snapshot_items = {item_id: reset_count for item_id in items_to_process.keys()}
+                            
+                            reset_notes = notes or f"Inventory reset to {reset_count} via Streamlit interface"
+                            snapshot = InventorySnapshot(
+                                date=Date.today(),
+                                items=snapshot_items,
+                                created_at=datetime.now(),
+                                created_by="streamlit_user",
+                                notes=reset_notes
+                            )
+                            
+                            # Handle existing snapshots
+                            snapshots = data_manager.load_snapshots()
+                            
+                            if not preserve_snapshots:
+                                # Clear all existing snapshots
+                                snapshots = [snapshot]
+                            else:
+                                # Update or add current date snapshot
+                                existing_idx = None
+                                for i, s in enumerate(snapshots):
+                                    if hasattr(s, 'date') and s.date == Date.today():
+                                        existing_idx = i
+                                        break
+                                
+                                if existing_idx is not None:
+                                    snapshots[existing_idx] = snapshot
+                                else:
+                                    snapshots.append(snapshot)
+                            
+                            # Save snapshots
+                            data_manager.save_snapshots(snapshots)
+                            
+                            st.success(f"✅ Successfully reset {len(snapshot_items)} items to {reset_count} units each!")
+                            st.info(f"📊 Scope: {reset_scope}")
+                            if not preserve_snapshots:
+                                st.info("🗑️ All previous snapshots were removed")
+                                
+                            # Clear confirmation state
+                            st.session_state.confirm_reset = False
+                            st.rerun()
+                            
+                        except Exception as e:
+                            st.error(f"❌ Error resetting inventory: {str(e)}")
+                            st.session_state.confirm_reset = False
+                with col_cancel:
+                    if st.button("❌ Cancel", use_container_width=True):
+                        st.session_state.confirm_reset = False
+                        st.rerun()
+            else:
+                # Show the initial reset button
+                if st.button("🔄 Reset Inventory", type="primary", use_container_width=True):
+                    # Show confirmation dialog
+                    st.session_state.confirm_reset = True
+                    st.rerun()
+    
+    with tab2:
+        st.markdown("### 📊 System Information")
+        
+        try:
+            items = data_manager.load_items()
+            transactions = data_manager.load_transactions()
+            snapshots = data_manager.load_snapshots()
+            
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                st.metric("Total Items", len(items))
+            with col2:
+                st.metric("Total Transactions", len(transactions))
+            with col3:
+                st.metric("Snapshots", len(snapshots))
+                
+            if snapshots:
+                st.markdown("#### Recent Snapshots")
+                snapshot_data = []
+                for s in sorted(snapshots, key=lambda x: x.date, reverse=True)[:5]:
+                    snapshot_data.append({
+                        "Date": s.date.strftime("%Y-%m-%d"),
+                        "Items": len(s.items),
+                        "Created By": s.created_by,
+                        "Notes": s.notes[:50] + "..." if len(s.notes) > 50 else s.notes
+                    })
+                st.dataframe(pd.DataFrame(snapshot_data), use_container_width=True)
+                
+        except Exception as e:
+            st.error(f"Error loading system info: {str(e)}")
+    
+    with tab3:
+        st.markdown("### ⚙️ Configuration")
+        st.info("⚙️ Advanced configuration options will be implemented in Phase 2. Coming soon!")
 
 
 def main():
