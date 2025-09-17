@@ -13,8 +13,10 @@ import sys
 import os
 from pathlib import Path
 
-# Add parent directory to path for imports
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Add project root to path for imports (so root-level modular_espresso_inventory.py is importable)
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
 
 from utils.logging_config import app_logger, log_function_errors
 from modules.inventory_data import InventoryDataManager, Transaction, InventoryItem

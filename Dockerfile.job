@@ -15,8 +15,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application files
 COPY background_data_collector.py .
+COPY modular_espresso_inventory.py ./modular_espresso_inventory.py
 COPY config.yaml .
 COPY Toast_SFTP_known_hosts .
+COPY modules ./modules
+COPY data ./data
+COPY utils ./utils
 
 # Create non-root user for security
 RUN useradd --create-home --shell /bin/bash app \

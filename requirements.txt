@@ -10,3 +10,4 @@ altair>=5.0.0
 PyYAML>=5.4
 python-dotenv
 pysftp
+paramiko<3.0
