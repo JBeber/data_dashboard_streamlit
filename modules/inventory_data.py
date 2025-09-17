@@ -606,7 +606,16 @@ class InventoryDataManager:
             
             # Debug print
             print(f"DEBUG: calculate_current_levels using snapshot from {latest_snapshot.date}")
-            print(f"DEBUG: First few items in snapshot: {list(latest_snapshot.items.items())[:5]}")
+            app_logger.log_info(
+                "First few items in snapshot",
+                {
+                    "app_module": "inventory",
+                    "action": "current_levels_calculate",
+                    "snapshot_date": latest_snapshot.date.isoformat() if hasattr(latest_snapshot.date, 'isoformat') else str(latest_snapshot.date),
+                    "reference_date": reference_date.isoformat() if hasattr(reference_date, 'isoformat') else str(reference_date),
+                    "first_few_items": list(latest_snapshot.items.items())[:5]
+                }
+            )
             
             current_levels = dict(latest_snapshot.items)
             
