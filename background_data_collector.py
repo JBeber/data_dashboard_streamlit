@@ -227,30 +227,53 @@ class DataCollector:
     
     def get_existing_dates(self) -> Set[date]:
         """Get dates of files already uploaded to Google Drive."""
-        date_pattern = re.compile(r'AllItemsReport_(\d{8})\.csv', re.IGNORECASE)
-        dates = set()
+        file_patterns = {
+            'AllItemsReport': re.compile(r'AllItemsReport_(\d{8})\.csv', re.IGNORECASE),
+            'ItemSelectionDetails': re.compile(r'ItemSelectionDetails_(\d{8})\.csv', re.IGNORECASE),
+            'ModifiersSelectionDetails': re.compile(r'ModifiersSelectionDetails_(\d{8})\.csv', re.IGNORECASE)
+        }
+        dates_by_type = {k: set() for k in file_patterns.keys()}
         page_token = None
         
         try:
             while True:
                 response = self.drive_service.files().list(
-                    q=f"name contains 'AllItemsReport_' and name contains '.csv' and '{self.folder_id}' in parents and trashed=false",
+                    q=f"(name contains 'AllItemsReport_' or name contains 'ItemSelectionDetails_' or name contains 'ModifiersSelectionDetails_') and name contains '.csv' and '{self.folder_id}' in parents and trashed=false",
                     spaces='drive',
                     fields='nextPageToken, files(name)',
                     pageToken=page_token
                 ).execute()
                 
                 for file_info in response.get('files', []):
-                    match = date_pattern.match(file_info['name'])
-                    if match:
-                        dates.add(datetime.strptime(match.group(1), "%Y%m%d").date())
+                    for file_type, pattern in file_patterns.items():
+                        match = pattern.match(file_info['name'])
+                        if match:
+                            dates_by_type[file_type].add(datetime.strptime(match.group(1), "%Y%m%d").date())
+                            break
                 
                 page_token = response.get('nextPageToken')
                 if not page_token:
                     break
             
-            logger.info(f"Found {len(dates)} existing AllItemsReport files in Google Drive")
-            return dates
+            # Log counts for each file type
+            for file_type, dates in dates_by_type.items():
+                logger.info(f"Found {len(dates)} existing {file_type} files in Google Drive")
+            
+            # Return dates that have ALL required file types
+            complete_dates = dates_by_type['AllItemsReport'] & dates_by_type['ItemSelectionDetails'] & dates_by_type['ModifiersSelectionDetails']
+            logger.info(f"Found {len(complete_dates)} dates with all required file types")
+            
+            # Log dates missing some files
+            all_dates = set.union(*dates_by_type.values())
+            incomplete_dates = all_dates - complete_dates
+            if incomplete_dates:
+                logger.info(f"Found {len(incomplete_dates)} dates with incomplete file sets:")
+                for dt in sorted(incomplete_dates)[:5]:  # Show first 5 examples
+                    missing_types = [t for t, dates in dates_by_type.items() if dt not in dates]
+                    logger.info(f"  {dt}: Missing {', '.join(missing_types)}")
+            
+            # Return dates that have at least AllItemsReport (to maintain backward compatibility)
+            return dates_by_type['AllItemsReport']
             
         except HttpError as e:
             logger.error(f"Error fetching existing files from Google Drive: {e}")
@@ -264,12 +287,51 @@ class DataCollector:
         yesterday = date.today() - timedelta(days=1)
         all_dates = set(pd.date_range(start=first_data_date, end=yesterday, freq=business_days).date)
         
-        existing_dates = self.get_existing_dates()
-        missing_dates = sorted(dt for dt in all_dates if dt not in existing_dates)
+        # Get dates with each type of file
+        date_pattern = {
+            'AllItemsReport': re.compile(r'AllItemsReport_(\d{8})\.csv', re.IGNORECASE),
+            'ItemSelectionDetails': re.compile(r'ItemSelectionDetails_(\d{8})\.csv', re.IGNORECASE),
+            'ModifiersSelectionDetails': re.compile(r'ModifiersSelectionDetails_(\d{8})\.csv', re.IGNORECASE)
+        }
+        dates_by_type = {k: set() for k in date_pattern.keys()}
+        page_token = None
         
+        # Search for all file types at once
+        while True:
+            response = self.drive_service.files().list(
+                q=f"(name contains 'AllItemsReport_' or name contains 'ItemSelectionDetails_' or name contains 'ModifiersSelectionDetails_') and name contains '.csv' and '{self.folder_id}' in parents and trashed=false",
+                spaces='drive',
+                fields='nextPageToken, files(name)',
+                pageToken=page_token
+            ).execute()
+            
+            for file_info in response.get('files', []):
+                for file_type, pattern in date_pattern.items():
+                    match = pattern.match(file_info['name'])
+                    if match:
+                        dates_by_type[file_type].add(datetime.strptime(match.group(1), "%Y%m%d").date())
+                        break
+            
+            page_token = response.get('nextPageToken')
+            if not page_token:
+                break
+        
+        # A date is complete only if it has all file types
+        complete_dates = dates_by_type['AllItemsReport'] & dates_by_type['ItemSelectionDetails'] & dates_by_type['ModifiersSelectionDetails']
+        missing_dates = sorted(dt for dt in all_dates if dt not in complete_dates)
+        
+        # Log detailed status
         logger.info(f"Total business days: {len(all_dates)}")
-        logger.info(f"Existing files: {len(existing_dates)}")
-        logger.info(f"Missing dates: {len(missing_dates)}")
+        for file_type, dates in dates_by_type.items():
+            logger.info(f"Dates with {file_type}: {len(dates)}")
+        logger.info(f"Dates with complete file sets: {len(complete_dates)}")
+        logger.info(f"Dates needing files: {len(missing_dates)}")
+        
+        if missing_dates:
+            logger.info(f"First 5 dates needing files:")
+            for dt in sorted(missing_dates)[:5]:
+                missing_types = [t for t, dates in dates_by_type.items() if dt not in dates]
+                logger.info(f"  {dt}: Missing {', '.join(missing_types)}")
         
         return missing_dates
     
@@ -416,11 +478,14 @@ class DataCollector:
             # Navigate to date folder
             sftp.chdir(f'./{date_str}')
             
-        except IOError:
-            logger.warning(f"SFTP folder for {date_str} not found, skipping")
-            return False
-        
-        try:
+            # List available files in SFTP directory
+            try:
+                available_files = set(sftp.listdir())
+                logger.info(f"Found {len(available_files)} files in SFTP for {date_str}: {', '.join(sorted(available_files))}")
+            except IOError as e:
+                logger.error(f"Could not list directory contents for {date_str}: {e}")
+                return False
+            
             # Process each file type
             for source_filename, drive_filename in file_types:
                 try:
@@ -431,35 +496,61 @@ class DataCollector:
                         logger.info(f"{drive_filename} already exists, skipping")
                         continue
                     
+                    # Verify source file exists in SFTP
+                    if source_filename not in available_files:
+                        logger.warning(f"Source file {source_filename} not found in SFTP for date {date_str}")
+                        continue
+                    
                     # Download file from SFTP to memory
                     file_obj = io.BytesIO()
-                    sftp.getfo(source_filename, file_obj)
+                    try:
+                        sftp.getfo(source_filename, file_obj)
+                    except IOError as e:
+                        logger.error(f"Failed to download {source_filename} from SFTP for date {date_str}: {e}")
+                        continue
+                    
                     file_obj.seek(0)
+                    content = file_obj.getvalue()
+                    
+                    # Check if file is empty
+                    if not content:
+                        logger.warning(f"Downloaded file {source_filename} is empty for date {date_str}")
+                        continue
                     
                     # Upload to Google Drive
                     file_metadata = {'name': drive_filename, 'parents': [self.folder_id]}
-                    media = MediaIoBaseUpload(file_obj, mimetype='text/csv')
+                    media = MediaIoBaseUpload(io.BytesIO(content), mimetype='text/csv')
                     
-                    self.drive_service.files().create(
-                        body=file_metadata,
-                        media_body=media,
-                        fields='id'
-                    ).execute()
-                    
-                    logger.info(f"Successfully uploaded {drive_filename}")
-                    uploaded_any = True
+                    try:
+                        self.drive_service.files().create(
+                            body=file_metadata,
+                            media_body=media,
+                            fields='id'
+                        ).execute()
+                        
+                        logger.info(f"Successfully uploaded {drive_filename}")
+                        uploaded_any = True
+                        
+                    except HttpError as e:
+                        logger.error(f"Failed to upload {drive_filename} to Drive for date {date_str}: {e}")
+                        continue
                     
                 except Exception as e:
-                    # Log error but continue with other files
-                    error_msg = f"Failed to process {source_filename} for {date_str}: {e}"
-                    logger.error(error_msg)
+                    logger.error(f"Unexpected error processing {source_filename} for date {date_str}: {e}")
                     continue
             
             return uploaded_any
             
+        except IOError:
+            logger.warning(f"SFTP folder for {date_str} not found, skipping")
+            return False
+            
         finally:
-            # Always return to parent directory
-            sftp.chdir('..')
+            # Always attempt to return to parent directory
+            try:
+                sftp.chdir('..')
+            except Exception as e:
+                logger.error(f"Failed to return to parent directory: {e}")
     
     def _save_temp_file(self, file_obj: io.BytesIO, filename: str) -> str:
         """Save BytesIO content to a temporary file and return the path."""
@@ -480,12 +571,20 @@ class DataCollector:
         date_str = target_date.strftime('%Y%m%d')
         logger.info(f"Processing recent POS data for {date_str} to update inventory")
         
+        if not self.pos_processor:
+            logger.warning("POS processor not initialized, skipping transaction processing")
+            return
+            
         # SFTP credentials from environment
-        private_key_str = os.environ["TOAST_SFTP_PRIVATE_KEY"]
-        hostname = os.environ["TOAST_SFTP_HOSTNAME"]
-        username = os.environ["TOAST_SFTP_USERNAME"]
-        password = os.environ["TOAST_SFTP_PASSWORD"]
-        export_id = os.environ["TOAST_SFTP_EXPORT_ID"]
+        try:
+            private_key_str = os.environ["TOAST_SFTP_PRIVATE_KEY"]
+            hostname = os.environ["TOAST_SFTP_HOSTNAME"]
+            username = os.environ["TOAST_SFTP_USERNAME"]
+            password = os.environ["TOAST_SFTP_PASSWORD"]
+            export_id = os.environ["TOAST_SFTP_EXPORT_ID"]
+        except KeyError as e:
+            logger.error(f"Missing required SFTP environment variable: {e}")
+            return
         
         keyfile_path = None
         items_file_path = None
@@ -536,26 +635,59 @@ class DataCollector:
                             return
                     
                     # Process POS transactions
-                    if items_file_path and modifiers_file_path:
-                        try:
-                            result = self.pos_processor.process_daily_data(
-                                items_file_path,
-                                modifiers_file_path,
-                                date_str
-                            )
+                    if not (items_file_path and modifiers_file_path):
+                        logger.error(f"Missing required files for POS processing. Items file: {bool(items_file_path)}, Modifiers file: {bool(modifiers_file_path)}")
+                        return
+                        
+                    # Verify files exist and are readable
+                    for filepath in [items_file_path, modifiers_file_path]:
+                        if not os.path.exists(filepath):
+                            logger.error(f"File does not exist: {filepath}")
+                            return
+                        if not os.path.isfile(filepath):
+                            logger.error(f"Path is not a file: {filepath}")
+                            return
+                        if not os.access(filepath, os.R_OK):
+                            logger.error(f"File is not readable: {filepath}")
+                            return
                             
-                            if result.get('success'):
-                                component_count = len(result.get('component_usage', {}))
-                                logger.info(f"Successfully processed recent POS data for {date_str}: {component_count} component types")
-                                results['pos_transactions_processed'] += component_count
-                            else:
-                                logger.warning(f"Recent POS processing failed for {date_str}: {result.get('error', 'Unknown error')}")
+                    try:
+                        # Log file sizes for debugging
+                        items_size = os.path.getsize(items_file_path)
+                        modifiers_size = os.path.getsize(modifiers_file_path)
+                        logger.info(f"Processing files - Items: {items_size} bytes, Modifiers: {modifiers_size} bytes")
+                        
+                        result = self.pos_processor.process_daily_data(
+                            items_file_path,
+                            modifiers_file_path,
+                            date_str
+                        )
+                        
+                        if not result:
+                            logger.error(f"POS processor returned None for {date_str}")
+                            return
+                            
+                        if result.get('success'):
+                            component_count = len(result.get('component_usage', {}))
+                            logger.info(f"Successfully processed recent POS data for {date_str}: {component_count} component types")
+                            results['pos_transactions_processed'] += component_count
+                            
+                            # Log component details for verification
+                            components = list(result.get('component_usage', {}).keys())
+                            logger.info(f"Processed components: {', '.join(components[:5])}...")
+                        else:
+                            error_msg = result.get('error', 'Unknown error')
+                            logger.error(f"Recent POS processing failed for {date_str}: {error_msg}")
+                            if 'traceback' in result:
+                                logger.error(f"Error traceback: {result['traceback']}")
                                 
-                        except Exception as e:
-                            logger.error(f"Error processing recent POS data for {date_str}: {e}")
+                    except Exception as e:
+                        logger.error(f"Error processing recent POS data for {date_str}: {str(e)}")
+                        import traceback
+                        logger.error(f"Full traceback: {traceback.format_exc()}")
                     
-                except IOError:
-                    logger.warning(f"SFTP folder for recent date {date_str} not found")
+                except IOError as e:
+                    logger.error(f"SFTP folder or file access error for {date_str}: {str(e)}")
                     
         except Exception as e:
             logger.error(f"Failed to process recent POS data for {date_str}: {e}")
