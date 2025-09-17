@@ -1042,7 +1042,7 @@ def show_settings(data_manager: InventoryDataManager):
                                     if isinstance(tx_time, str):
                                         try:
                                             tx_time = datetime.fromisoformat(tx_time).timestamp()
-                                        except:
+                                        except ValueError:
                                             continue
                                     elif isinstance(tx_time, datetime):
                                         tx_time = tx_time.timestamp()
@@ -1098,7 +1098,8 @@ def show_settings(data_manager: InventoryDataManager):
                             st.rerun()
                             
                         except Exception as e:
-                            st.error(f"❌ Error resetting inventory: {str(e)}")
+                            st.error("❌ An error occurred while resetting the inventory. Please try again or contact support.")
+                            app_logger.exception("Error resetting inventory")
                             st.session_state.confirm_reset = False
                 with col_cancel:
                     if st.button("❌ Cancel", use_container_width=True):
@@ -1131,17 +1132,36 @@ def show_settings(data_manager: InventoryDataManager):
             if snapshots:
                 st.markdown("#### Recent Snapshots")
                 snapshot_data = []
-                for s in sorted(snapshots, key=lambda x: x.date, reverse=True)[:5]:
-                    snapshot_data.append({
-                        "Date": s.date.strftime("%Y-%m-%d"),
-                        "Items": len(s.items),
-                        "Created By": s.created_by,
-                        "Notes": s.notes[:50] + "..." if len(s.notes) > 50 else s.notes
-                    })
-                st.dataframe(pd.DataFrame(snapshot_data), use_container_width=True)
+                # Filter and sort snapshots safely
+                valid_snapshots = []
+                for s in snapshots:
+                    if hasattr(s, 'date') and s.date:
+                        valid_snapshots.append(s)
+                    else:
+                        # Log invalid snapshot but don't break the UI
+                        app_logger.log_warning(f"Snapshot missing date attribute: {type(s)}")
+                
+                # Sort valid snapshots and take recent ones
+                for s in sorted(valid_snapshots, key=lambda x: x.date, reverse=True)[:5]:
+                    try:
+                        snapshot_data.append({
+                            "Date": s.date.strftime("%Y-%m-%d") if hasattr(s.date, 'strftime') else str(s.date),
+                            "Items": len(s.items) if hasattr(s, 'items') and s.items else 0,
+                            "Created By": getattr(s, 'created_by', 'Unknown'),
+                            "Notes": (s.notes[:50] + "..." if len(s.notes) > 50 else s.notes) if hasattr(s, 'notes') and s.notes else "No notes"
+                        })
+                    except Exception as e:
+                        app_logger.log_error(f"Error processing snapshot for display: {e}")
+                        continue
+                
+                if snapshot_data:
+                    st.dataframe(pd.DataFrame(snapshot_data), use_container_width=True)
+                else:
+                    st.info("No valid snapshots found to display")
                 
         except Exception as e:
-            st.error(f"Error loading system info: {str(e)}")
+            app_logger.error("Error loading system info", exc_info=True)
+            st.error("Unable to load system information. Please try again or contact support.")
     
     with tab3:
         st.markdown("### ⚙️ Configuration")
