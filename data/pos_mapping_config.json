@@ -744,8 +744,8 @@
                 "display_name": "Kinder Chocolate Bar",
                 "base_unit": "bar"
             },
-            "other_ferrero_rochet": {
-                "display_name": "Ferrero Rochet",
+            "other_ferrero_rocher": {
+                "display_name": "Ferrero Rocher",
                 "base_unit": "piece"
             }
         },
