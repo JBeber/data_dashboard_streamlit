@@ -9,3 +9,4 @@ streamlit>=1.46
 altair>=5.0.0
 PyYAML>=5.4
 python-dotenv
+pysftp
