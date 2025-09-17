@@ -19,8 +19,6 @@ import io
 import tempfile
 import re
 import yaml
-import json
-import time
 from datetime import datetime, date, timedelta
 from typing import Set, List, Optional, Dict, Any
 import logging
@@ -34,6 +32,9 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 from googleapiclient.errors import HttpError
+
+# Import POS transaction processor
+from modules.simplified_toast_processor import SimplifiedToastProcessor
 
 # Cloud Logging setup (will work in Cloud Run)
 try:
@@ -149,7 +150,9 @@ class DataCollector:
         self.oauth_manager = EnhancedOAuthManager()
         self.drive_service = None
         self.folder_id = None
+        self.pos_processor = None
         self._setup_drive_service()
+        self._setup_pos_processor()
     
     @lru_cache(maxsize=1)
     def _load_config(self, config_path: str) -> Dict[str, Any]:
@@ -212,6 +215,16 @@ class DataCollector:
             logger.error(f"Failed to initialize Google Drive service: {e}")
             raise
     
+    def _setup_pos_processor(self):
+        """Initialize POS transaction processor."""
+        try:
+            self.pos_processor = SimplifiedToastProcessor()
+            logger.info("POS transaction processor initialized successfully")
+        except Exception as e:
+            logger.warning(f"Failed to initialize POS processor: {e}")
+            logger.warning("POS transaction processing will be disabled")
+            self.pos_processor = None
+    
     def get_existing_dates(self) -> Set[date]:
         """Get dates of files already uploaded to Google Drive."""
         date_pattern = re.compile(r'AllItemsReport_(\d{8})\.csv', re.IGNORECASE)
@@ -236,7 +249,7 @@ class DataCollector:
                 if not page_token:
                     break
             
-            logger.info(f"Found {len(dates)} existing files in Google Drive")
+            logger.info(f"Found {len(dates)} existing AllItemsReport files in Google Drive")
             return dates
             
         except HttpError as e:
@@ -273,6 +286,7 @@ class DataCollector:
             'success': False,
             'files_processed': 0,
             'files_uploaded': 0,
+            'pos_transactions_processed': 0,
             'errors': [],
             'missing_dates_found': 0
         }
@@ -290,6 +304,13 @@ class DataCollector:
             
             # Setup SFTP connection
             uploaded_count = self._process_sftp_data(missing_dates, results)
+            
+            # Process POS transactions ONLY for yesterday (most recent complete day)
+            # This ensures inventory is kept current with the latest available data
+            # without reprocessing historical dates during backfill operations
+            yesterday = date.today() - timedelta(days=1)
+            if self.pos_processor:
+                self._process_recent_pos_data(yesterday, results)
             
             results['files_uploaded'] = uploaded_count
             results['success'] = True
@@ -374,20 +395,22 @@ class DataCollector:
     
     def _process_single_date(self, sftp, dt: date) -> bool:
         """
-        Process a single date's data.
+        Process a single date's data including AllItemsReport, ItemSelectionDetails, and ModifiersSelectionDetails.
+        Downloads and uploads files to Drive, but does NOT process POS transactions (that's handled separately for yesterday only).
         
         Returns:
-            True if file was uploaded successfully, False otherwise
+            True if at least one file was uploaded successfully, False otherwise
         """
         date_str = dt.strftime('%Y%m%d')
-        file_name = f'AllItemsReport_{date_str}.csv'
         
-        # Double-check file doesn't already exist
-        query = f"name='{file_name}' and '{self.folder_id}' in parents and trashed=false"
-        resp = self.drive_service.files().list(q=query, spaces='drive', fields='files(id)').execute()
-        if resp.get('files'):
-            logger.info(f"{file_name} already exists, skipping")
-            return False
+        # Define file types to process
+        file_types = [
+            ('AllItemsReport.csv', f'AllItemsReport_{date_str}.csv'),
+            ('ItemSelectionDetails.csv', f'ItemSelectionDetails_{date_str}.csv'),
+            ('ModifiersSelectionDetails.csv', f'ModifiersSelectionDetails_{date_str}.csv')
+        ]
+        
+        uploaded_any = False
         
         try:
             # Navigate to date folder
@@ -398,31 +421,153 @@ class DataCollector:
             return False
         
         try:
-            # Download file from SFTP
-            file_obj = io.BytesIO()
-            sftp.getfo('AllItemsReport.csv', file_obj)
-            file_obj.seek(0)
+            # Process each file type
+            for source_filename, drive_filename in file_types:
+                try:
+                    # Check if file already exists in Drive
+                    query = f"name='{drive_filename}' and '{self.folder_id}' in parents and trashed=false"
+                    resp = self.drive_service.files().list(q=query, spaces='drive', fields='files(id)').execute()
+                    if resp.get('files'):
+                        logger.info(f"{drive_filename} already exists, skipping")
+                        continue
+                    
+                    # Download file from SFTP to memory
+                    file_obj = io.BytesIO()
+                    sftp.getfo(source_filename, file_obj)
+                    file_obj.seek(0)
+                    
+                    # Upload to Google Drive
+                    file_metadata = {'name': drive_filename, 'parents': [self.folder_id]}
+                    media = MediaIoBaseUpload(file_obj, mimetype='text/csv')
+                    
+                    self.drive_service.files().create(
+                        body=file_metadata,
+                        media_body=media,
+                        fields='id'
+                    ).execute()
+                    
+                    logger.info(f"Successfully uploaded {drive_filename}")
+                    uploaded_any = True
+                    
+                except Exception as e:
+                    # Log error but continue with other files
+                    error_msg = f"Failed to process {source_filename} for {date_str}: {e}"
+                    logger.error(error_msg)
+                    continue
             
-            # Upload to Google Drive
-            file_metadata = {'name': file_name, 'parents': [self.folder_id]}
-            media = MediaIoBaseUpload(file_obj, mimetype='text/csv')
-            
-            self.drive_service.files().create(
-                body=file_metadata,
-                media_body=media,
-                fields='id'
-            ).execute()
-            
-            logger.info(f"Successfully uploaded {file_name}")
-            return True
-            
-        except Exception as e:
-            logger.error(f"Failed to process {file_name}: {e}")
-            return False
+            return uploaded_any
             
         finally:
             # Always return to parent directory
             sftp.chdir('..')
+    
+    def _save_temp_file(self, file_obj: io.BytesIO, filename: str) -> str:
+        """Save BytesIO content to a temporary file and return the path."""
+        temp_dir = tempfile.gettempdir()
+        temp_path = os.path.join(temp_dir, filename)
+        
+        with open(temp_path, 'wb') as f:
+            f.write(file_obj.read())
+            
+        return temp_path
+
+
+    def _process_recent_pos_data(self, target_date: date, results: Dict[str, Any]):
+        """
+        Process POS transaction data for a specific recent date to keep inventory current.
+        This method re-downloads and processes POS files even if they exist in Drive.
+        """
+        date_str = target_date.strftime('%Y%m%d')
+        logger.info(f"Processing recent POS data for {date_str} to update inventory")
+        
+        # SFTP credentials from environment
+        private_key_str = os.environ["TOAST_SFTP_PRIVATE_KEY"]
+        hostname = os.environ["TOAST_SFTP_HOSTNAME"]
+        username = os.environ["TOAST_SFTP_USERNAME"]
+        password = os.environ["TOAST_SFTP_PASSWORD"]
+        export_id = os.environ["TOAST_SFTP_EXPORT_ID"]
+        
+        keyfile_path = None
+        items_file_path = None
+        modifiers_file_path = None
+        
+        try:
+            # Create temporary key file
+            with tempfile.NamedTemporaryFile(delete=False) as keyfile:
+                keyfile.write(private_key_str.encode())
+                keyfile_path = keyfile.name
+            
+            # SFTP connection setup
+            cnopts = pysftp.CnOpts()
+            cnopts.hostkeys = None  # Same security note as main SFTP processing
+            
+            with pysftp.Connection(
+                hostname,
+                port=22,
+                username=username,
+                private_key=keyfile_path,
+                private_key_pass=password,
+                cnopts=cnopts
+            ) as sftp:
+                
+                sftp.chdir(export_id)
+                
+                try:
+                    # Navigate to date folder
+                    sftp.chdir(f'./{date_str}')
+                    
+                    # Download required files for POS processing
+                    for source_filename, temp_filename in [
+                        ('ItemSelectionDetails.csv', f"items_{date_str}.csv"),
+                        ('ModifiersSelectionDetails.csv', f"modifiers_{date_str}.csv")
+                    ]:
+                        try:
+                            file_obj = io.BytesIO()
+                            sftp.getfo(source_filename, file_obj)
+                            file_obj.seek(0)
+                            
+                            if source_filename == 'ItemSelectionDetails.csv':
+                                items_file_path = self._save_temp_file(file_obj, temp_filename)
+                            else:
+                                modifiers_file_path = self._save_temp_file(file_obj, temp_filename)
+                                
+                        except Exception as e:
+                            logger.error(f"Failed to download {source_filename} for POS processing: {e}")
+                            return
+                    
+                    # Process POS transactions
+                    if items_file_path and modifiers_file_path:
+                        try:
+                            result = self.pos_processor.process_daily_data(
+                                items_file_path,
+                                modifiers_file_path,
+                                date_str
+                            )
+                            
+                            if result.get('success'):
+                                component_count = len(result.get('component_usage', {}))
+                                logger.info(f"Successfully processed recent POS data for {date_str}: {component_count} component types")
+                                results['pos_transactions_processed'] += component_count
+                            else:
+                                logger.warning(f"Recent POS processing failed for {date_str}: {result.get('error', 'Unknown error')}")
+                                
+                        except Exception as e:
+                            logger.error(f"Error processing recent POS data for {date_str}: {e}")
+                    
+                except IOError:
+                    logger.warning(f"SFTP folder for recent date {date_str} not found")
+                    
+        except Exception as e:
+            logger.error(f"Failed to process recent POS data for {date_str}: {e}")
+            
+        finally:
+            # Clean up temporary files
+            for temp_path in [keyfile_path, items_file_path, modifiers_file_path]:
+                if temp_path and os.path.exists(temp_path):
+                    try:
+                        os.remove(temp_path)
+                    except Exception as e:
+                        logger.warning(f"Failed to clean up temp file {temp_path}: {e}")
 
 
 def main():
@@ -478,6 +623,7 @@ def main():
         print(f"Success: {results['success']}")
         print(f"Files processed: {results['files_processed']}")
         print(f"Files uploaded: {results['files_uploaded']}")
+        print(f"POS transactions processed: {results['pos_transactions_processed']}")
         print(f"Missing dates found: {results['missing_dates_found']}")
         
         logger.info("=" * 60)
@@ -485,6 +631,7 @@ def main():
         logger.info(f"Success: {results['success']}")
         logger.info(f"Files processed: {results['files_processed']}")
         logger.info(f"Files uploaded: {results['files_uploaded']}")
+        logger.info(f"POS transactions processed: {results['pos_transactions_processed']}")
         logger.info(f"Missing dates found: {results['missing_dates_found']}")
         
         if results['errors']:

@@ -1,0 +1,50 @@
+{
+  "wine": {
+    "category_id": "wine",
+    "name": "Wine",
+    "default_unit": "bottles",
+    "requires_temperature_control": true,
+    "default_shelf_life_days": 1825,
+    "display_order": 1
+  },
+  "beer": {
+    "category_id": "beer",
+    "name": "Beer",
+    "default_unit": "cases",
+    "requires_temperature_control": true,
+    "default_shelf_life_days": 180,
+    "display_order": 2
+  },
+  "spirits": {
+    "category_id": "spirits",
+    "name": "Spirits",
+    "default_unit": "bottles",
+    "requires_temperature_control": false,
+    "default_shelf_life_days": 3650,
+    "display_order": 3
+  },
+  "na_beverages": {
+    "category_id": "na_beverages",
+    "name": "NA Beverages",
+    "default_unit": "bottles",
+    "requires_temperature_control": true,
+    "default_shelf_life_days": 180,
+    "display_order": 4
+  },
+  "food": {
+    "category_id": "food",
+    "name": "Food Items",
+    "default_unit": "lbs",
+    "requires_temperature_control": true,
+    "default_shelf_life_days": 7,
+    "display_order": 5
+  },
+  "supplies": {
+    "category_id": "supplies",
+    "name": "Supplies",
+    "default_unit": "units",
+    "requires_temperature_control": false,
+    "default_shelf_life_days": 365,
+    "display_order": 6
+  }
+}
