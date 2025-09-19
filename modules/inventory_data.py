@@ -20,6 +20,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from utils.logging_config import app_logger, log_function_errors, handle_decorator_errors
+from utils.environment import get_data_directory
 
 
 @dataclass(frozen=True)
@@ -127,11 +128,18 @@ class InventorySnapshot:
 class InventoryDataManager:
     """Manages inventory data persistence using JSON files with error handling"""
     
-    def __init__(self, data_directory: str = "data"):
-        self.data_dir = Path(data_directory)
-        self.data_dir.mkdir(exist_ok=True)
+    def __init__(self, data_directory: str = None):
+        # Use environment-specific data directory if none provided
+        self.data_dir = Path(data_directory) if data_directory else get_data_directory()
+        self.data_dir.mkdir(exist_ok=True, parents=True)
         
-        # File paths for different data types
+        app_logger.log_info(f"Initializing inventory data manager with directory: {self.data_dir}", {
+            "app_module": "inventory",
+            "action": "init",
+            "data_dir": str(self.data_dir)
+        })
+        
+        # File paths for different data types using absolute paths
         self.items_file = self.data_dir / "inventory_items.json"
         self.transactions_file = self.data_dir / "inventory_transactions.json"
         self.snapshots_file = self.data_dir / "inventory_snapshots.json"
@@ -343,7 +351,7 @@ class InventoryDataManager:
             # Create a timestamped backup before purging
             try:
                 backup_dir = self.data_dir / "backups"
-                backup_dir.mkdir(exist_ok=True)
+                backup_dir.mkdir(exist_ok=True, parents=True)
                 backup_path = backup_dir / f"inventory_transactions.{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
                 with open(backup_path, 'w') as bf:
                     json.dump([asdict(t) for t in all_txns], bf, indent=2, default=self._serialize_datetime)

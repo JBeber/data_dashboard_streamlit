@@ -13,11 +13,10 @@ test*.py
 /scripts/
 
 # Inventory runtime data (exclude actual transaction/snapshot data)
-/data/inventory_transactions.json
-/data/inventory_snapshots.json
-/data/backups/
+/data/inventory/inventory_transactions.json
+/data/inventory/inventory_snapshots.json
 
 # Keep configuration templates and business data
-!/data/inventory_categories.json
-!/data/inventory_items.json
-!/data/inventory_suppliers.json
+!/data/inventory/inventory_categories.json
+!/data/inventory/inventory_items.json
+!/data/inventory/inventory_suppliers.json

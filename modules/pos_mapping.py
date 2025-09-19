@@ -18,7 +18,7 @@ class POSMapping:
 class POSMappingManager:
     """Manages POS to inventory item mappings from JSON configuration"""
     
-    def __init__(self, mapping_file: str = "data/pos_mapping_config.json"):
+    def __init__(self, mapping_file: str = "/var/data/inventory/pos_mapping_config.json"):
         self.mapping_file = mapping_file
         self._mappings: Dict[str, Dict] = {}
         self._components: Dict[str, Dict] = {}
