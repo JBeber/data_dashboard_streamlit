@@ -18,35 +18,38 @@ class POSMapping:
 class POSMappingManager:
     """Manages POS to inventory item mappings from JSON configuration"""
     
-    def __init__(self, mapping_file: str = "/var/data/inventory/pos_mapping_config.json"):
+    def __init__(self, mapping_file: str = "gs://vv-inventory-data/pos_mapping_config.json"):
         self.mapping_file = mapping_file
         self._mappings: Dict[str, Dict] = {}
         self._components: Dict[str, Dict] = {}
         self._component_relationships: Dict[str, Dict] = {}
+        self.use_cloud = mapping_file.startswith("gs://")
+        if self.use_cloud:
+            from utils.cloud_storage import CloudStorageManager
+            bucket_name = mapping_file.split('/')[2]
+            blob_path = '/'.join(mapping_file.split('/')[3:])
+            self.cloud_storage = CloudStorageManager(bucket_name)
+            self.blob_path = blob_path
         self.load_mappings()
     
     def load_mappings(self):
-        """Load and parse the mapping JSON file"""
-        # Reset our mappings at the start
+        """Load and parse the mapping JSON file from local or cloud storage"""
         self._mappings = {}
         self._components = {}
         self._component_relationships = {}
-        
+        import json
         try:
-            # Check if file exists
-            if not Path(self.mapping_file).exists():
-                raise FileNotFoundError(f"Mapping file not found: {self.mapping_file}")
-                
-            # Load JSON data
-            import json
-            with open(self.mapping_file, 'r') as f:
-                config = json.load(f)
-            
-            # Validate basic structure
+            if self.use_cloud:
+                if not self.cloud_storage.file_exists(self.blob_path):
+                    raise FileNotFoundError(f"Mapping file not found in cloud storage: {self.mapping_file}")
+                config = self.cloud_storage.read_json(self.blob_path)
+            else:
+                if not Path(self.mapping_file).exists():
+                    raise FileNotFoundError(f"Mapping file not found: {self.mapping_file}")
+                with open(self.mapping_file, 'r') as f:
+                    config = json.load(f)
             if not isinstance(config, dict):
                 raise ValueError("Invalid JSON format - root must be an object")
-                
-            # Load menu items
             for category, items in config.get('menu_items', {}).items():
                 for item_name, details in items.items():
                     self._mappings[item_name] = {
@@ -56,8 +59,6 @@ class POSMappingManager:
                         'display_name': details.get('display_name', item_name),
                         'notes': details.get('notes')
                     }
-            
-            # Load component definitions
             for category, components in config.get('components', {}).items():
                 for comp_key, details in components.items():
                     self._components[comp_key] = {
@@ -65,10 +66,7 @@ class POSMappingManager:
                         'base_unit': details['base_unit'],
                         'menu_group': category
                     }
-            
-            # Load component relationships
             self._component_relationships = config.get('component_relationships', {})
-                    
         except (FileNotFoundError, pd.errors.EmptyDataError) as e:
             print(f"Error loading mapping file: {e}")
         except ValueError as e:
