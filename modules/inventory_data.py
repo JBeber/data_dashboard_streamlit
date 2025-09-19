@@ -150,6 +150,11 @@ class InventoryDataManager:
             self.data_dir = Path(data_dir_str)
             self.data_dir.mkdir(exist_ok=True, parents=True)
         
+        # Ensure data_dir is a pathlib.Path for local storage
+        if not self.use_cloud and isinstance(self.data_dir, str):
+            from pathlib import Path
+            self.data_dir = Path(self.data_dir)
+        
         # Ensure use_cloud flag is set based on data_dir value
         # If data_dir is a string starting with 'gs://', use_cloud will be True, else False
         self.use_cloud = isinstance(self.data_dir, str) and self.data_dir.startswith('gs://')
@@ -165,10 +170,8 @@ class InventoryDataManager:
         
         # Log existence of key files
         for filename in ['inventory_items.json', 'inventory_transactions.json', 'inventory_snapshots.json']:
-            if self.use_cloud:
-                file_path = f"{self.data_dir}/{filename}"
-            else:
-                file_path = self.data_dir / filename
+            # Replace file path construction to handle cloud storage paths
+            file_path = self._get_file_path(filename)
             
             app_logger.log_info(f"Checking for {filename}", {
                 "app_module": "inventory",
@@ -777,3 +780,20 @@ class InventoryDataManager:
         })
         
         return current_levels
+
+    def _get_file_path(self, filename: str) -> Union[Path, str]:
+        """
+        Get the file path for a given filename, handling cloud and local paths.
+        
+        Args:
+            filename: The name of the file to get the path for.
+        
+        Returns:
+            The file path as a Path object (for local) or string (for cloud).
+        """
+        if self.use_cloud:
+            # For cloud storage, use string concatenation
+            return f"{self.data_dir}/{filename}"
+        else:
+            # For local storage, use Path concatenation
+            return self.data_dir / filename
