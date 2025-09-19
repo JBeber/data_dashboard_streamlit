@@ -23,6 +23,7 @@ from datetime import datetime, date, timedelta
 from typing import Set, List, Optional, Dict, Any
 import logging
 from functools import lru_cache
+from pathlib import Path
 
 import pysftp
 import pandas as pd
@@ -216,12 +217,24 @@ class DataCollector:
             raise
     
     def _setup_pos_processor(self):
-        """Initialize POS transaction processor."""
+        """Initialize POS transaction processor with production configuration."""
         try:
-            self.pos_processor = SimplifiedToastProcessor()
-            logger.info("POS transaction processor initialized successfully")
+            logger.info("Attempting to initialize POS processor")
+            
+            # Use absolute path for data directory in production
+            data_dir = Path("/var/data/inventory")
+            data_dir.mkdir(parents=True, exist_ok=True)
+            
+            self.pos_processor = SimplifiedToastProcessor(
+                data_directory=str(data_dir)
+            )
+            
+            logger.info("POS transaction processor initialized successfully", {
+                "data_directory": str(data_dir)
+            })
         except Exception as e:
-            logger.warning(f"Failed to initialize POS processor: {e}")
+            logger.error(f"Failed to initialize POS processor: {e}")
+            logger.error("Full error details:", exc_info=True)
             logger.warning("POS transaction processing will be disabled")
             self.pos_processor = None
     
@@ -357,22 +370,35 @@ class DataCollector:
             missing_dates = self.calculate_missing_dates()
             results['missing_dates_found'] = len(missing_dates)
             
+            # Initialize uploaded_count
+            uploaded_count = 0
+            
             if not missing_dates:
                 logger.info("No missing dates found - all data is up to date")
                 results['success'] = True
-                return results
+            else:
+                logger.info(f"Processing {len(missing_dates)} missing dates")
+                # Setup SFTP connection
+                uploaded_count = self._process_sftp_data(missing_dates, results)
             
-            logger.info(f"Processing {len(missing_dates)} missing dates")
+            # Always set files_uploaded in results
+            results['files_uploaded'] = uploaded_count
             
-            # Setup SFTP connection
-            uploaded_count = self._process_sftp_data(missing_dates, results)
-            
-            # Process POS transactions ONLY for yesterday (most recent complete day)
-            # This ensures inventory is kept current with the latest available data
-            # without reprocessing historical dates during backfill operations
+            # Process POS transactions REGARDLESS of missing dates status
+            # We want to process yesterday's transactions every time the job runs
             yesterday = date.today() - timedelta(days=1)
-            if self.pos_processor:
-                self._process_recent_pos_data(yesterday, results)
+            logger.info(f"Checking POS processing for yesterday ({yesterday.strftime('%Y%m%d')})")
+            
+            if not self.pos_processor:
+                logger.warning("POS processor not initialized, skipping transaction processing")
+            else:
+                try:
+                    logger.info("Starting POS data processing")
+                    self._process_recent_pos_data(yesterday, results)
+                except Exception as e:
+                    error_msg = f"Failed to process POS data for yesterday: {str(e)}"
+                    logger.error(error_msg)
+                    results['errors'].append(error_msg)
             
             results['files_uploaded'] = uploaded_count
             results['success'] = True
@@ -553,13 +579,40 @@ class DataCollector:
                 logger.error(f"Failed to return to parent directory: {e}")
     
     def _save_temp_file(self, file_obj: io.BytesIO, filename: str) -> str:
-        """Save BytesIO content to a temporary file and return the path."""
+        """Save BytesIO content to both archive and temp locations for debugging.
+        
+        Args:
+            file_obj: The file content in memory
+            filename: The name to save the file as
+            
+        Returns:
+            str: Path to the temporary file for immediate processing
+        """
+        # Save to archive location for debugging
+        archive_dir = Path("data/pos_archives")
+        archive_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Create dated subdirectory
+        date_str = datetime.now().strftime('%Y%m%d')
+        dated_dir = archive_dir / date_str
+        dated_dir.mkdir(exist_ok=True)
+        
+        # Save archive copy
+        archive_path = dated_dir / filename
+        file_obj.seek(0)
+        content = file_obj.read()
+        
+        with open(archive_path, 'wb') as f:
+            f.write(content)
+            
+        # Also save to temp for processing
         temp_dir = tempfile.gettempdir()
         temp_path = os.path.join(temp_dir, filename)
         
         with open(temp_path, 'wb') as f:
-            f.write(file_obj.read())
+            f.write(content)
             
+        logger.info(f"Saved file {filename} to archive: {archive_path}")
         return temp_path
 
 

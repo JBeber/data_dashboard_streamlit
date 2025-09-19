@@ -13,6 +13,14 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Create required directories with proper permissions
+RUN mkdir -p /var/data/inventory \
+    && mkdir -p /app/data/pos_archives \
+    && chown -R root:root /var/data \
+    && chmod -R 755 /var/data \
+    && chown -R root:root /app/data \
+    && chmod -R 755 /app/data
+
 # Copy application files
 COPY background_data_collector.py .
 COPY modular_espresso_inventory.py ./modular_espresso_inventory.py
@@ -24,7 +32,9 @@ COPY utils ./utils
 
 # Create non-root user for security
 RUN useradd --create-home --shell /bin/bash app \
-    && chown -R app:app /app
+    && chown -R app:app /app \
+    && chown -R app:app /var/data/inventory \
+    && chown -R app:app /app/data/pos_archives
 USER app
 
 # Set environment variables

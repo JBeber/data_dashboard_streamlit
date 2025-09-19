@@ -66,7 +66,7 @@ docker push ${IMAGE_NAME}
 echo -e "${YELLOW}☁️  Deploying Cloud Run Job...${NC}"
 
 # Environment variables for the job
-ENV_VARS="PYTHONUNBUFFERED=1"
+ENV_VARS="PYTHONUNBUFFERED=1,DATA_DIRECTORY=/var/data/inventory,POS_ARCHIVE_DIR=/app/data/pos_archives"
 
 # Configure secrets from Google Secret Manager
 echo -e "${YELLOW}🔐 Configuring secrets from Secret Manager...${NC}"
@@ -134,7 +134,7 @@ if gcloud run jobs describe ${JOB_NAME} --region=${REGION} &> /dev/null; then
         --cpu=1 \
         --max-retries=3 \
         --parallelism=1 \
-        --set-env-vars="PYTHONUNBUFFERED=1" \
+        --set-env-vars="${ENV_VARS}" \
         $SECRET_FLAGS
     
     echo -e "${GREEN}✅ Cloud Run Job updated successfully${NC}"
@@ -159,7 +159,7 @@ else
         --cpu=1 \
         --max-retries=3 \
         --parallelism=1 \
-        --set-env-vars="PYTHONUNBUFFERED=1" \
+        --set-env-vars="${ENV_VARS}" \
         $SECRET_FLAGS
     
     echo -e "${GREEN}✅ Cloud Run Job created successfully${NC}"

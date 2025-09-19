@@ -27,8 +27,9 @@ from modular_espresso_inventory import ModularEspressoInventoryManager
 class SimplifiedToastProcessor:
     """Integrated processor using both standardized mapping and specialized espresso tracking"""
 
-    def __init__(self, mapping_file: str = None):
-        self.data_manager = InventoryDataManager()
+    def __init__(self, mapping_file: str = None, data_directory: str = None):
+        # Use absolute data directory path if provided
+        self.data_manager = InventoryDataManager(data_directory=data_directory) if data_directory else InventoryDataManager()
         self.mapping_manager = POSMappingManager(mapping_file) if mapping_file else POSMappingManager()
         
         # Initialize espresso inventory manager        
@@ -173,8 +174,8 @@ class SimplifiedToastProcessor:
         bottles_df = items_df[items_df['Menu Group'].isin(['RETAIL WINE', 'Wine - Bottles'])]
         glasses_df = items_df[items_df['Menu Group'].isin(['Wine - Glasses']) & items_df['Menu Item'].isin(bottle_to_glass_map.values())]
 
-        whole_bottles_sold = bottles_df.groupby('Menu Item')['Qty'].sum() if not bottles_df.empty else 0
-        glasses_sold = glasses_df.groupby('Menu Item')['Qty'].sum() if not glasses_df.empty else 0
+        whole_bottles_sold = bottles_df.groupby('Menu Item')['Qty'].sum() if not bottles_df.empty else pd.Series(dtype='float64')
+        glasses_sold = glasses_df.groupby('Menu Item')['Qty'].sum() if not glasses_df.empty else pd.Series(dtype='float64')
 
         for bottle in whole_bottles_sold.index:
             bottle_count = whole_bottles_sold.get(bottle, 0)
@@ -229,10 +230,22 @@ class SimplifiedToastProcessor:
         target_date = datetime.strptime(date_str, "%Y%m%d").date()
         try:
             # Only purge our previously logged POS usage entries for that day
-            self.data_manager.purge_transactions_by_source_date(target_date, source="simplified_pos_integration", types=["usage"])
-        except Exception:
-            # If purge fails, continue to avoid blocking; duplicates may occur
-            pass
+            removed = self.data_manager.purge_transactions_by_source_date(
+                target_date, 
+                source="simplified_pos_integration", 
+                types=["usage"]
+            )
+            app_logger.log_info(f"Purged {removed} existing transactions for {date_str}", {
+                "app_module": "simplified_toast_processor",
+                "action": "purge_transactions",
+                "date": date_str,
+                "removed_count": removed
+            })
+        except Exception as e:
+            error_msg = f"Failed to purge existing transactions for {date_str}: {str(e)}"
+            app_logger.log_error(error_msg, e)
+            # Raise to prevent inconsistent data state
+            raise ValueError(error_msg)
 
         timestamp = datetime.combine(target_date, datetime.min.time()).replace(hour=23, minute=59)
         
@@ -262,21 +275,53 @@ class SimplifiedToastProcessor:
         1) If an item exists with item_id == component_key, use it (ideal alignment).
         2) Else if an item exists with standardized_item_name == component_key, use that legacy item_id.
         3) Else create a new item using POS component definition with item_id == component_key.
+        
+        Returns:
+            str: The resolved item_id
+            
+        Raises:
+            ValueError: If item resolution fails
         """
+        if not component_key:
+            error_msg = "Cannot resolve empty component key"
+            app_logger.log_error(error_msg)
+            raise ValueError(error_msg)
+
         items = self.data_manager.load_items()
+        
+        # Case 1: Direct match
         if component_key in items:
+            app_logger.log_info(f"Found exact item match for {component_key}", {
+                "app_module": "simplified_toast_processor",
+                "action": "resolve_item",
+                "resolution_type": "direct_match"
+            })
             return component_key
 
-        # Look for legacy item matching standardized_item_name
+        # Case 2: Legacy standardized name match
         for item in items.values():
             if item.standardized_item_name == component_key:
+                app_logger.log_info(f"Found legacy item match for {component_key} -> {item.item_id}", {
+                    "app_module": "simplified_toast_processor",
+                    "action": "resolve_item",
+                    "resolution_type": "standardized_name_match"
+                })
                 return item.item_id
 
-        # Create new from POS component definition
+        # Case 3: Create new item
         comp = self.mapping_manager.get_component(component_key)
         display_name = comp.get('display_name', component_key) if comp else component_key
         base_unit = comp.get('base_unit', 'unit') if comp else 'unit'
         category = comp.get('menu_group', 'supplies') if comp else 'supplies'
+        
+        app_logger.log_info(f"Creating new item for {component_key}", {
+            "app_module": "simplified_toast_processor",
+            "action": "resolve_item",
+            "resolution_type": "new_item",
+            "display_name": display_name,
+            "unit": base_unit,
+            "category": category
+        })
 
         # Choose a default supplier if available
         suppliers = self.data_manager.load_suppliers()
