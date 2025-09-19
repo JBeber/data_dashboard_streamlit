@@ -170,11 +170,20 @@ class InventoryDataManager:
             })
         
         # File paths for different data types using absolute paths
-        self.items_file = self.data_dir / "inventory_items.json"
-        self.transactions_file = self.data_dir / "inventory_transactions.json"
-        self.snapshots_file = self.data_dir / "inventory_snapshots.json"
-        self.categories_file = self.data_dir / "inventory_categories.json"
-        self.suppliers_file = self.data_dir / "inventory_suppliers.json"
+        if self.use_cloud:
+            # For cloud storage, use string concatenation
+            self.items_file = f"{self.data_dir}/inventory_items.json"
+            self.transactions_file = f"{self.data_dir}/inventory_transactions.json"
+            self.snapshots_file = f"{self.data_dir}/inventory_snapshots.json"
+            self.categories_file = f"{self.data_dir}/inventory_categories.json"
+            self.suppliers_file = f"{self.data_dir}/inventory_suppliers.json"
+        else:
+            # For local storage, use Path concatenation
+            self.items_file = self.data_dir / "inventory_items.json"
+            self.transactions_file = self.data_dir / "inventory_transactions.json"
+            self.snapshots_file = self.data_dir / "inventory_snapshots.json"
+            self.categories_file = self.data_dir / "inventory_categories.json"
+            self.suppliers_file = self.data_dir / "inventory_suppliers.json"
         
         # Initialize with default categories if none exist
         self._ensure_default_data()
@@ -242,9 +251,9 @@ class InventoryDataManager:
         
         try:
             if self.use_cloud:
-                data = self.cloud_storage.read_json(f"{self.data_dir}/inventory_items.json")
+                data = self.cloud_storage.read_json(self.items_file)
             else:
-                if not self.items_file.exists():
+                if not Path(self.items_file).exists():
                     app_logger.log_info("No items file found, returning empty dict", {
                         "app_module": "inventory",
                         "action": "items_load",
@@ -330,8 +339,12 @@ class InventoryDataManager:
                          end_date: Optional[Date] = None) -> List[Transaction]:
         """Load transactions with optional filtering"""
         
-        if not self.transactions_file.exists():
-            return []
+        if self.use_cloud:
+            if not self.cloud_storage.blob_exists(self.transactions_file):
+                return []
+        else:
+            if not Path(self.transactions_file).exists():
+                return []
         
         with handle_decorator_errors("Unable to load transactions"):
             with open(self.transactions_file, 'r') as f:
@@ -442,8 +455,12 @@ class InventoryDataManager:
     def load_categories(self) -> Dict[str, InventoryCategory]:
         """Load inventory categories"""
         
-        if not self.categories_file.exists():
-            return {}
+        if self.use_cloud:
+            if not self.cloud_storage.blob_exists(self.categories_file):
+                return {}
+        else:
+            if not Path(self.categories_file).exists():
+                return {}
         
         with handle_decorator_errors("Unable to load categories"):
             with open(self.categories_file, 'r') as f:
@@ -469,8 +486,12 @@ class InventoryDataManager:
     def load_suppliers(self) -> Dict[str, Supplier]:
         """Load suppliers"""
         
-        if not self.suppliers_file.exists():
-            return {}
+        if self.use_cloud:
+            if not self.cloud_storage.blob_exists(self.suppliers_file):
+                return {}
+        else:
+            if not Path(self.suppliers_file).exists():
+                return {}
         
         with handle_decorator_errors("Unable to load suppliers"):
             with open(self.suppliers_file, 'r') as f:
@@ -496,13 +517,22 @@ class InventoryDataManager:
     def load_snapshots(self) -> List[InventorySnapshot]:
         """Load inventory snapshots from JSON file"""
         
-        if not self.snapshots_file.exists():
-            app_logger.log_info("No snapshots file found, returning empty list", {
-                "app_module": "inventory",
-                "action": "snapshots_load",
-                "file_path": str(self.snapshots_file)
-            })
-            return []
+        if self.use_cloud:
+            if not self.cloud_storage.blob_exists(self.snapshots_file):
+                app_logger.log_info("No snapshots file found, returning empty list", {
+                    "app_module": "inventory",
+                    "action": "snapshots_load",
+                    "file_path": str(self.snapshots_file)
+                })
+                return []
+        else:
+            if not Path(self.snapshots_file).exists():
+                app_logger.log_info("No snapshots file found, returning empty list", {
+                    "app_module": "inventory",
+                    "action": "snapshots_load",
+                    "file_path": str(self.snapshots_file)
+                })
+                return []
         
         with handle_decorator_errors("Unable to load inventory snapshots"):
             with open(self.snapshots_file, 'r') as f:
