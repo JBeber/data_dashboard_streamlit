@@ -129,15 +129,32 @@ class InventorySnapshot:
 class InventoryDataManager:
     """Manages inventory data persistence using JSON files with error handling"""
     
+    default_data_directory = None
+    
     def __init__(self, data_directory: str = None):
+        # Use class-level default if no directory provided
+        if data_directory is None and self.default_data_directory is not None:
+            data_directory = self.default_data_directory
         # Use environment-specific data directory if none provided
-        self.data_dir = Path(data_directory) if data_directory else get_data_directory()
-        self.data_dir.mkdir(exist_ok=True, parents=True)
+        data_dir_str = data_directory if data_directory else str(get_data_directory())
         
-        app_logger.log_info(f"Initializing inventory data manager with directory: {self.data_dir}", {
+        # Check if we're using cloud storage
+        if data_dir_str.startswith('gs://'):
+            self.use_cloud = True
+            bucket_name = data_dir_str.split('/')[2]
+            prefix = '/'.join(data_dir_str.split('/')[3:])
+            self.cloud_storage = CloudStorageManager(bucket_name)
+            self.data_dir = prefix
+        else:
+            self.use_cloud = False
+            self.data_dir = Path(data_dir_str)
+            self.data_dir.mkdir(exist_ok=True, parents=True)
+        
+        app_logger.log_info(f"Initializing inventory data manager", {
             "app_module": "inventory",
             "action": "init",
             "data_dir": str(self.data_dir),
+            "use_cloud": str(self.use_cloud),
             "data_directory_param": str(data_directory) if data_directory else "None",
             "is_docker": str(os.path.exists('/.dockerenv'))
         })
@@ -223,17 +240,26 @@ class InventoryDataManager:
     def load_items(self) -> Dict[str, InventoryItem]:
         """Load inventory items from JSON file"""
         
-        if not self.items_file.exists():
-            app_logger.log_info("No items file found, returning empty dict", {
+        try:
+            if self.use_cloud:
+                data = self.cloud_storage.read_json(f"{self.data_dir}/inventory_items.json")
+            else:
+                if not self.items_file.exists():
+                    app_logger.log_info("No items file found, returning empty dict", {
+                        "app_module": "inventory",
+                        "action": "items_load",
+                        "file_path": str(self.items_file)
+                    })
+                    return {}
+                with open(self.items_file, 'r') as f:
+                    data = json.load(f)
+        except Exception as e:
+            app_logger.log_warning(f"Error loading items: {str(e)}", {
                 "app_module": "inventory",
                 "action": "items_load",
-                "file_path": str(self.items_file)
+                "error": str(e)
             })
             return {}
-        
-        with handle_decorator_errors("Unable to load inventory items"):
-            with open(self.items_file, 'r') as f:
-                data = json.load(f)
             
             items = {}
             for item_id, item_data in data.items():
@@ -260,13 +286,17 @@ class InventoryDataManager:
                 data[item_id] = asdict(item)
             
             # Save to file with datetime serialization
-            with open(self.items_file, 'w') as f:
-                json.dump(data, f, indent=2, default=self._serialize_datetime)
+            if self.use_cloud:
+                self.cloud_storage.write_json(f"{self.data_dir}/inventory_items.json", data, default=self._serialize_datetime)
+            else:
+                with open(self.items_file, 'w') as f:
+                    json.dump(data, f, indent=2, default=self._serialize_datetime)
             
             app_logger.log_info("Successfully saved inventory items", {
                 "app_module": "inventory",
                 "action": "items_save",
-                "items_count": len(items)
+                "items_count": len(items),
+                "storage": "cloud" if self.use_cloud else "local"
             })
     
     @log_function_errors("inventory", "transaction_log")

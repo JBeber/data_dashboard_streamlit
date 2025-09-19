@@ -26,6 +26,9 @@ from modules.inventory_data import (
 from modules.pos_mapping import POSMappingManager
 from utils.logging_config import app_logger, log_function_errors, handle_decorator_errors
 
+# Configure InventoryDataManager for Cloud Storage
+InventoryDataManager.default_data_directory = "gs://vv-inventory-data/inventory"
+
 
 @log_function_errors("inventory", "main_interface")
 def inventory_management_page():

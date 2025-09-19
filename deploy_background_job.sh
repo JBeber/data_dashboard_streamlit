@@ -1,5 +1,16 @@
 #!/bin/bash
-# Enhanced OAuth Background Jo# Set project
+# Enhanced OAuth Background Job
+
+# Configuration
+PROJECT_ID="vv-data-dashboard"
+REGION="us-east5"              # Cloud Run location
+# Note: Cloud Scheduler location can be different from Cloud Run
+SCHEDULER_REGION="us-east1"    # Cloud Scheduler location
+JOB_NAME="data-collector-job"
+SCHEDULER_JOB_NAME="daily-data-collection"
+IMAGE_NAME="gcr.io/${PROJECT_ID}/${JOB_NAME}"
+
+# Set project
 echo -e "${YELLOW}🔧 Setting project...${NC}"
 gcloud config set project ${PROJECT_ID}
 
@@ -22,21 +33,11 @@ fi
 
 # Set bucket permissions for service account
 echo -e "${YELLOW}🔐 Setting bucket permissions...${NC}"
-gsutil iam ch serviceAccount:${PROJECT_ID}@appspot.gserviceaccount.com:objectViewer,objectCreator gs://vv-inventory-dataScript
-# 
+gsutil iam ch serviceAccount:${PROJECT_ID}@appspot.gserviceaccount.com:objectViewer,objectCreator gs://vv-inventory-data
 # This script deploys the background data collector as a Cloud Run Job
 # and sets up Cloud Scheduler for daily execution.
 
 set -e
-
-# Configuration
-PROJECT_ID="vv-data-dashboard"
-REGION="us-east5"              # Cloud Run location
-# Note: Cloud Scheduler location can be different from Cloud Run
-SCHEDULER_REGION="us-east1"    # Cloud Scheduler location
-JOB_NAME="data-collector-job"
-SCHEDULER_JOB_NAME="daily-data-collection"
-IMAGE_NAME="gcr.io/${PROJECT_ID}/${JOB_NAME}"
 
 # Colors for output
 RED='\033[0;31m'
