@@ -21,6 +21,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from utils.logging_config import app_logger, log_function_errors, handle_decorator_errors
 from utils.environment import get_data_directory
+from utils.cloud_storage import CloudStorageManager
 
 
 @dataclass(frozen=True)
@@ -136,8 +137,20 @@ class InventoryDataManager:
         app_logger.log_info(f"Initializing inventory data manager with directory: {self.data_dir}", {
             "app_module": "inventory",
             "action": "init",
-            "data_dir": str(self.data_dir)
+            "data_dir": str(self.data_dir),
+            "data_directory_param": str(data_directory) if data_directory else "None",
+            "is_docker": str(os.path.exists('/.dockerenv'))
         })
+        
+        # Log existence of key files
+        for filename in ['inventory_items.json', 'inventory_transactions.json', 'inventory_snapshots.json']:
+            file_path = self.data_dir / filename
+            app_logger.log_info(f"Checking for {filename}", {
+                "app_module": "inventory",
+                "action": "init",
+                "file": str(file_path),
+                "exists": str(file_path.exists())
+            })
         
         # File paths for different data types using absolute paths
         self.items_file = self.data_dir / "inventory_items.json"

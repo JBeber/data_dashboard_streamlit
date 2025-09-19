@@ -1,5 +1,28 @@
 #!/bin/bash
-# Enhanced OAuth Background Job Deployment Script
+# Enhanced OAuth Background Jo# Set project
+echo -e "${YELLOW}🔧 Setting project...${NC}"
+gcloud config set project ${PROJECT_ID}
+
+# Enable required APIs
+echo -e "${YELLOW}🔌 Enabling required APIs...${NC}"
+gcloud services enable \
+    cloudbuild.googleapis.com \
+    run.googleapis.com \
+    cloudscheduler.googleapis.com \
+    secretmanager.googleapis.com \
+    logging.googleapis.com \
+    storage.googleapis.com \
+    appengine.googleapis.com
+
+# Create Cloud Storage bucket if it doesn't exist
+echo -e "${YELLOW}🪣 Setting up Cloud Storage bucket...${NC}"
+if ! gsutil ls gs://vv-inventory-data &> /dev/null; then
+    gsutil mb -l ${REGION} gs://vv-inventory-data
+fi
+
+# Set bucket permissions for service account
+echo -e "${YELLOW}🔐 Setting bucket permissions...${NC}"
+gsutil iam ch serviceAccount:${PROJECT_ID}@appspot.gserviceaccount.com:objectViewer,objectCreator gs://vv-inventory-dataScript
 # 
 # This script deploys the background data collector as a Cloud Run Job
 # and sets up Cloud Scheduler for daily execution.
