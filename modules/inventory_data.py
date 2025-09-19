@@ -150,15 +150,6 @@ class InventoryDataManager:
             self.data_dir = Path(data_dir_str)
             self.data_dir.mkdir(exist_ok=True, parents=True)
         
-        # Ensure data_dir is a pathlib.Path for local storage
-        if not self.use_cloud and isinstance(self.data_dir, str):
-            from pathlib import Path
-            self.data_dir = Path(self.data_dir)
-        
-        # Ensure use_cloud flag is set based on data_dir value
-        # If data_dir is a string starting with 'gs://', use_cloud will be True, else False
-        self.use_cloud = isinstance(self.data_dir, str) and self.data_dir.startswith('gs://')
-        
         app_logger.log_info(f"Initializing inventory data manager", {
             "app_module": "inventory",
             "action": "init",
@@ -170,26 +161,26 @@ class InventoryDataManager:
         
         # Log existence of key files
         for filename in ['inventory_items.json', 'inventory_transactions.json', 'inventory_snapshots.json']:
-            # Replace file path construction to handle cloud storage paths
             file_path = self._get_file_path(filename)
-            
+            if self.use_cloud:
+                exists = self.cloud_storage.blob_exists(file_path)
+            else:
+                exists = file_path.exists()
             app_logger.log_info(f"Checking for {filename}", {
                 "app_module": "inventory",
                 "action": "init",
                 "file": str(file_path),
-                "exists": str(file_path.exists())
+                "exists": str(exists)
             })
         
         # File paths for different data types using absolute paths
         if self.use_cloud:
-            # For cloud storage, use string concatenation
             self.items_file = f"{self.data_dir}/inventory_items.json"
             self.transactions_file = f"{self.data_dir}/inventory_transactions.json"
             self.snapshots_file = f"{self.data_dir}/inventory_snapshots.json"
             self.categories_file = f"{self.data_dir}/inventory_categories.json"
             self.suppliers_file = f"{self.data_dir}/inventory_suppliers.json"
         else:
-            # For local storage, use Path concatenation
             self.items_file = self.data_dir / "inventory_items.json"
             self.transactions_file = self.data_dir / "inventory_transactions.json"
             self.snapshots_file = self.data_dir / "inventory_snapshots.json"

@@ -426,7 +426,7 @@ def show_recent_transactions(data_manager: InventoryDataManager):
             df = pd.DataFrame(display_data)
             st.dataframe(
                 df,
-                use_container_width=True,
+                width='stretch',
                 hide_index=True,
                 column_config={
                     "Time": st.column_config.TextColumn("Time", width="small"),
@@ -516,7 +516,7 @@ def show_current_items(data_manager: InventoryDataManager):
     if not filtered_df.empty:
         st.dataframe(
             filtered_df.drop("ID", axis=1),  # Hide ID column
-            use_container_width=True,
+            width='stretch',
             hide_index=True,
             column_config={
                 "Item": st.column_config.TextColumn("Item Name", width="medium"),
@@ -1022,7 +1022,7 @@ def show_settings(data_manager: InventoryDataManager):
                 
                 col_confirm, col_cancel = st.columns(2)
                 with col_confirm:
-                    if st.button("✅ Confirm Reset", type="primary", use_container_width=True):
+                    if st.button("✅ Confirm Reset", type="primary", width='stretch'):
                         # Perform the actual reset
                         try:
                             items = data_manager.load_items()
@@ -1106,12 +1106,12 @@ def show_settings(data_manager: InventoryDataManager):
                             app_logger.exception("Error resetting inventory")
                             st.session_state.confirm_reset = False
                 with col_cancel:
-                    if st.button("❌ Cancel", use_container_width=True):
+                    if st.button("❌ Cancel", width='stretch'):
                         st.session_state.confirm_reset = False
                         st.rerun()
             else:
                 # Show the initial reset button
-                if st.button("🔄 Reset Inventory", type="primary", use_container_width=True):
+                if st.button("🔄 Reset Inventory", type="primary", width='stretch'):
                     # Show confirmation dialog
                     st.session_state.confirm_reset = True
                     st.rerun()
@@ -1159,7 +1159,7 @@ def show_settings(data_manager: InventoryDataManager):
                         continue
                 
                 if snapshot_data:
-                    st.dataframe(pd.DataFrame(snapshot_data), use_container_width=True)
+                    st.dataframe(pd.DataFrame(snapshot_data), width='stretch')
                 else:
                     st.info("No valid snapshots found to display")
                 
