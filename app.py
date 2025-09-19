@@ -67,7 +67,7 @@ def show_data_status():
     st.sidebar.caption("Data is automatically updated daily at 6 AM EST")
 
 # Main navigation
-st.sidebar.image("vv_logo.jpeg", use_container_width=True)
+st.sidebar.image("vv_logo.jpeg", width='stretch')
 
 # Show data status
 show_data_status()

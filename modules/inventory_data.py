@@ -163,7 +163,7 @@ class InventoryDataManager:
         for filename in ['inventory_items.json', 'inventory_transactions.json', 'inventory_snapshots.json']:
             file_path = self._get_file_path(filename)
             if self.use_cloud:
-                exists = self.cloud_storage.blob_exists(file_path)
+                exists = self.cloud_storage.file_exists(file_path)
             else:
                 exists = file_path.exists()
             app_logger.log_info(f"Checking for {filename}", {

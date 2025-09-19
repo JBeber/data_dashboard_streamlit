@@ -385,7 +385,7 @@ def show_recent_transactions(data_manager: InventoryDataManager, limit: int = 20
             df = pd.DataFrame(display_data)
             st.dataframe(
                 df,
-                use_container_width=True,
+                width='stretch',
                 hide_index=True,
                 column_config={
                     "Time": st.column_config.TextColumn("Time", width="small"),
@@ -478,7 +478,7 @@ def show_current_items(data_manager: InventoryDataManager):
     if not filtered_df.empty:
         st.dataframe(
             filtered_df.drop("ID", axis=1),  # Hide ID column
-            use_container_width=True,
+            width='stretch',
             hide_index=True,
             column_config={
                 "Item": st.column_config.TextColumn("Item Name", width="medium"),
@@ -997,13 +997,13 @@ def show_daily_processing_interface(data_manager: InventoryDataManager):
                         if results["matched_items"]:
                             with st.expander("✅ Successfully Processed Items"):
                                 matched_df = pd.DataFrame(results["matched_items"])
-                                st.dataframe(matched_df, use_container_width=True, hide_index=True)
+                                st.dataframe(matched_df, width='stretch', hide_index=True)
                         
                         # Show unmatched items
                         if results["unmatched_items"]:
                             with st.expander("❓ Unmatched Items (No Inventory Mapping)"):
                                 unmatched_df = pd.DataFrame(results["unmatched_items"])
-                                st.dataframe(unmatched_df, use_container_width=True, hide_index=True)
+                                st.dataframe(unmatched_df, width='stretch', hide_index=True)
                                 
                                 st.info("💡 **Tip**: Create inventory items with matching standardized names, or add these items to your manual inventory with appropriate POS mappings.")
                     
@@ -1056,7 +1056,7 @@ def show_mapping_configuration(data_manager: InventoryDataManager):
                     
                     if items_list:
                         df = pd.DataFrame(items_list)
-                        st.dataframe(df, use_container_width=True, hide_index=True)
+                        st.dataframe(df, width='stretch', hide_index=True)
                     else:
                         st.info(f"No items in {category.replace('_', ' ')} category yet.")
         
@@ -1138,7 +1138,7 @@ def show_processing_history(data_manager: InventoryDataManager):
                 
                 if details_data:
                     details_df = pd.DataFrame(details_data)
-                    st.dataframe(details_df, use_container_width=True, hide_index=True)
+                    st.dataframe(details_df, width='stretch', hide_index=True)
 
 
 def main():
@@ -1311,13 +1311,13 @@ def generate_reconciliation_report(data_manager: InventoryDataManager, selected_
             st.markdown("### ✅ Successfully Matched Items")
             st.success(f"These {len(matched_items)} POS items are properly linked to inventory items")
             matched_df = pd.DataFrame(matched_items)
-            st.dataframe(matched_df, use_container_width=True, hide_index=True)
+            st.dataframe(matched_df, width='stretch', hide_index=True)
         
         if unmatched_pos_items:
             st.markdown("### ❓ POS Items Without Inventory Match")
             st.warning(f"Found {len(unmatched_pos_items)} POS menu items that couldn't be matched to existing inventory")
             unmatched_df = pd.DataFrame(unmatched_pos_items)
-            st.dataframe(unmatched_df, use_container_width=True, hide_index=True)
+            st.dataframe(unmatched_df, width='stretch', hide_index=True)
             
             # Suggest actions
             with st.expander("📋 Recommended Actions for Unmatched Items"):
@@ -1332,7 +1332,7 @@ def generate_reconciliation_report(data_manager: InventoryDataManager, selected_
             st.markdown("### 🔧 Manual Items Not Used by POS Processing")
             st.info(f"Found {len(unused_manual_items)} manually created inventory items not being used by POS processing")
             unused_df = pd.DataFrame(unused_manual_items)
-            st.dataframe(unused_df, use_container_width=True, hide_index=True)
+            st.dataframe(unused_df, width='stretch', hide_index=True)
             
             with st.expander("📋 Possible Reasons for Unused Items"):
                 st.markdown("""

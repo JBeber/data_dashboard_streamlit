@@ -286,7 +286,7 @@ def create_visualizations(df):
             strokeWidth=0
         )
         
-        st.altair_chart(line_chart, use_container_width=False)
+        st.altair_chart(line_chart, width='content')
 
     # 2. Bar Chart - Total Bottles by Wine (Altair)
     st.subheader("📊 Total Bottles by Wine")
@@ -340,7 +340,7 @@ def create_visualizations(df):
             strokeWidth=0
         )
         
-        st.altair_chart(bar_chart, use_container_width=True)
+        st.altair_chart(bar_chart, width='stretch')
     
     # 3. Weekly Comparison Bar Chart (Altair)
     st.subheader("📅 Weekly Comparison")
@@ -408,7 +408,7 @@ def create_visualizations(df):
             titleFontWeight='bold'
         )
         
-        st.altair_chart(weekly_chart, use_container_width=True)
+        st.altair_chart(weekly_chart, width='stretch')
 
 @log_function_errors("wine_analysis", "summary_statistics")
 def show_summary_statistics(df):
@@ -465,7 +465,7 @@ def show_summary_statistics(df):
     
     st.dataframe(
         display_df,
-        use_container_width=True,
+        width='stretch',
         hide_index=True,
         column_config={
             "Week Ending Date": st.column_config.DateColumn("Week Ending"),
