@@ -150,6 +150,10 @@ class InventoryDataManager:
             self.data_dir = Path(data_dir_str)
             self.data_dir.mkdir(exist_ok=True, parents=True)
         
+        # Ensure use_cloud flag is set based on data_dir value
+        # If data_dir is a string starting with 'gs://', use_cloud will be True, else False
+        self.use_cloud = isinstance(self.data_dir, str) and self.data_dir.startswith('gs://')
+        
         app_logger.log_info(f"Initializing inventory data manager", {
             "app_module": "inventory",
             "action": "init",
@@ -161,7 +165,11 @@ class InventoryDataManager:
         
         # Log existence of key files
         for filename in ['inventory_items.json', 'inventory_transactions.json', 'inventory_snapshots.json']:
-            file_path = self.data_dir / filename
+            if self.use_cloud:
+                file_path = f"{self.data_dir}/{filename}"
+            else:
+                file_path = self.data_dir / filename
+            
             app_logger.log_info(f"Checking for {filename}", {
                 "app_module": "inventory",
                 "action": "init",
