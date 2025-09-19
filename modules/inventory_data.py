@@ -195,7 +195,11 @@ class InventoryDataManager:
         """Create default categories and suppliers if files don't exist"""
         
         # Default categories
-        if not self.categories_file.exists():
+        if self.use_cloud:
+            categories_exists = self.cloud_storage.file_exists(self.categories_file)
+        else:
+            categories_exists = self.categories_file.exists()
+        if not categories_exists:
             default_categories = [
                 InventoryCategory("wine", "Wine", "bottles", True, 1825, 1),
                 InventoryCategory("beer", "Beer", "cases", True, 180, 2),
@@ -206,7 +210,11 @@ class InventoryDataManager:
             self.save_categories({cat.category_id: cat for cat in default_categories})
         
         # Default suppliers
-        if not self.suppliers_file.exists():
+        if self.use_cloud:
+            suppliers_exists = self.cloud_storage.file_exists(self.suppliers_file)
+        else:
+            suppliers_exists = self.suppliers_file.exists()
+        if not suppliers_exists:
             default_suppliers = [
                 Supplier("supplier_001", "Wine Distributor", "orders@winedist.com", 
                         "(555) 123-4567", ["Tuesday", "Friday"], "Primary wine supplier"),
