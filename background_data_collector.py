@@ -33,6 +33,7 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 from googleapiclient.errors import HttpError
+from google.cloud import storage
 
 # Import POS transaction processor
 from modules.simplified_toast_processor import SimplifiedToastProcessor
@@ -221,16 +222,33 @@ class DataCollector:
         try:
             logger.info("Attempting to initialize POS processor")
             
-            # Use absolute path for data directory in production
-            data_dir = Path("/var/data/inventory")
-            data_dir.mkdir(parents=True, exist_ok=True)
+            # Initialize Cloud Storage
+            storage_client = storage.Client()
+            bucket_name = "vv-inventory-data"
             
+            # Check if the bucket exists, create it if it doesn't
+            try:
+                bucket = storage_client.get_bucket(bucket_name)
+                logger.info(f"Using existing Cloud Storage bucket: {bucket_name}")
+            except Exception as e:
+                logger.error(f"Error accessing Cloud Storage bucket: {e}")
+                # Fall back to local storage for development
+                data_dir = Path("./data/inventory")
+                data_dir.mkdir(parents=True, exist_ok=True)
+                self.pos_processor = SimplifiedToastProcessor(
+                    data_directory=str(data_dir)
+                )
+                logger.info(f"Falling back to local storage: {data_dir}")
+                return
+            
+            # Initialize POS processor with cloud storage path
+            cloud_path = f"gs://{bucket_name}/inventory"
             self.pos_processor = SimplifiedToastProcessor(
-                data_directory=str(data_dir)
+                data_directory=cloud_path
             )
             
-            logger.info("POS transaction processor initialized successfully", {
-                "data_directory": str(data_dir)
+            logger.info("POS transaction processor initialized successfully with cloud storage", {
+                "data_directory": cloud_path
             })
         except Exception as e:
             logger.error(f"Failed to initialize POS processor: {e}")
